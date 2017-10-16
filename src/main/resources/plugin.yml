@@ -1,0 +1,50 @@
+#
+# This file is part of Debuggery.
+#
+# Debuggery is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License version 2 as
+# distributed with this repository.
+#
+# Debuggery is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Debuggery. If not, see <http://www.gnu.org/licenses/>.
+#
+
+name: Debuggery
+main: com.destroystokyo.debuggery.Debuggery
+version: @version@
+author: Zbob750
+website: https://github.com/Zbob750/Debuggery
+description: A small plugin to lookup API values at runtime.
+commands:
+    debuggery:
+        description: Debuggery Command!
+        usage: /debuggery
+    dblock:
+        description: Returns block info!
+        usage: /dblock
+    dchunk:
+        description: Returns chunk info!
+        usage: /dchunk
+    dfly:
+        description: Grants flight abilities!
+        usage: /dfly
+    dgrow:
+        description: Grows something!
+        usage: /dgrow
+    ditem:
+        description: Returns item info!
+        usage: /ditem
+    dplayer:
+        description: Returns player info!
+        usage: /dplayer
+    dserver:
+        description: Returns server info!
+        usage: /dserver
+    dworld:
+        description: Returns world info!
+        usage: /dworld
