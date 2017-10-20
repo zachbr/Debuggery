@@ -19,6 +19,7 @@ Debuggery is a small plugin designed to expose API values at runtime.
 ![/dserver](https://i.imgur.com/jhLcrc2.png)
 ![/dchunk](https://i.imgur.com/wbTZvbA.png)
 ![/dplayer](https://i.imgur.com/8d6cxSE.png)
+![/ditem getEnchantments](https://i.imgur.com/A8zXdSk.png)
 
 ## Why?
 It is often helpful to see exactly what and how Bukkit will provide you with a piece of data. However, writing
@@ -31,8 +32,9 @@ To get a command listing, type /debuggery and hit tab.
 The plugin is very reliant on tab auto completion, so try it on any command.
 
 ## How does it handle more complicated objects?
-Right now? It doesn't. Objects that do not implement their own toString() method will simply show a memory location.
-Most primitive types are well handled however. This is something that I'll be adding eventually.
+There is basic support for formatting object types without proper toString() methods and/or those that have poor
+toString() methods. Every one of them has to be added manually so right now I'm most concerned with supporting those
+that the API returns. If you find any missing, feel free to open an issue or contribute them.
 
 ## Can I set values using Debuggery?
 Not right now. There's a lot of work to be done to properly deduce types from input, as well as keep the inputs
