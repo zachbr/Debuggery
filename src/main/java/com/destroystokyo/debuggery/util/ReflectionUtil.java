@@ -23,8 +23,8 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class ReflectionUtil {
-    public static final Predicate<Method> IS_GETTER = method -> method.getName().startsWith("get") || method.getName().startsWith("is");
-    public static final Predicate<Method> HAS_NO_PARAMS = method -> method.getParameterCount() == 0;
+    public static final Predicate<Method> IS_GETTER = m -> m.getName().startsWith("get") || m.getName().startsWith("is") || m.getName().startsWith("has");
+    public static final Predicate<Method> HAS_NO_PARAMS = m -> m.getParameterCount() == 0;
 
     public static List<Method> getAllPublicMethods(Class clazz) {
         return getAllPublicMethodsMatching(clazz, method -> true);
