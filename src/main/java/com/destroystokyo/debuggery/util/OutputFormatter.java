@@ -65,7 +65,7 @@ public class OutputFormatter {
     @Nonnull
     private static String handleOfflinePlayer(OfflinePlayer player) {
         if (player instanceof Player) {
-            return player.getName();
+            return player.toString();
         } else {
             return "[" + player.getName() + ":" + player.getUniqueId() + "]";
         }
