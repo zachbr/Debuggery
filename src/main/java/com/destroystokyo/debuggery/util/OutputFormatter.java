@@ -20,6 +20,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.WorldBorder;
 import org.bukkit.block.BlockState;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.help.HelpMap;
 import org.bukkit.help.HelpTopic;
 import org.bukkit.plugin.messaging.Messenger;
@@ -63,7 +64,11 @@ public class OutputFormatter {
 
     @Nonnull
     private static String handleOfflinePlayer(OfflinePlayer player) {
-        return "[" + player.getName() + ":" + player.getUniqueId() + "]";
+        if (player instanceof Player) {
+            return player.getName();
+        } else {
+            return "[" + player.getName() + ":" + player.getUniqueId() + "]";
+        }
     }
 
     @Nonnull
@@ -127,7 +132,7 @@ public class OutputFormatter {
 
     @Nonnull
     private static String handleArray(Object array) {
-        StringBuilder returnString = new StringBuilder("[");
+        StringBuilder returnString = new StringBuilder("{");
         boolean first = true;
 
         // Easier than checking every single primitive type
@@ -151,7 +156,7 @@ public class OutputFormatter {
             }
         }
 
-        return returnString.append("]").toString();
+        return returnString.append("}").toString();
     }
 
     @Nonnull
