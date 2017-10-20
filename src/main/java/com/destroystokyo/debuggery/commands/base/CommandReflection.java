@@ -17,6 +17,7 @@
 package com.destroystokyo.debuggery.commands.base;
 
 import com.destroystokyo.debuggery.util.ReflectionUtil;
+import com.destroystokyo.debuggery.util.OutputFormatter;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -25,7 +26,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 public abstract class CommandReflection extends CommandBase {
@@ -64,7 +64,7 @@ public abstract class CommandReflection extends CommandBase {
             if (availableMethods.containsKey(arg)) {
                 Method method = availableMethods.get(arg);
                 try {
-                    sender.sendMessage(String.valueOf(method.invoke(object)));
+                    sender.sendMessage(OutputFormatter.getOutput(method.invoke(object)));
                     return true;
                 } catch (IllegalAccessException | InvocationTargetException e) {
                     e.printStackTrace();
