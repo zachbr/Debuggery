@@ -33,7 +33,7 @@ public class PlayerCommand extends CommandReflection {
         Player player = (Player) sender;
 
         if (args.length == 0) {
-            sender.sendMessage(Bukkit.getServer().toString());
+            sender.sendMessage(player.toString());
             return true;
         }
 

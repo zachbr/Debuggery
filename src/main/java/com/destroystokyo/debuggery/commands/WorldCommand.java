@@ -34,7 +34,7 @@ public class WorldCommand extends CommandReflection {
         Player player = (Player) sender;
 
         if (args.length == 0) {
-            sender.sendMessage(Bukkit.getServer().toString());
+            sender.sendMessage(player.getWorld().toString());
             return true;
         }
 
