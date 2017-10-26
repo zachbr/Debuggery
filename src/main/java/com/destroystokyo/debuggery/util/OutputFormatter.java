@@ -36,10 +36,11 @@ import java.util.*;
 @SuppressWarnings("Duplicates")
 public class OutputFormatter {
 
+    @Nullable
     public static String getOutput(@Nullable Object object) {
 
         if (object == null) {
-            return "null";
+            return null;
         }
 
         if (object instanceof Collection) {

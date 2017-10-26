@@ -16,8 +16,8 @@
 
 package com.destroystokyo.debuggery.commands.base;
 
-import com.destroystokyo.debuggery.util.OutputFormatter;
 import com.destroystokyo.debuggery.util.ReflectionUtil;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -25,20 +25,16 @@ import org.bukkit.command.CommandSender;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
 public abstract class CommandReflection extends CommandBase {
-    private final Map<String, Method> availableMethods = new HashMap<>();
+    private final Map<String, Method> availableMethods;
     private final Class classType;
 
     public CommandReflection(String name, String permission, boolean requiresPlayer, Class clazz) {
         super(name, permission, requiresPlayer);
         this.classType = clazz;
-        ReflectionUtil.getAllPublicMethods(clazz).stream()
-                .filter(ReflectionUtil.IS_GETTER)
-                .filter(ReflectionUtil.HAS_NO_PARAMS)
-                .forEach(m -> availableMethods.put(m.getName(), m));
+        availableMethods = ReflectionUtil.createMethodMapFor(clazz);
     }
 
     @Override
@@ -58,25 +54,28 @@ public abstract class CommandReflection extends CommandBase {
      */
     protected boolean doReflectionLookups(CommandSender sender, String[] args, Object object) {
         Validate.isInstanceOf(classType, object);
-        if (args.length == 1) {
-            final String arg = args[0];
+        final String inputMethod = args[0];
 
-            if (availableMethods.containsKey(arg)) {
-                Method method = availableMethods.get(arg);
-                try {
-                    sender.sendMessage(OutputFormatter.getOutput(method.invoke(object)));
-                    return true;
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    e.printStackTrace();
-                    return false;
-                }
-            } else {
-                sender.sendMessage(ChatColor.RED + "Unknown or unavailable method");
-                return true;
-            }
+        if (!availableMethods.containsKey(inputMethod)) {
+            sender.sendMessage(ChatColor.RED + "Unknown or unavailable method");
+            return true;
         }
 
-        sender.sendMessage(ChatColor.RED + "Unknown function");
+        Method method = availableMethods.get(inputMethod);
+        String[] methodArgs = ArrayUtils.removeElement(args, args[0]);
+        String output;
+
+        try {
+            output = ReflectionUtil.doReflection(method, object, methodArgs);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        if (output != null) {
+            sender.sendMessage(output);
+        }
+
         return true;
     }
 
