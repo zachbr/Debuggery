@@ -8,7 +8,7 @@ buildscript {
 }
 
 plugins {
-        id 'net.minecrell.licenser' version "0.3"
+    id 'net.minecrell.licenser' version "0.3"
 }
 
 apply plugin: 'java'

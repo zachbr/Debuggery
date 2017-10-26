@@ -30,6 +30,9 @@ import javax.annotation.Nullable;
 import java.lang.reflect.Array;
 import java.util.*;
 
+/**
+ * Handles formatting the objects we get back from method invocation
+ */
 @SuppressWarnings("Duplicates")
 public class OutputFormatter {
 
@@ -138,7 +141,7 @@ public class OutputFormatter {
         // Easier than checking every single primitive type
         if (array.getClass().getComponentType().isPrimitive()) {
             int length = Array.getLength(array);
-            Object newArray[] = new Object[length];
+            Object[] newArray = new Object[length];
 
             for (int i = 0; i < length; i++) {
                 newArray[i] = Array.get(array, i);
@@ -178,19 +181,15 @@ public class OutputFormatter {
         StringBuilder returnString = new StringBuilder("{");
         boolean first = true;
 
-        if (collection instanceof List || collection instanceof Set || collection instanceof Queue) {
-            for (Object entry : collection) {
-                if (first) {
-                    returnString.append(getOutput(entry));
-                    first = false;
-                } else {
-                    returnString.append(", ").append(getOutput(entry));
-                }
+        for (Object entry : collection) {
+            if (first) {
+                returnString.append(getOutput(entry));
+                first = false;
+            } else {
+                returnString.append(", ").append(getOutput(entry));
             }
-
-            return returnString.append("}").toString();
         }
 
-        throw new AssertionError("Unhandled collection type!");
+        return returnString.append("}").toString();
     }
 }

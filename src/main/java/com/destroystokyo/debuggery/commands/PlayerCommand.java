@@ -17,7 +17,6 @@
 package com.destroystokyo.debuggery.commands;
 
 import com.destroystokyo.debuggery.commands.base.CommandReflection;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
