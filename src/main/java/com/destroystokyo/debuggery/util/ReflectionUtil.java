@@ -138,10 +138,11 @@ public class ReflectionUtil {
      * The signature is simplified to aid in command processing and UX
      * It will look something like this "method(..)"
      *
-     * Each param will result in an additional period, a method with no params will
-     * return with nothing between the parentheses
+     * Each param will result in an additional character between the parentheses,
+     * a method with no params will result in nothing between the parentheses
      *
      * @param method which method to get a simplified name for
+     * @param paramVal the character to use between the parentheses
      * @return a simplified name
      */
     private static String getSimpleMethodSignature(Method method, char paramVal) {
@@ -165,7 +166,7 @@ public class ReflectionUtil {
      * It will look something like this "method(ParamType, ParamType)"
      *
      * Each param will result in an entry between the parentheses,
-     * a method with no params will simply return its name.
+     * a method with no params will result in nothing between the parentheses
      *
      * @param method which method to get a formatted name for
      * @return a formatted name
@@ -173,10 +174,6 @@ public class ReflectionUtil {
     private static String getFormattedMethodSignature(Method method) {
         StringBuilder builder = new StringBuilder();
         builder.append(method.getName());
-
-        if (method.getParameterCount() == 0) {
-            return builder.toString();
-        }
 
         builder.append("(");
         boolean first = true;
