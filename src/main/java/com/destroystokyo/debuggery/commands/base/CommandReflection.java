@@ -16,12 +16,15 @@
 
 package com.destroystokyo.debuggery.commands.base;
 
+import com.destroystokyo.debuggery.util.FancyChatException;
+import com.destroystokyo.debuggery.util.PlatformUtil;
 import com.destroystokyo.debuggery.util.ReflectionUtil;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Map;
@@ -66,9 +69,17 @@ public abstract class CommandReflection extends CommandBase {
         try {
             output = ReflectionUtil.doReflection(method, object, methodArgs);
         } catch (Throwable throwable) {
-            sender.sendMessage(ChatColor.RED + "Error in reflective access - Check console for details!");
+            final String errorMessage = "Error while executing command - See console for more details";
+            final Throwable cause = throwable.getCause() == null ? throwable : throwable.getCause();
+
+            if (PlatformUtil.isServerRunningSpigotOrDeriv()) {
+                FancyChatException.sendFancyChatException(sender, errorMessage, cause);
+            } else {
+                sender.sendMessage(ChatColor.RED + errorMessage);
+            }
+
             throwable.printStackTrace();
-            return false;
+            return true;
         }
 
         if (output != null) {
