@@ -28,13 +28,13 @@ import java.util.Collection;
 import java.util.Map;
 
 public abstract class CommandReflection extends CommandBase {
-    private final Map<String, Method> availableMethods;
-    private final Class classType;
+    private Map<String, Method> availableMethods;
+    private Class classType;
 
     public CommandReflection(String name, String permission, boolean requiresPlayer, Class clazz) {
         super(name, permission, requiresPlayer);
         this.classType = clazz;
-        availableMethods = ReflectionUtil.createMethodMapFor(clazz);
+        updateReflectionClass(clazz);
     }
 
     @Override
@@ -68,6 +68,7 @@ public abstract class CommandReflection extends CommandBase {
         try {
             output = ReflectionUtil.doReflection(method, object, methodArgs);
         } catch (IllegalAccessException | InvocationTargetException e) {
+            sender.sendMessage(ChatColor.RED + "Error in reflective access - Check console for details!");
             e.printStackTrace();
             return false;
         }
@@ -77,6 +78,13 @@ public abstract class CommandReflection extends CommandBase {
         }
 
         return true;
+    }
+
+    protected void updateReflectionClass(Class typeIn) {
+        if (this.classType != typeIn) {
+            availableMethods = ReflectionUtil.createMethodMapFor(typeIn);
+            this.classType = typeIn;
+        }
     }
 
     @Override

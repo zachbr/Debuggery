@@ -30,6 +30,9 @@ commands:
     dchunk:
         description: Returns chunk info!
         usage: /dchunk
+    dentity:
+        description: Returns entity info!
+        usage: /dentity
     dfly:
         description: Grants flight abilities!
         usage: /dfly

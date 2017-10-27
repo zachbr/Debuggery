@@ -28,7 +28,8 @@ import org.bukkit.plugin.messaging.Messenger;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.lang.reflect.Array;
-import java.util.*;
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * Handles formatting the objects we get back from method invocation

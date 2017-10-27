@@ -19,7 +19,10 @@ package com.destroystokyo.debuggery.util;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 
 public class ReflectionUtil {
@@ -48,9 +51,9 @@ public class ReflectionUtil {
     /**
      * Entry point for calling methods
      *
-     * @param method method to invoke
+     * @param method   method to invoke
      * @param instance instance to invoke with
-     * @param input arguments to pass along at invocation
+     * @param input    arguments to pass along at invocation
      * @return any output as a result of invocation
      * @throws InvocationTargetException
      * @throws IllegalAccessException
@@ -75,15 +78,15 @@ public class ReflectionUtil {
 
     /**
      * Internal function to organize and cleanup the structure.
-     *
+     * <p>
      * This function calls another function that deduces input types via method parameters,
      * it invokes the method, and then it calls another function that takes the output and makes it human readable.
-     *
+     * <p>
      * Finally, it returns a string.
      *
-     * @param method method to invoke
+     * @param method   method to invoke
      * @param instance instance to invoke with
-     * @param input arguments to pass along at invocation
+     * @param input    arguments to pass along at invocation
      * @return any output as a result of invocation
      * @throws InvocationTargetException
      * @throws IllegalAccessException
@@ -107,7 +110,7 @@ public class ReflectionUtil {
     public static Map<String, Method> createMethodMapFor(Class clazz) {
         Map<String, Method> map = new HashMap<>();
         Map<String, Integer> methodCollisionMap = new HashMap<>();
-        char[] acceptableParamVals = { '.', '*', ',', ';', '\'' };
+        char[] acceptableParamVals = {'.', '*', ',', ';', '\''};
 
         for (Method method : getAllPublicMethods(clazz)) {
             String identifier;
@@ -134,14 +137,14 @@ public class ReflectionUtil {
 
     /**
      * Gets a simplified method signature
-     *
+     * <p>
      * The signature is simplified to aid in command processing and UX
      * It will look something like this "method(..)"
-     *
+     * <p>
      * Each param will result in an additional character between the parentheses,
      * a method with no params will result in nothing between the parentheses
      *
-     * @param method which method to get a simplified name for
+     * @param method   which method to get a simplified name for
      * @param paramVal the character to use between the parentheses
      * @return a simplified name
      */
@@ -161,10 +164,10 @@ public class ReflectionUtil {
 
     /**
      * Gets a complete and formatted method signature
-     *
+     * <p>
      * The signature is exact and should tell user's what to expect
      * It will look something like this "method(ParamType, ParamType)"
-     *
+     * <p>
      * Each param will result in an entry between the parentheses,
      * a method with no params will result in nothing between the parentheses
      *

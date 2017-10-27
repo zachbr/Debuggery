@@ -37,6 +37,7 @@ public class Debuggery extends JavaPlugin {
         BlockCommand block = new BlockCommand();
         ChunkCommand chunk = new ChunkCommand();
         DebuggeryCommand debuggery = new DebuggeryCommand(this);
+        EntityCommand entity = new EntityCommand();
         FlyCommand fly = new FlyCommand();
         GrowCommand grow = new GrowCommand();
         ItemCommand item = new ItemCommand();
@@ -47,6 +48,7 @@ public class Debuggery extends JavaPlugin {
         commands.put(block.getName(), block);
         commands.put(chunk.getName(), chunk);
         commands.put(debuggery.getName(), debuggery);
+        commands.put(entity.getName(), entity);
         commands.put(fly.getName(), fly);
         commands.put(grow.getName(), grow);
         commands.put(item.getName(), item);
