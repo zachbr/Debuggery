@@ -32,7 +32,7 @@ public class ReflectionUtil {
 
     public static List<Method> getAllPublicMethodsMatching(Class clazz, Predicate<Method> predicate) {
         List<Method> publicMethods = new ArrayList<>();
-        for (Method method : clazz.getDeclaredMethods()) {
+        for (Method method : clazz.getMethods()) {
             if (!Modifier.isPublic(method.getModifiers())) {
                 continue;
             }
