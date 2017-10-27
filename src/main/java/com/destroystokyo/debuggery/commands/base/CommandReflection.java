@@ -22,7 +22,6 @@ import org.apache.commons.lang3.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Map;
@@ -66,9 +65,9 @@ public abstract class CommandReflection extends CommandBase {
 
         try {
             output = ReflectionUtil.doReflection(method, object, methodArgs);
-        } catch (IllegalAccessException | InvocationTargetException e) {
+        } catch (Throwable throwable) {
             sender.sendMessage(ChatColor.RED + "Error in reflective access - Check console for details!");
-            e.printStackTrace();
+            throwable.printStackTrace();
             return false;
         }
 
