@@ -33,7 +33,6 @@ public abstract class CommandReflection extends CommandBase {
 
     public CommandReflection(String name, String permission, boolean requiresPlayer, Class clazz) {
         super(name, permission, requiresPlayer);
-        this.classType = clazz;
         updateReflectionClass(clazz);
     }
 
