@@ -33,12 +33,6 @@ commands:
     dentity:
         description: Returns entity info!
         usage: /dentity
-    dfly:
-        description: Grants flight abilities!
-        usage: /dfly
-    dgrow:
-        description: Grows something!
-        usage: /dgrow
     ditem:
         description: Returns item info!
         usage: /ditem
