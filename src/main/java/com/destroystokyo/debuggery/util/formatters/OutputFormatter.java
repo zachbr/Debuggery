@@ -23,6 +23,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.help.HelpMap;
 import org.bukkit.help.HelpTopic;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.messaging.Messenger;
 
 import javax.annotation.Nonnull;
@@ -54,6 +56,8 @@ public class OutputFormatter {
             return handleOfflinePlayer((OfflinePlayer) object);
         } else if (object instanceof BlockState) {
             return handleBlockState((BlockState) object);
+        } else if (object instanceof Inventory) {
+            return handleInventory((Inventory) object);
         } else if (object instanceof WorldBorder) {
             return handleWorldBorder((WorldBorder) object);
         } else if (object instanceof CommandSender) {
@@ -193,5 +197,25 @@ public class OutputFormatter {
         }
 
         return returnString.append("}").toString();
+    }
+
+    @Nonnull
+    private static String handleInventory(Inventory inventory) {
+        final String basicInfo = "name=" + inventory.getName() + ", title=" + inventory.getTitle()
+                + ", size=" + inventory.getSize() + "\n";
+        StringBuilder returnString = new StringBuilder(basicInfo);
+        boolean first = true;
+
+        for (ItemStack itemStack : inventory.getContents()) {
+            if (first) {
+                returnString.append(getOutput(itemStack));
+                first = false;
+            } else {
+                returnString.append(", ").append(getOutput(itemStack));
+            }
+        }
+
+        return returnString.toString();
+
     }
 }

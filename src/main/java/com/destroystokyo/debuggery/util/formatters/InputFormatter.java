@@ -130,6 +130,7 @@ public class InputFormatter {
         Material material = getMaterial(contents[0]);
         byte data = (byte) getPrimitive(byte.class, contents[1]);
 
+        //noinspection deprecation
         return new MaterialData(material, data);
     }
 
