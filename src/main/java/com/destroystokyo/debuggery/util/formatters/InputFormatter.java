@@ -18,6 +18,7 @@ package com.destroystokyo.debuggery.util.formatters;
 
 import org.bukkit.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -52,6 +53,8 @@ public class InputFormatter {
             return getPrimitive(clazz, input);
         } else if (clazz.equals(Material.class)) {
             return getMaterial(input);
+        } else if (clazz.equals(MaterialData.class)) {
+            return getMaterialData(input);
         } else if (clazz.equals(Location.class)) {
             return getLocation(input);
         } else if (clazz.equals(GameMode.class)) {
@@ -115,6 +118,15 @@ public class InputFormatter {
     @Nonnull
     private static ItemStack getItemStack(String input) {
         return new ItemStack(getMaterial(input));
+    }
+
+    @Nonnull
+    private static MaterialData getMaterialData(String input) throws InputException {
+        String[] contents = input.split(":", 2);
+        Material material = getMaterial(contents[0]);
+        byte data = (byte) getPrimitive(byte.class, contents[1]);
+
+        return new MaterialData(material, data);
     }
 
     @Nonnull
