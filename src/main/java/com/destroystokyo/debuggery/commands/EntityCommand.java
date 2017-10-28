@@ -33,31 +33,11 @@ public class EntityCommand extends CommandReflection {
         super("dentity", "debuggery.entity", true, Entity.class);
     }
 
-    @Override
-    protected boolean commandLogic(CommandSender sender, Command command, String label, String[] args) {
-        Player player = (Player) sender;
-        Entity entity = getEntityPlayerLookingAt(player, 25, 1.5D);
-
-        if (entity == null) {
-            sender.sendMessage(ChatColor.RED + "Couldn't detect the entity you were looking at!");
-            return true;
-        }
-
-        updateReflectionClass(entity.getClass());
-
-        if (args.length == 0) {
-            sender.sendMessage(entity.toString());
-            return true;
-        }
-
-        return doReflectionLookups(sender, args, entity);
-    }
-
     /**
      * Does a raytrace to check which entity the player is probably looking at
      *
-     * @param player Player to check
-     * @param range Max distance to search against
+     * @param player    Player to check
+     * @param range     Max distance to search against
      * @param tolerance How close we want the search to be
      * @return entity player is looking at, or null if we couldn't find one
      */
@@ -88,5 +68,25 @@ public class EntityCommand extends CommandReflection {
         }
 
         return null;
+    }
+
+    @Override
+    protected boolean commandLogic(CommandSender sender, Command command, String label, String[] args) {
+        Player player = (Player) sender;
+        Entity entity = getEntityPlayerLookingAt(player, 25, 1.5D);
+
+        if (entity == null) {
+            sender.sendMessage(ChatColor.RED + "Couldn't detect the entity you were looking at!");
+            return true;
+        }
+
+        updateReflectionClass(entity.getClass());
+
+        if (args.length == 0) {
+            sender.sendMessage(entity.toString());
+            return true;
+        }
+
+        return doReflectionLookups(sender, args, entity);
     }
 }

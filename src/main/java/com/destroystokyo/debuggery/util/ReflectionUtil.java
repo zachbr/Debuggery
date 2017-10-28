@@ -57,8 +57,9 @@ public class ReflectionUtil {
      * @return any output as a result of invocation
      * @throws InvocationTargetException
      * @throws IllegalAccessException
+     * @throws InputException
      */
-    public static String doReflection(Method method, Object instance, String[] input) throws InvocationTargetException, IllegalAccessException {
+    public static String doReflection(Method method, Object instance, String[] input) throws InvocationTargetException, IllegalAccessException, InputException {
         if (HAS_NO_PARAMS.test(method)) {
             return OutputFormatter.getOutput(method.invoke(instance));
         }
@@ -92,7 +93,7 @@ public class ReflectionUtil {
      * @throws IllegalAccessException
      */
     @SuppressWarnings("UnnecessaryLocalVariable")
-    private static String reflect(Method method, Object instance, String[] input) throws InvocationTargetException, IllegalAccessException {
+    private static String reflect(Method method, Object instance, String[] input) throws InvocationTargetException, IllegalAccessException, InputException {
         Object[] methodArgs = InputFormatter.getTypesFromInput(method.getParameterTypes(), input);
         Object returnVal = method.invoke(instance, methodArgs);
         String output = OutputFormatter.getOutput(returnVal);

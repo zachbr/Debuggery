@@ -37,11 +37,11 @@ public abstract class CommandBase implements CommandExecutor, TabCompleter {
     private final boolean requiresPlayer;
     private final boolean shouldShowInHelp;
 
-    public CommandBase(String name, String permission, boolean requiresPlayer) {
+    protected CommandBase(String name, String permission, boolean requiresPlayer) {
         this(name, permission, requiresPlayer, true);
     }
 
-    public CommandBase(String name, String permission, boolean requiresPlayer, boolean shouldShowInHelp) {
+    protected CommandBase(String name, String permission, boolean requiresPlayer, boolean shouldShowInHelp) {
         this.name = name;
         this.permission = permission;
         this.requiresPlayer = requiresPlayer;
@@ -55,7 +55,7 @@ public abstract class CommandBase implements CommandExecutor, TabCompleter {
      * @param completions Possible completions
      * @return List of possible completions based on the input
      */
-    protected static List<String> getCompletionsMatching(String[] input, Collection<String> completions) {
+    private static List<String> getCompletionsMatching(String[] input, Collection<String> completions) {
         String latestArg = input[input.length - 1];
         List<String> matches = Lists.newArrayList();
 

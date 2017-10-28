@@ -28,17 +28,17 @@ import java.io.StringWriter;
 
 /**
  * Contains the needed methods to send hover event stack traces to the client.
- *
+ * <p>
  * Has to be kept separate and never called from a CraftBukkit server.
  */
-public class FancyChatException {
+public class FancyExceptionFormatter {
 
     /**
      * Sends a fancy hover text stack trace message to the client
      *
-     * @param sender target to send to
+     * @param sender       target to send to
      * @param errorMessage message displayed in chat
-     * @param throwable throwable to format and display on hover
+     * @param throwable    throwable to format and display on hover
      */
     public static void sendFancyChatException(CommandSender sender, String errorMessage, Throwable throwable) {
         BaseComponent fancyException = formatException(errorMessage, throwable);
@@ -49,7 +49,7 @@ public class FancyChatException {
      * Formats a throwable and error message into a BaseComponent to send
      *
      * @param errorMessage message displayed in chat
-     * @param throwable throwable to format and display on hover
+     * @param throwable    throwable to format and display on hover
      * @return BaseComponent ready to send
      */
     @Nonnull

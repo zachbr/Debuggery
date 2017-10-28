@@ -16,6 +16,9 @@
 
 package com.destroystokyo.debuggery.util;
 
+import org.bukkit.*;
+import org.bukkit.inventory.ItemStack;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -24,10 +27,10 @@ import java.util.List;
 /**
  * Handles formatting the arguments we send to method invocation
  */
-public class InputFormatter {
+class InputFormatter {
 
     @Nonnull
-    public static Object[] getTypesFromInput(Class[] classes, String[] input) {
+    public static Object[] getTypesFromInput(Class[] classes, String[] input) throws InputException {
         List<Object> out = new ArrayList<>();
 
         for (int i = 0; i < classes.length; i++) {
@@ -38,43 +41,124 @@ public class InputFormatter {
     }
 
     @Nullable
-    private static Object getTypeForClass(Class clazz, String input) {
+    private static Object getTypeForClass(Class clazz, String input) throws InputException {
         if (clazz == null) {
             throw new IllegalArgumentException("Cannot determine input type for null class");
-        }
-
-        if (input.toLowerCase().equals("null")) {
-            return null;
         }
 
         if (clazz.equals(String.class)) {
             return input;
         } else if (clazz.isPrimitive()) {
-            return handlePrimitive(clazz, input);
+            return getPrimitive(clazz, input);
+        } else if (clazz.equals(Material.class)) {
+            return getMaterial(input);
+        } else if (clazz.equals(Location.class)) {
+            return getLocation(input);
+        } else if (clazz.equals(GameMode.class)) {
+            return getGameMode(input);
+        } else if (clazz.equals(Difficulty.class)) {
+            return getDifficulty(input);
+        } else if (Enum.class.isAssignableFrom(clazz)) { // Do not use for all enum types, lacks magic value support
+            return getValueFromEnum(clazz, input);
+        } else if (clazz.equals(ItemStack.class)) {
+            return getItemStack(input);
         }
 
         return null; // TODO
     }
 
-    private static Object handlePrimitive(Class clazz, String input) {
-        if (clazz.equals(byte.class)) {
-            return Byte.valueOf(input);
-        } else if (clazz.equals(short.class)) {
-            return Short.valueOf(input);
-        } else if (clazz.equals(int.class)) {
-            return Integer.valueOf(input);
-        } else if (clazz.equals(long.class)) {
-            return Long.valueOf(input);
-        } else if (clazz.equals(float.class)) {
-            return Float.valueOf(input);
-        } else if (clazz.equals(double.class)) {
-            return Double.valueOf(input);
-        } else if (clazz.equals(boolean.class)) {
-            return Boolean.valueOf(input);
-        } else if (clazz.equals(char.class)) {
-            return input.charAt(0);
+    private static Object getPrimitive(Class clazz, String input) throws InputException {
+        try {
+            if (input == null) {
+                throw new NumberFormatException();
+            }
+
+            if (clazz.equals(byte.class)) {
+                return Byte.valueOf(input);
+            } else if (clazz.equals(short.class)) {
+                return Short.valueOf(input);
+            } else if (clazz.equals(int.class)) {
+                return Integer.valueOf(input);
+            } else if (clazz.equals(long.class)) {
+                return Long.valueOf(input);
+            } else if (clazz.equals(float.class)) {
+                return Float.valueOf(input);
+            } else if (clazz.equals(double.class)) {
+                return Double.valueOf(input);
+            } else if (clazz.equals(boolean.class)) {
+                return Boolean.valueOf(input);
+            } else if (clazz.equals(char.class)) {
+                return input.charAt(0);
+            }
+        } catch (NumberFormatException ex) {
+            throw new InputException(ex);
         }
 
         throw new AssertionError("Java added another primitive type!");
+    }
+
+    @Nonnull
+    private static <T extends Enum<T>> T getValueFromEnum(Class clazz, String input) throws InputException {
+        try {
+            //noinspection unchecked
+            return Enum.valueOf((Class<T>) clazz, input.toUpperCase());
+        } catch (IllegalArgumentException ex) {
+            throw new InputException(ex);
+        }
+    }
+
+    @Nonnull
+    private static Material getMaterial(String input) {
+        return Material.matchMaterial(input);
+    }
+
+    @Nonnull
+    private static ItemStack getItemStack(String input) {
+        return new ItemStack(getMaterial(input));
+    }
+
+    @Nonnull
+    private static Location getLocation(String input) throws InputException {
+        String[] contents = input.split(",", 4);
+        double[] xyz = new double[3];
+        World world = Bukkit.getWorld(contents[0]);
+
+        try {
+            for (int i = 1; i < contents.length; i++) {
+                xyz[i - 1] = Double.parseDouble(contents[i]);
+            }
+        } catch (NumberFormatException ex) {
+            throw new InputException(ex);
+        }
+
+        try {
+            return new Location(world, xyz[0], xyz[1], xyz[2]);
+        } catch (IllegalArgumentException ex) {
+            throw new InputException(ex);
+        }
+    }
+
+    @Nonnull
+    private static GameMode getGameMode(String input) throws InputException {
+        try {
+            int val = Integer.parseInt(input);
+            //noinspection deprecation
+            return GameMode.getByValue(val);
+        } catch (NumberFormatException ignored) {
+        }
+
+        return getValueFromEnum(GameMode.class, input);
+    }
+
+    @Nonnull
+    private static Difficulty getDifficulty(String input) throws InputException {
+        try {
+            int val = Integer.parseInt(input);
+            //noinspection deprecation
+            return Difficulty.getByValue(val);
+        } catch (NumberFormatException ignored) {
+        }
+
+        return getValueFromEnum(Difficulty.class, input);
     }
 }

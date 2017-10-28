@@ -16,7 +16,8 @@
 
 package com.destroystokyo.debuggery.commands.base;
 
-import com.destroystokyo.debuggery.util.FancyChatException;
+import com.destroystokyo.debuggery.util.FancyExceptionFormatter;
+import com.destroystokyo.debuggery.util.InputException;
 import com.destroystokyo.debuggery.util.PlatformUtil;
 import com.destroystokyo.debuggery.util.ReflectionUtil;
 import org.apache.commons.lang3.ArrayUtils;
@@ -33,7 +34,7 @@ public abstract class CommandReflection extends CommandBase {
     private Map<String, Method> availableMethods;
     private Class classType;
 
-    public CommandReflection(String name, String permission, boolean requiresPlayer, Class clazz) {
+    protected CommandReflection(String name, String permission, boolean requiresPlayer, Class clazz) {
         super(name, permission, requiresPlayer);
         updateReflectionClass(clazz);
     }
@@ -68,17 +69,17 @@ public abstract class CommandReflection extends CommandBase {
 
         try {
             output = ReflectionUtil.doReflection(method, object, methodArgs);
-        } catch (Throwable throwable) {
-            final String errorMessage = "Error while executing command - See console for more details";
-            final Throwable cause = throwable.getCause() == null ? throwable : throwable.getCause();
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | InputException ex) {
+            final String errorMessage = ex instanceof InputException ? "Exception deducing proper types from your input!" : "Exception invoking method - See console for more details!";
+            final Throwable cause = ex.getCause() == null ? ex : ex.getCause();
 
             if (PlatformUtil.isServerRunningSpigotOrDeriv()) {
-                FancyChatException.sendFancyChatException(sender, errorMessage, cause);
+                FancyExceptionFormatter.sendFancyChatException(sender, errorMessage, cause);
             } else {
                 sender.sendMessage(ChatColor.RED + errorMessage);
             }
 
-            throwable.printStackTrace();
+            ex.printStackTrace();
             return true;
         }
 

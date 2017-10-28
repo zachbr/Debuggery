@@ -61,7 +61,7 @@ public class ReflectionUtilTest {
     }
 
     @Test
-    public void doReflection() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public void doReflection() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, InputException {
         // TODO: this could use more cases
         Method method = ReflTestClass.class.getMethod("getNumbersPlusParam", int.class);
         ReflTestClass instance = new ReflTestClass(1, 2, 3);
