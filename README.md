@@ -1,4 +1,4 @@
-Debuggery
+Debuggery [![Build Status](https://ci.destroystokyo.com/buildStatus/icon?job=Debuggery)](https://ci.destroystokyo.com/job/Debuggery)
 =========
 
 ## Building
@@ -16,9 +16,11 @@ You will find a compiled version in the `./build/libs/` directory.
 ## What is it?
 Debuggery is a small plugin designed to expose API values at runtime.
 
-![/dserver](https://i.imgur.com/jhLcrc2.png)
-![/dchunk](https://i.imgur.com/wbTZvbA.png)
-![/dplayer](https://i.imgur.com/8d6cxSE.png)
+![/dplayer setHealth(.)](https://i.imgur.com/VZV6wsk.png)
+![/dworld setStorm(.) true](https://i.imgur.com/MNamG2q.png)
+![/dentity setFireTicks(.) 100](https://i.imgur.com/Uv8toKI.png)
+![/dplayer setFlying(.)](https://i.imgur.com/Fv8PUC1.png)
+![/dworld createExplosion(..) world,-237,64,401 100](https://i.imgur.com/IlqBRhk.png)
 ![/ditem getEnchantments](https://i.imgur.com/A8zXdSk.png)
 
 ## Why?
@@ -37,8 +39,19 @@ toString() methods. Every one of them has to be added manually so right now I'm 
 that the API returns. If you find any missing, feel free to open an issue or contribute them.
 
 ## Can I set values using Debuggery?
-Not right now. There's a lot of work to be done to properly deduce types from input, as well as keep the inputs
-standardized across all commands. This is planned, but not currently supported.
+Yes. Currently input handling is rather basic.
+
+Arguments are delimited by spaces as per Bukkit, therefore when you specify more complex inputs it is not particularly
+friendly. For example, to specify a Location, you must enter `worldName,x,y,z` as in `/dplayer teleport(.) world,1,100,1`.
+I will eventually get around to investigating some sort of standardized patterns for this, perhaps even moving away
+from Bukkit's space delimiter system.
+
+Furthermore, every conversion from `string -> object` is added manually, so some are currently missing. Feel free to
+open an issue or contribute them.
+
+## What's the biggest limitation at the moment?
+You can only access top level methods directly on the object you're interfacing with. You cannot (currently) call a
+method on the result of another method. This is planned but not currently supported.
 
 ## Do you have a timeline for feature development?
 Nope. I am pretty busy. If you'd like something done sooner, feel free to contribute.

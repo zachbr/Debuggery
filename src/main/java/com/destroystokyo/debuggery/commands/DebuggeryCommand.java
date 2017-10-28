@@ -38,7 +38,7 @@ public class DebuggeryCommand extends CommandBase {
     protected boolean commandLogic(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0) {
             sender.sendMessage(ChatColor.GOLD + "Debuggery v" + debuggery.getDescription().getVersion() + ".");
-            sender.sendMessage("Debuggery is a small plugin to lookup API values at runtime.");
+            sender.sendMessage("Debuggery is designed to expose API values at runtime.");
             sender.sendMessage("To see what commands are available and any help associated with them, use tab completion on this command.");
             sender.sendMessage("Source code can be found here: " + ChatColor.BLUE + debuggery.getDescription().getWebsite());
             return true;
