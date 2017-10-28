@@ -16,6 +16,7 @@
 
 package com.destroystokyo.debuggery.util;
 
+import com.destroystokyo.debuggery.util.formatters.InputException;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.junit.Test;

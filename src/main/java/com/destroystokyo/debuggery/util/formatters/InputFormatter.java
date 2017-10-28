@@ -14,7 +14,7 @@
  * along with Debuggery. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.destroystokyo.debuggery.util;
+package com.destroystokyo.debuggery.util.formatters;
 
 import org.bukkit.*;
 import org.bukkit.inventory.ItemStack;
@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * Handles formatting the arguments we send to method invocation
  */
-class InputFormatter {
+public class InputFormatter {
 
     @Nonnull
     public static Object[] getTypesFromInput(Class[] classes, String[] input) throws InputException {

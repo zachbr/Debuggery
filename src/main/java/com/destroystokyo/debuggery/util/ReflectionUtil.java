@@ -16,6 +16,10 @@
 
 package com.destroystokyo.debuggery.util;
 
+import com.destroystokyo.debuggery.util.formatters.InputException;
+import com.destroystokyo.debuggery.util.formatters.InputFormatter;
+import com.destroystokyo.debuggery.util.formatters.OutputFormatter;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;

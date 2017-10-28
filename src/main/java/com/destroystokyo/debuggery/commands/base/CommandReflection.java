@@ -16,10 +16,10 @@
 
 package com.destroystokyo.debuggery.commands.base;
 
-import com.destroystokyo.debuggery.util.FancyExceptionFormatter;
-import com.destroystokyo.debuggery.util.InputException;
 import com.destroystokyo.debuggery.util.PlatformUtil;
 import com.destroystokyo.debuggery.util.ReflectionUtil;
+import com.destroystokyo.debuggery.util.formatters.FancyExceptionFormatter;
+import com.destroystokyo.debuggery.util.formatters.InputException;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.ChatColor;
