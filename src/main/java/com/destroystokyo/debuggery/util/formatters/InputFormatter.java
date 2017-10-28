@@ -51,6 +51,8 @@ public class InputFormatter {
             return input;
         } else if (clazz.isPrimitive()) {
             return getPrimitive(clazz, input);
+        } else if (clazz.equals(Class.class)) {
+            return getBukkitClass(input);
         } else if (clazz.equals(Material.class)) {
             return getMaterial(input);
         } else if (clazz.equals(MaterialData.class)) {
@@ -65,6 +67,8 @@ public class InputFormatter {
             return getValueFromEnum(clazz, input);
         } else if (clazz.equals(ItemStack.class)) {
             return getItemStack(input);
+        } else if (clazz.equals(Class[].class)) {
+            return getBukkitClasses(input);
         }
 
         return null; // TODO
@@ -172,5 +176,38 @@ public class InputFormatter {
         }
 
         return getValueFromEnum(Difficulty.class, input);
+    }
+
+    @Nonnull
+    private static Class[] getBukkitClasses(String input) throws InputException {
+        List<Class> classList = new ArrayList<>();
+        String[] classNames = input.split(",");
+
+        for (String className : classNames) {
+            classList.add(getBukkitClass(className));
+        }
+
+        return classList.toArray(new Class[classList.size()]);
+    }
+
+    @Nonnull
+    private static Class getBukkitClass(String input) throws InputException {
+        // This is only used for entities right now, so we can save some drama and just search those packages
+        final String[] searchPackages = {"org.bukkit.entity", "org.bukkit.entity.minecart",};
+        final String normalized = Character.toUpperCase(input.charAt(0)) + input.substring(1).toLowerCase();
+
+        Class clazz = null;
+        for (String packageName : searchPackages) {
+            try {
+                clazz = Class.forName(packageName + "." + normalized);
+            } catch (ClassNotFoundException ignored) {
+            }
+
+            if (clazz != null) {
+                return clazz;
+            }
+        }
+
+        throw new InputException(new ClassNotFoundException(normalized + " not present in Bukkit entity namespace"));
     }
 }
