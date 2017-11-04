@@ -152,7 +152,7 @@ public class InputFormatter {
             if (input.equalsIgnoreCase("here")) {
                 return player.getLocation();
             } else if (input.equalsIgnoreCase("there")) {
-                return player.getTargetBlock(null, 25).getLocation();
+                return player.getTargetBlock(null, 50).getLocation();
             }
         }
 

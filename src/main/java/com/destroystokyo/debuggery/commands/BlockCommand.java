@@ -31,7 +31,7 @@ public class BlockCommand extends CommandReflection {
     @Override
     protected boolean commandLogic(CommandSender sender, Command command, String label, String[] args) {
         Player player = (Player) sender;
-        Block block = player.getTargetBlock(null, 25);
+        Block block = player.getTargetBlock(null, 50);
 
         if (args.length == 0) {
             player.sendMessage(block.toString());
