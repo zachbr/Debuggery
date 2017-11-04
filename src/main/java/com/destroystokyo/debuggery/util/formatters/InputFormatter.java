@@ -16,7 +16,11 @@
 
 package com.destroystokyo.debuggery.util.formatters;
 
+import com.destroystokyo.debuggery.util.PlatformUtil;
 import org.bukkit.*;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 
@@ -31,18 +35,18 @@ import java.util.List;
 public class InputFormatter {
 
     @Nonnull
-    public static Object[] getTypesFromInput(Class[] classes, String[] input) throws InputException {
+    public static Object[] getTypesFromInput(Class[] classes, String[] input, @Nullable CommandSender sender) throws InputException {
         List<Object> out = new ArrayList<>();
 
         for (int i = 0; i < classes.length; i++) {
-            out.add(getTypeForClass(classes[i], input[i]));
+            out.add(getTypeForClass(classes[i], input[i], sender));
         }
 
         return out.toArray();
     }
 
     @Nullable
-    private static Object getTypeForClass(Class clazz, String input) throws InputException {
+    private static Object getTypeForClass(Class clazz, String input, @Nullable CommandSender sender) throws InputException {
         if (clazz == null) {
             throw new IllegalArgumentException("Cannot determine input type for null class");
         }
@@ -58,7 +62,9 @@ public class InputFormatter {
         } else if (clazz.equals(MaterialData.class)) {
             return getMaterialData(input);
         } else if (clazz.equals(Location.class)) {
-            return getLocation(input);
+            return getLocation(input, sender);
+        } else if (clazz.equals(Entity.class)) {
+            return getEntity(input, sender);
         } else if (clazz.equals(GameMode.class)) {
             return getGameMode(input);
         } else if (clazz.equals(Difficulty.class)) {
@@ -66,7 +72,7 @@ public class InputFormatter {
         } else if (Enum.class.isAssignableFrom(clazz)) { // Do not use for all enum types, lacks magic value support
             return getValueFromEnum(clazz, input);
         } else if (clazz.equals(ItemStack.class)) {
-            return getItemStack(input);
+            return getItemStack(input, sender);
         } else if (clazz.equals(Class[].class)) {
             return getBukkitClasses(input);
         }
@@ -120,7 +126,12 @@ public class InputFormatter {
     }
 
     @Nonnull
-    private static ItemStack getItemStack(String input) {
+    private static ItemStack getItemStack(String input, CommandSender sender) {
+        if (sender instanceof Player) {
+            if (input.equalsIgnoreCase("this")) {
+                return ((Player) sender).getInventory().getItemInMainHand();
+            }
+        }
         return new ItemStack(getMaterial(input));
     }
 
@@ -135,7 +146,16 @@ public class InputFormatter {
     }
 
     @Nonnull
-    private static Location getLocation(String input) throws InputException {
+    private static Location getLocation(String input, CommandSender sender) throws InputException {
+        if (sender instanceof Player) {
+            final Player player = (Player) sender;
+            if (input.equalsIgnoreCase("here")) {
+                return player.getLocation();
+            } else if (input.equalsIgnoreCase("there")) {
+                return player.getTargetBlock(null, 25).getLocation();
+            }
+        }
+
         String[] contents = input.split(",", 4);
         double[] xyz = new double[3];
         World world = Bukkit.getWorld(contents[0]);
@@ -194,8 +214,11 @@ public class InputFormatter {
     @Nonnull
     private static Class getBukkitClass(String input) throws InputException {
         // This is only used for entities right now, so we can save some drama and just search those packages
-        final String[] searchPackages = {"org.bukkit.entity", "org.bukkit.entity.minecart",};
-        final String normalized = Character.toUpperCase(input.charAt(0)) + input.substring(1).toLowerCase();
+        final String[] searchPackages = {"org.bukkit.entity", "org.bukkit.entity.minecart"};
+        String normalized = Character.toUpperCase(input.charAt(0)) + input.substring(1).toLowerCase();
+        if (normalized.endsWith(".class")) {
+            normalized = normalized.substring(0, normalized.length() - 6);
+        }
 
         Class clazz = null;
         for (String packageName : searchPackages) {
@@ -210,5 +233,24 @@ public class InputFormatter {
         }
 
         throw new InputException(new ClassNotFoundException(normalized + " not present in Bukkit entity namespace"));
+    }
+
+    @Nullable
+    private static Entity getEntity(String input, @Nullable CommandSender sender) throws InputException {
+        Entity target;
+        if (sender instanceof Player) {
+            if (input.equalsIgnoreCase("that")) {
+                target = PlatformUtil.getEntityPlayerLookingAt((Player) sender, 25, 1.5D);
+
+                if (target != null) {
+                    return target;
+                }
+            } else if (input.equalsIgnoreCase("me")) {
+                return ((Player) sender);
+            }
+        }
+
+        Location loc = getLocation(input, sender);
+        return PlatformUtil.getEntityNearestTo(loc, 25, 1.5D);
     }
 }

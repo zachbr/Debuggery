@@ -16,93 +16,31 @@
 
 package com.destroystokyo.debuggery.util;
 
-import com.destroystokyo.debuggery.util.formatters.InputException;
-import com.destroystokyo.debuggery.util.formatters.InputFormatter;
-import com.destroystokyo.debuggery.util.formatters.OutputFormatter;
-
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Predicate;
 
 public class ReflectionUtil {
-    public static final Predicate<Method> IS_GETTER = m -> m.getName().startsWith("get") || m.getName().startsWith("is") || m.getName().startsWith("has");
-    public static final Predicate<Method> HAS_NO_PARAMS = m -> m.getParameterCount() == 0;
 
-    public static List<Method> getAllPublicMethods(Class clazz) {
-        return getAllPublicMethodsMatching(clazz, method -> true);
-    }
+    /**
+     * Gets all public methods associated with a class
+     *
+     * @param clazz class to get associated public methods
+     * @return array of public methods
+     */
+    private static Method[] getAllPublicMethods(Class clazz) {
+        List<Method> methods = new ArrayList<>();
 
-    public static List<Method> getAllPublicMethodsMatching(Class clazz, Predicate<Method> predicate) {
-        List<Method> publicMethods = new ArrayList<>();
         for (Method method : clazz.getMethods()) {
-            if (!Modifier.isPublic(method.getModifiers())) {
-                continue;
-            }
-
-            if (predicate.test(method)) {
-                publicMethods.add(method);
+            if (Modifier.isPublic(method.getModifiers())) {
+                methods.add(method);
             }
         }
 
-        return publicMethods;
-    }
-
-    /**
-     * Entry point for calling methods
-     *
-     * @param method   method to invoke
-     * @param instance instance to invoke with
-     * @param input    arguments to pass along at invocation
-     * @return any output as a result of invocation
-     * @throws InvocationTargetException
-     * @throws IllegalAccessException
-     * @throws InputException
-     */
-    public static String doReflection(Method method, Object instance, String[] input) throws InvocationTargetException, IllegalAccessException, InputException {
-        if (HAS_NO_PARAMS.test(method)) {
-            return OutputFormatter.getOutput(method.invoke(instance));
-        }
-
-        if (method.getParameterCount() != input.length) {
-
-            return "Method " + method.getName() + " requires " + method.getParameterCount() + " args.\n"
-                    + getFormattedMethodSignature(method);
-        }
-
-        if (method.getParameterCount() == input.length) {
-            return reflect(method, instance, input);
-        }
-
-        throw new AssertionError("Unhandled case in reflection logic!");
-    }
-
-    /**
-     * Internal function to organize and cleanup the structure.
-     * <p>
-     * This function calls another function that deduces input types via method parameters,
-     * it invokes the method, and then it calls another function that takes the output and makes it human readable.
-     * <p>
-     * Finally, it returns a string.
-     *
-     * @param method   method to invoke
-     * @param instance instance to invoke with
-     * @param input    arguments to pass along at invocation
-     * @return any output as a result of invocation
-     * @throws InvocationTargetException
-     * @throws IllegalAccessException
-     */
-    @SuppressWarnings("UnnecessaryLocalVariable")
-    private static String reflect(Method method, Object instance, String[] input) throws InvocationTargetException, IllegalAccessException, InputException {
-        Object[] methodArgs = InputFormatter.getTypesFromInput(method.getParameterTypes(), input);
-        Object returnVal = method.invoke(instance, methodArgs);
-        String output = OutputFormatter.getOutput(returnVal);
-
-        return output;
+        return methods.toArray(new Method[methods.size()]);
     }
 
     /**
@@ -179,7 +117,7 @@ public class ReflectionUtil {
      * @param method which method to get a formatted name for
      * @return a formatted name
      */
-    private static String getFormattedMethodSignature(Method method) {
+    public static String getFormattedMethodSignature(Method method) {
         StringBuilder builder = new StringBuilder();
         builder.append(method.getName());
 

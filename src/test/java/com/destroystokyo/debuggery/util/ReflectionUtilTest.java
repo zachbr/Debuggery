@@ -34,52 +34,6 @@ import static org.junit.Assert.assertTrue;
 public class ReflectionUtilTest {
 
     @Test
-    public void getAllPublicMethods() {
-        final Class TESTER = Block.class;
-
-        List<Method> reflUtil = ReflectionUtil.getAllPublicMethods(TESTER);
-        List<Method> reflection = Arrays.stream(TESTER.getMethods())
-                .filter(m -> Modifier.isPublic(m.getModifiers()))
-                .collect(Collectors.toList());
-
-        // Verify our results match Java's
-        assertEquals(reflUtil, reflection);
-    }
-
-    @Test
-    public void getAllPublicMethodsMatching() {
-        final Predicate<Method> HAS_ONE_PARAM = m -> m.getParameterCount() == 1;
-        final Class TESTER = World.class;
-
-        List<Method> reflUtil = ReflectionUtil.getAllPublicMethodsMatching(TESTER, HAS_ONE_PARAM);
-        List<Method> reflection = Arrays.stream(TESTER.getMethods())
-                .filter(m -> Modifier.isPublic(m.getModifiers()))
-                .filter(HAS_ONE_PARAM)
-                .collect(Collectors.toList());
-
-        // Verify our results match Java's
-        assertEquals(reflUtil, reflection);
-    }
-
-    @Test
-    public void doReflection() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, InputException {
-        // TODO: this could use more cases
-        Method method = ReflTestClass.class.getMethod("getNumbersPlusParam", int.class);
-        ReflTestClass instance = new ReflTestClass(1, 2, 3);
-        String[] input = new String[]{"4"};
-
-        String result = ReflectionUtil.doReflection(method, instance, input);
-
-        Predicate<String> passes = s -> s.contains("1") && s.contains("2") && s.contains("3") && s.contains("4");
-        if (!passes.test(result)) {
-            System.out.println("Expected result to include 1, 2, 3, and 4. Actual result below");
-            System.out.println(result);
-        }
-        // Verify the output contains the expected data we put in, ignoring random formatting details
-        assertTrue(passes.test(result));
-    }
-
-    @Test
     public void createMethodMapFor() {
         final Class TESTER = World.class;
 
