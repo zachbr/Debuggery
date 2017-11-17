@@ -14,7 +14,7 @@
  * along with Debuggery. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.destroystokyo.debuggery.util.formatters;
+package com.destroystokyo.debuggery.util;
 
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -31,7 +31,7 @@ import java.io.StringWriter;
  * <p>
  * Has to be kept separate and never called from a CraftBukkit server.
  */
-public class FancyExceptionFormatter {
+public class FancyChatException {
 
     /**
      * Sends a fancy hover text stack trace message to the client

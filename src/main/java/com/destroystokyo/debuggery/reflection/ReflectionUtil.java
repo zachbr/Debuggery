@@ -14,7 +14,7 @@
  * along with Debuggery. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.destroystokyo.debuggery.util;
+package com.destroystokyo.debuggery.reflection;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;

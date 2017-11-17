@@ -17,10 +17,10 @@
 package com.destroystokyo.debuggery.commands.base;
 
 import com.destroystokyo.debuggery.util.PlatformUtil;
-import com.destroystokyo.debuggery.util.ReflectCall;
-import com.destroystokyo.debuggery.util.ReflectionUtil;
-import com.destroystokyo.debuggery.util.formatters.FancyExceptionFormatter;
-import com.destroystokyo.debuggery.util.formatters.InputException;
+import com.destroystokyo.debuggery.reflection.ReflectCall;
+import com.destroystokyo.debuggery.reflection.ReflectionUtil;
+import com.destroystokyo.debuggery.util.FancyChatException;
+import com.destroystokyo.debuggery.reflection.formatters.InputException;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.ChatColor;
@@ -75,7 +75,7 @@ public abstract class CommandReflection extends CommandBase {
             final Throwable cause = ex.getCause() == null ? ex : ex.getCause();
 
             if (PlatformUtil.isServerRunningSpigotOrDeriv()) {
-                FancyExceptionFormatter.sendFancyChatException(sender, errorMessage, cause);
+                FancyChatException.sendFancyChatException(sender, errorMessage, cause);
             } else {
                 sender.sendMessage(ChatColor.RED + errorMessage);
             }

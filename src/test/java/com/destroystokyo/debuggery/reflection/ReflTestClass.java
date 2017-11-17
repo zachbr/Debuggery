@@ -14,7 +14,7 @@
  * along with Debuggery. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.destroystokyo.debuggery.util;
+package com.destroystokyo.debuggery.reflection;
 
 class ReflTestClass {
     private int some;

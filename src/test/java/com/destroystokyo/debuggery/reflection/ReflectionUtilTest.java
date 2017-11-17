@@ -14,19 +14,15 @@
  * along with Debuggery. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.destroystokyo.debuggery.util;
+package com.destroystokyo.debuggery.reflection;
 
-import com.destroystokyo.debuggery.util.formatters.InputException;
+import com.destroystokyo.debuggery.reflection.ReflectionUtil;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.junit.Test;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.*;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

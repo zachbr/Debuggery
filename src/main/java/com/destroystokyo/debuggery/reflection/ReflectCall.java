@@ -14,11 +14,11 @@
  * along with Debuggery. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.destroystokyo.debuggery.util;
+package com.destroystokyo.debuggery.reflection;
 
-import com.destroystokyo.debuggery.util.formatters.InputException;
-import com.destroystokyo.debuggery.util.formatters.InputFormatter;
-import com.destroystokyo.debuggery.util.formatters.OutputFormatter;
+import com.destroystokyo.debuggery.reflection.formatters.InputException;
+import com.destroystokyo.debuggery.reflection.formatters.InputFormatter;
+import com.destroystokyo.debuggery.reflection.formatters.OutputFormatter;
 import org.bukkit.command.CommandSender;
 
 import javax.annotation.Nullable;

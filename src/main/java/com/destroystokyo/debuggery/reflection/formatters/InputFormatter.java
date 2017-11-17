@@ -14,7 +14,7 @@
  * along with Debuggery. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.destroystokyo.debuggery.util.formatters;
+package com.destroystokyo.debuggery.reflection.formatters;
 
 import com.destroystokyo.debuggery.util.PlatformUtil;
 import org.bukkit.*;
