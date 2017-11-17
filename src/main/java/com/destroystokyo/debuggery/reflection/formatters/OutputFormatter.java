@@ -24,12 +24,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.help.HelpMap;
 import org.bukkit.help.HelpTopic;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.messaging.Messenger;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
@@ -46,7 +46,9 @@ public class OutputFormatter {
             return null;
         }
 
-        if (object instanceof Collection) {
+        if (object instanceof String) {
+            return (String) object;
+        } else if (object instanceof Collection) {
             return handleCollection((Collection) object);
         } else if (object instanceof Map) {
             return handleMap((Map) object);
@@ -83,7 +85,7 @@ public class OutputFormatter {
     @Nonnull
     private static String handleWorldBorder(WorldBorder border) {
         return "[size=" + border.getSize() + " " +
-                "center=" + border.getCenter().getBlockX() + "," + border.getCenter().getBlockY() + "," + border.getCenter().getZ() + " " +
+                "center=" + border.getCenter().getBlockX() + "," + border.getCenter().getBlockY() + "," + border.getCenter().getBlockZ() + " " +
                 "dmgAmt=" + border.getDamageAmount() + "]";
     }
 
@@ -109,29 +111,12 @@ public class OutputFormatter {
 
     @Nonnull
     private static String handleMessenger(Messenger messenger) {
-        StringBuilder returnString = new StringBuilder("-- Incoming Channels --\n");
-        boolean first = true;
-        for (String channel : messenger.getIncomingChannels()) {
-            if (first) {
-                returnString.append(channel);
-                first = false;
-            } else {
-                returnString.append(", ").append(channel);
-            }
-        }
+        String incomingBanner = "-- Incoming Channels --\n";
+        String incomingChannels = handleCollection(messenger.getIncomingChannels());
+        String outgoingBanner = "\n-- Outgoing Channels --\n";
+        String outgoingChannels = handleCollection(messenger.getOutgoingChannels());
 
-        first = true;
-        returnString.append("\n-- Outgoing Channels --\n");
-        for (String channel : messenger.getOutgoingChannels()) {
-            if (first) {
-                returnString.append(channel);
-                first = false;
-            } else {
-                returnString.append(", ").append(channel);
-            }
-        }
-
-        return returnString.toString();
+        return incomingBanner + incomingChannels + outgoingBanner + outgoingChannels;
     }
 
     @Nonnull
@@ -140,10 +125,16 @@ public class OutputFormatter {
     }
 
     @Nonnull
-    private static String handleArray(Object array) {
-        StringBuilder returnString = new StringBuilder("{");
-        boolean first = true;
+    private static String handleInventory(Inventory inventory) {
+        final String basicInfo = "name=" + inventory.getName() + ", title=" + inventory.getTitle()
+                + ", size=" + inventory.getSize() + "\n";
 
+        return basicInfo + handleArray(inventory.getContents());
+
+    }
+
+    @Nonnull
+    private static String handleArray(Object array) {
         // Easier than checking every single primitive type
         if (array.getClass().getComponentType().isPrimitive()) {
             int length = Array.getLength(array);
@@ -156,16 +147,8 @@ public class OutputFormatter {
             array = newArray;
         }
 
-        for (Object entry : (Object[]) array) {
-            if (first) {
-                returnString.append(getOutput(entry));
-                first = false;
-            } else {
-                returnString.append(", ").append(getOutput(entry));
-            }
-        }
-
-        return returnString.append("}").toString();
+        Object[] arrayAsArray = (Object[]) array;
+        return handleCollection(Arrays.asList(arrayAsArray));
     }
 
     @Nonnull
@@ -197,25 +180,5 @@ public class OutputFormatter {
         }
 
         return returnString.append("}").toString();
-    }
-
-    @Nonnull
-    private static String handleInventory(Inventory inventory) {
-        final String basicInfo = "name=" + inventory.getName() + ", title=" + inventory.getTitle()
-                + ", size=" + inventory.getSize() + "\n";
-        StringBuilder returnString = new StringBuilder(basicInfo);
-        boolean first = true;
-
-        for (ItemStack itemStack : inventory.getContents()) {
-            if (first) {
-                returnString.append(getOutput(itemStack));
-                first = false;
-            } else {
-                returnString.append(", ").append(getOutput(itemStack));
-            }
-        }
-
-        return returnString.toString();
-
     }
 }

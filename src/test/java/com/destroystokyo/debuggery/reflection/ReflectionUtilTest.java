@@ -16,15 +16,16 @@
 
 package com.destroystokyo.debuggery.reflection;
 
-import com.destroystokyo.debuggery.reflection.ReflectionUtil;
 import org.bukkit.World;
 import org.junit.Test;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class ReflectionUtilTest {
