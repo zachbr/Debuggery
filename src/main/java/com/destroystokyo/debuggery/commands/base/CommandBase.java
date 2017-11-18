@@ -55,7 +55,7 @@ public abstract class CommandBase implements CommandExecutor, TabCompleter {
      * @param completions Possible completions
      * @return List of possible completions based on the input
      */
-    private static List<String> getCompletionsMatching(String[] input, Collection<String> completions) {
+    protected static List<String> getCompletionsMatching(String[] input, Collection<String> completions) {
         String latestArg = input[input.length - 1];
         List<String> matches = Lists.newArrayList();
 
@@ -114,7 +114,7 @@ public abstract class CommandBase implements CommandExecutor, TabCompleter {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+    public final List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (!sender.hasPermission(this.permission)) {
             sender.sendMessage(ChatColor.RED + "You do not have permission to do that!");
             return Collections.emptyList();
@@ -125,11 +125,7 @@ public abstract class CommandBase implements CommandExecutor, TabCompleter {
             return Collections.emptyList();
         }
 
-        if (args.length > 1) { // TODO: Refactor to give individual commands more control?
-            return Collections.emptyList();
-        }
-
-        return getCompletionsMatching(args, getTabCompletions());
+        return this.tabCompleteLogic(sender, command, alias, args);
     }
 
     /**
@@ -143,11 +139,9 @@ public abstract class CommandBase implements CommandExecutor, TabCompleter {
     protected abstract boolean helpLogic(CommandSender sender, String[] args);
 
     /**
-     * Returns a collection of all possible tab completions
-     *
-     * @return tab completions
+     * Used by classes to implement their tab completion logic
      */
-    protected abstract Collection<String> getTabCompletions();
+    protected abstract List<String> tabCompleteLogic(CommandSender sender, Command command, String alias, String[] args);
 
     /**
      * Gets the name of this command

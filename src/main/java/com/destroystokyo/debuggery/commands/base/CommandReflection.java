@@ -16,19 +16,21 @@
 
 package com.destroystokyo.debuggery.commands.base;
 
-import com.destroystokyo.debuggery.util.PlatformUtil;
 import com.destroystokyo.debuggery.reflection.ReflectCall;
 import com.destroystokyo.debuggery.reflection.ReflectionUtil;
-import com.destroystokyo.debuggery.util.FancyChatException;
 import com.destroystokyo.debuggery.reflection.formatters.InputException;
+import com.destroystokyo.debuggery.util.FancyChatException;
+import com.destroystokyo.debuggery.util.PlatformUtil;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 public abstract class CommandReflection extends CommandBase {
@@ -99,7 +101,11 @@ public abstract class CommandReflection extends CommandBase {
     }
 
     @Override
-    protected Collection<String> getTabCompletions() {
-        return availableMethods.keySet();
+    public List<String> tabCompleteLogic(CommandSender sender, Command command, String alias, String[] args) {
+        if (args.length > 1) {
+            return Collections.emptyList();
+        }
+
+        return getCompletionsMatching(args, availableMethods.keySet());
     }
 }

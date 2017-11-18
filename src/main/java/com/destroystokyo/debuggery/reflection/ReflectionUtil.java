@@ -16,6 +16,7 @@
 
 package com.destroystokyo.debuggery.reflection;
 
+import javax.annotation.Nonnull;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class ReflectionUtil {
      * @param clazz class to get associated public methods
      * @return array of public methods
      */
+    @Nonnull
     private static Method[] getAllPublicMethods(Class clazz) {
         List<Method> methods = new ArrayList<>();
 
@@ -50,6 +52,7 @@ public class ReflectionUtil {
      * @param clazz which class to get methods for
      * @return a new Map
      */
+    @Nonnull
     public static Map<String, Method> createMethodMapFor(Class clazz) {
         Map<String, Method> map = new HashMap<>();
         Map<String, Integer> methodCollisionMap = new HashMap<>();
@@ -91,6 +94,7 @@ public class ReflectionUtil {
      * @param paramVal the character to use between the parentheses
      * @return a simplified name
      */
+    @Nonnull
     private static String getSimpleMethodSignature(Method method, char paramVal) {
         StringBuilder builder = new StringBuilder();
         builder.append(method.getName());
@@ -117,6 +121,7 @@ public class ReflectionUtil {
      * @param method which method to get a formatted name for
      * @return a formatted name
      */
+    @Nonnull
     public static String getFormattedMethodSignature(Method method) {
         StringBuilder builder = new StringBuilder();
         builder.append(method.getName());

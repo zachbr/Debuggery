@@ -22,7 +22,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
@@ -68,10 +69,16 @@ public class DebuggeryCommand extends CommandBase {
     }
 
     @Override
-    protected Collection<String> getTabCompletions() {
-        return debuggery.getAllCommands().values().stream()
+    protected List<String> tabCompleteLogic(CommandSender sender, Command command, String alias, String[] args) {
+        if (args.length > 1) {
+            return Collections.emptyList();
+        }
+
+        List<String> commands = debuggery.getAllCommands().values().stream()
                 .filter(CommandBase::shouldShowInHelp)
                 .map(CommandBase::getName)
                 .collect(Collectors.toList());
+
+        return getCompletionsMatching(args, commands);
     }
 }
