@@ -29,6 +29,7 @@ public class ReflectionChainTest {
 
     @Test
     public void reflect() throws NoSuchMethodException, IllegalAccessException, InputException, InvocationTargetException {
+        // First something simple
         Method method = ReflTestClass.class.getMethod("getNumbersPlusParam", int.class);
         String methodName = ReflectionUtil.getSimpleMethodSignature(method, '.');
         ReflTestClass instance = new ReflTestClass(1, 2, 3);
@@ -39,6 +40,27 @@ public class ReflectionChainTest {
         Predicate<String> passes = s -> s.contains("1") && s.contains("2") && s.contains("3") && s.contains("4");
         if (!passes.test(result)) {
             System.out.println("Expected result to include 1, 2, 3, and 4. Actual result below");
+            System.out.println(result);
+        }
+
+        // Verify the output contains the expected data we put in, ignoring random formatting details
+        assertTrue(passes.test(result));
+
+        // Now test calling a method on an returned instance
+        Method subClassGet = ReflTestClass.class.getMethod("getSubClass");
+        String subClassGetterName = ReflectionUtil.getSimpleMethodSignature(subClassGet, '.');
+
+        Method subClassGetNum = ReflTestClass.ReflSubClass.class.getMethod("get1234", int.class);
+        String subClassGetNumName = ReflectionUtil.getSimpleMethodSignature(subClassGetNum, '.');
+
+        instance = new ReflTestClass(1, 2, 3);
+        input = new String[]{subClassGetterName, subClassGetNumName, "5"};
+
+        result = new ReflectionChain(input, instance, null).startChain();
+
+        passes = s -> s.contains("1") && s.contains("2") && s.contains("3") && s.contains("4") && s.contains("5");
+        if (!passes.test(result)) {
+            System.out.println("Expected result to include 1, 2, 3, 4, and 5. Actual result below");
             System.out.println(result);
         }
 

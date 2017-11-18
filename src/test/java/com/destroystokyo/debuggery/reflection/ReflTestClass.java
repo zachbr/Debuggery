@@ -16,19 +16,36 @@
 
 package com.destroystokyo.debuggery.reflection;
 
+@SuppressWarnings("WeakerAccess")
 class ReflTestClass {
     private int some;
     private int random;
     private int numbers;
+    private ReflSubClass subClass;
 
     ReflTestClass(int num, int num1, int num2) {
         some = num;
         random = num1;
         numbers = num2;
+        subClass = new ReflSubClass();
     }
 
-    @SuppressWarnings("WeakerAccess")
+    public int[] getSomeNumbers() {
+        return new int[]{some, random, numbers};
+    }
+
     public int[] getNumbersPlusParam(int param) {
         return new int[]{some, random, numbers, param};
+    }
+
+    public ReflSubClass getSubClass() {
+        return subClass;
+    }
+
+    static class ReflSubClass {
+
+        public int[] get1234(int num) {
+            return new int[] {1,2,3,4, num};
+        }
     }
 }
