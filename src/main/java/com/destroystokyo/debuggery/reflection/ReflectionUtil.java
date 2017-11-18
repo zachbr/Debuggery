@@ -45,6 +45,15 @@ public class ReflectionUtil {
         }
     }
 
+    /**
+     * Attempts to parse a string for method parameters
+     * Doesn't do any actual type detection or object instantiation, that's
+     * not what this is for.
+     *
+     * @param args A list of all arguments to search
+     * @param method method to check against
+     * @return a best-effort list of method params from the given list
+     */
     @Nonnull
     public static List<String> getArgsForMethod(@Nonnull List<String> args, @Nonnull Method method) {
         if (args.size() == 0 && method.getParameterCount() == 0) {

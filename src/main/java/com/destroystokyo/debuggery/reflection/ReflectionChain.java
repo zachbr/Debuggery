@@ -53,7 +53,7 @@ public class ReflectionChain {
      */
     public String startChain() throws InputException, InvocationTargetException, IllegalAccessException {
         Map<String, Method> reflectionMap;
-        Object[] methodArgs;
+        Object[] methodParameters;
         Object result = initialInstance;
 
         int argsToSkip = 0;
@@ -74,8 +74,8 @@ public class ReflectionChain {
                 List<String> stringMethodArgs = ReflectionUtil.getArgsForMethod(this.input.subList(1, input.size()), method);
                 argsToSkip = stringMethodArgs.size();
 
-                methodArgs = InputFormatter.getTypesFromInput(method.getParameterTypes(), stringMethodArgs, this.owner);
-                result = reflect(result, method, methodArgs);
+                methodParameters = InputFormatter.getTypesFromInput(method.getParameterTypes(), stringMethodArgs, this.owner);
+                result = reflect(result, method, methodParameters);
                 iterator.remove();
             } else {
                 result = ChatColor.RED + "Unknown or unavailable method";
