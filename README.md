@@ -50,8 +50,8 @@ Furthermore, every conversion from `string -> object` is added manually, so some
 open an issue or contribute them.
 
 ## What's the biggest limitation at the moment?
-You can only access top level methods directly on the object you're interfacing with. You cannot (currently) call a
-method on the result of another method. This is planned but not currently supported.
+~~You can only access top level methods directly on the object you're interfacing with. You cannot (currently) call a
+method on the result of another method. This is planned but not currently supported.~~
 
 ## Do you have a timeline for feature development?
 Nope. I am pretty busy. If you'd like something done sooner, feel free to contribute.
