@@ -56,12 +56,12 @@ public class TestWorldBorder implements WorldBorder {
     }
 
     @Override
-    public void setCenter(double x, double z) {
+    public void setCenter(Location location) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setCenter(Location location) {
+    public void setCenter(double x, double z) {
         throw new UnsupportedOperationException();
     }
 

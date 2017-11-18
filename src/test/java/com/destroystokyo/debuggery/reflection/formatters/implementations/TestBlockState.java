@@ -50,8 +50,18 @@ public class TestBlockState implements BlockState {
     }
 
     @Override
+    public void setData(MaterialData data) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Material getType() {
         return this.data.getItemType();
+    }
+
+    @Override
+    public void setType(Material type) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -96,16 +106,6 @@ public class TestBlockState implements BlockState {
 
     @Override
     public Chunk getChunk() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setData(MaterialData data) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setType(Material type) {
         throw new UnsupportedOperationException();
     }
 

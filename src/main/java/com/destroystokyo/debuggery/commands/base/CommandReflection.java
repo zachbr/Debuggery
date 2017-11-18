@@ -49,8 +49,8 @@ public abstract class CommandReflection extends CommandBase {
     /**
      * Handles all the reflection based command logic
      *
-     * @param sender sender to send information to
-     * @param args   command arguments
+     * @param sender   sender to send information to
+     * @param args     command arguments
      * @param instance instance of the class type
      * @return true if handled successfully
      */

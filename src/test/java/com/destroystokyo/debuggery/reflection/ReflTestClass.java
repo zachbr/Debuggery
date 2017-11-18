@@ -45,7 +45,7 @@ class ReflTestClass {
     static class ReflSubClass {
 
         public int[] get1234(int num) {
-            return new int[] {1,2,3,4, num};
+            return new int[]{1, 2, 3, 4, num};
         }
     }
 }

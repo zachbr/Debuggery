@@ -23,7 +23,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.function.Predicate;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class ReflectionChainTest {
 

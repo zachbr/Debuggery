@@ -29,12 +29,12 @@ public class TestLocation extends Location {
     }
 
     @Override
-    public void setWorld(World world) {
+    public World getWorld() {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public World getWorld() {
+    public void setWorld(World world) {
         throw new UnsupportedOperationException();
     }
 

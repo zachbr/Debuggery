@@ -50,7 +50,7 @@ public class ReflectionUtil {
      * Doesn't do any actual type detection or object instantiation, that's
      * not what this is for.
      *
-     * @param args A list of all arguments to search
+     * @param args   A list of all arguments to search
      * @param method method to check against
      * @return a best-effort list of method params from the given list
      */
@@ -103,7 +103,7 @@ public class ReflectionUtil {
     private static Map<String, Method> createMethodMapFor(Class clazz) {
         Map<String, Method> map = new HashMap<>();
         Map<String, Integer> methodCollisionMap = new HashMap<>();
-        char[] acceptableParamVals = {'.', '*', ',', ';', '\'', '`','⛄','-','_'};
+        char[] acceptableParamVals = {'.', '*', ',', ';', '\'', '`', '⛄', '-', '_'};
 
         for (Method method : getAllPublicMethods(clazz)) {
             String identifier;
