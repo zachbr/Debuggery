@@ -19,7 +19,7 @@ main: com.destroystokyo.debuggery.Debuggery
 version: @version@
 author: Zbob750
 website: https://github.com/Zbob750/Debuggery
-description: A small plugin to lookup API values at runtime.
+description: A small plugin designed to expose API values at runtime.
 commands:
     debuggery:
         description: Debuggery Command!
