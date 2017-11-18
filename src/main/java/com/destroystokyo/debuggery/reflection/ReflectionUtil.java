@@ -25,6 +25,25 @@ import java.util.List;
 import java.util.Map;
 
 public class ReflectionUtil {
+    private static Map<Class, Map<String, Method>> globalMethodMap = new HashMap<>();
+
+    /**
+     * Gets a method map for the specified class
+     * Will check the local cache before generating a new one.
+     *
+     * @param classIn class to get a method map for
+     * @return method map for class
+     */
+    @Nonnull
+    public static Map<String, Method> getMethodMapFor(Class classIn) {
+        if (globalMethodMap.containsKey(classIn)) {
+            return globalMethodMap.get(classIn);
+        } else {
+            Map<String, Method> methodMap = createMethodMapFor(classIn);
+            globalMethodMap.put(classIn, methodMap);
+            return methodMap;
+        }
+    }
 
     /**
      * Gets all public methods associated with a class
@@ -53,7 +72,7 @@ public class ReflectionUtil {
      * @return a new Map
      */
     @Nonnull
-    public static Map<String, Method> createMethodMapFor(Class clazz) {
+    private static Map<String, Method> createMethodMapFor(Class clazz) {
         Map<String, Method> map = new HashMap<>();
         Map<String, Integer> methodCollisionMap = new HashMap<>();
         char[] acceptableParamVals = {'.', '*', ',', ';', '\''};

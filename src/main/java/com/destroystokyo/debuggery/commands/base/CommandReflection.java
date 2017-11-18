@@ -95,7 +95,7 @@ public abstract class CommandReflection extends CommandBase {
 
     protected void updateReflectionClass(Class typeIn) {
         if (this.classType != typeIn) {
-            availableMethods = ReflectionUtil.createMethodMapFor(typeIn);
+            availableMethods = ReflectionUtil.getMethodMapFor(typeIn);
             this.classType = typeIn;
         }
     }
