@@ -21,10 +21,7 @@ import org.apache.commons.lang3.Validate;
 import javax.annotation.Nonnull;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ReflectionUtil {
     private static Map<Class, Map<String, Method>> globalMethodMap = new HashMap<>();
@@ -50,9 +47,15 @@ public class ReflectionUtil {
 
     @Nonnull
     public static List<String> getArgsForMethod(@Nonnull List<String> args, @Nonnull Method method) {
+        if (args.size() == 0 && method.getParameterCount() == 0) {
+            return Collections.emptyList();
+        }
+
         List<String> argsOut = new ArrayList<>();
 
-        if (args.size() != 0 && method.getParameterCount() != 0) {
+        if (args.size() < method.getParameterCount()) {
+            argsOut.addAll(args);
+        } else {
             for (int i = 0; i < method.getParameterCount(); i++) {
                 argsOut.add(args.get(i));
             }

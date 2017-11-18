@@ -37,12 +37,14 @@ public class InputFormatter {
 
     @Nonnull
     public static Object[] getTypesFromInput(Class[] classes, List<String> input, @Nullable CommandSender sender) throws InputException {
+        if (input.size() == 0) {
+            return new Object[0];
+        }
+
         List<Object> out = new ArrayList<>();
 
-        if (input.size() != 0) {
-            for (int i = 0; i < classes.length; i++) {
-                out.add(getTypeForClass(classes[i], input.get(i), sender));
-            }
+        for (int i = 0; i < input.size(); i++) {
+            out.add(getTypeForClass(classes[i], input.get(i), sender));
         }
 
         return out.toArray();
