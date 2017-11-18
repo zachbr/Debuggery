@@ -25,15 +25,16 @@ import java.util.function.Predicate;
 
 import static org.junit.Assert.*;
 
-public class ReflectCallTest {
+public class ReflectionChainTest {
 
     @Test
     public void reflect() throws NoSuchMethodException, IllegalAccessException, InputException, InvocationTargetException {
         Method method = ReflTestClass.class.getMethod("getNumbersPlusParam", int.class);
+        String methodName = ReflectionUtil.getSimpleMethodSignature(method, '.');
         ReflTestClass instance = new ReflTestClass(1, 2, 3);
-        String[] input = new String[]{"4"};
+        String[] input = new String[]{methodName, "4"};
 
-        String result = new ReflectCall<>(instance, method, input, null).reflect();
+        String result = new ReflectionChain(input, instance, null).startChain();
 
         Predicate<String> passes = s -> s.contains("1") && s.contains("2") && s.contains("3") && s.contains("4");
         if (!passes.test(result)) {

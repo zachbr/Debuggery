@@ -34,7 +34,7 @@ public class ReflectionUtilTest {
     public void createMethodMapFor() {
         final Class TESTER = World.class;
 
-        Set<String> reflUtil = ReflectionUtil.createMethodMapFor(TESTER).keySet();
+        Set<String> reflUtil = ReflectionUtil.getMethodMapFor(TESTER).keySet();
         HashMap<Method, Boolean> reflection = new HashMap<>();
 
         Arrays.stream(TESTER.getMethods())

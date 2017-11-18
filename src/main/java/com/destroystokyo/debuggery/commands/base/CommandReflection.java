@@ -16,12 +16,11 @@
 
 package com.destroystokyo.debuggery.commands.base;
 
-import com.destroystokyo.debuggery.reflection.ReflectCall;
+import com.destroystokyo.debuggery.reflection.ReflectionChain;
 import com.destroystokyo.debuggery.reflection.ReflectionUtil;
 import com.destroystokyo.debuggery.reflection.formatters.InputException;
 import com.destroystokyo.debuggery.util.FancyChatException;
 import com.destroystokyo.debuggery.util.PlatformUtil;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -29,9 +28,7 @@ import org.bukkit.command.CommandSender;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public abstract class CommandReflection extends CommandBase {
     private Map<String, Method> availableMethods;
@@ -54,11 +51,11 @@ public abstract class CommandReflection extends CommandBase {
      *
      * @param sender sender to send information to
      * @param args   command arguments
-     * @param object instance of the class type
+     * @param instance instance of the class type
      * @return true if handled successfully
      */
-    protected boolean doReflectionLookups(CommandSender sender, String[] args, Object object) {
-        Validate.isInstanceOf(classType, object);
+    protected boolean doReflectionLookups(CommandSender sender, String[] args, Object instance) {
+        Validate.isInstanceOf(classType, instance);
         final String inputMethod = args[0];
 
         if (!availableMethods.containsKey(inputMethod)) {
@@ -66,12 +63,10 @@ public abstract class CommandReflection extends CommandBase {
             return true;
         }
 
-        Method method = availableMethods.get(inputMethod);
-        String[] methodArgs = ArrayUtils.removeElement(args, args[0]);
         String output;
 
         try {
-            output = new ReflectCall<>(object, method, methodArgs, sender).reflect();
+            output = new ReflectionChain(args, instance, sender).startChain();
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | InputException ex) {
             final String errorMessage = ex instanceof InputException ? "Exception deducing proper types from your input!" : "Exception invoking method - See console for more details!";
             final Throwable cause = ex.getCause() == null ? ex : ex.getCause();
@@ -102,10 +97,34 @@ public abstract class CommandReflection extends CommandBase {
 
     @Override
     public List<String> tabCompleteLogic(CommandSender sender, Command command, String alias, String[] args) {
-        if (args.length > 1) {
-            return Collections.emptyList();
+        List<String> arguments = new ArrayList<>(Arrays.asList(args));
+        Map<String, Method> reflectionMap = this.availableMethods;
+        Class returnType = this.classType;
+
+        int argsToSkip = 0;
+        Iterator<String> iterator = arguments.iterator();
+
+        while (iterator.hasNext()) {
+            String currentArg = iterator.next();
+            if (argsToSkip > 0) {
+                iterator.remove();
+                argsToSkip--;
+                reflectionMap = null;
+                continue;
+            }
+
+            reflectionMap = ReflectionUtil.getMethodMapFor(returnType);
+
+            if (reflectionMap.get(currentArg) != null) {
+                Method method = reflectionMap.get(currentArg);
+                List<String> stringMethodArgs = ReflectionUtil.getArgsForMethod(arguments.subList(1, arguments.size()), method);
+                argsToSkip = stringMethodArgs.size();
+
+                returnType = method.getReturnType();
+                iterator.remove();
+            }
         }
 
-        return getCompletionsMatching(args, availableMethods.keySet());
+        return reflectionMap == null ? Collections.emptyList() : getCompletionsMatching(args, reflectionMap.keySet());
     }
 }

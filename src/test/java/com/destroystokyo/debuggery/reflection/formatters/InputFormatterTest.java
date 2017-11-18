@@ -30,6 +30,8 @@ import org.bukkit.material.MaterialData;
 import org.bukkit.permissions.PermissionDefault;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static org.junit.Assert.*;
 
 public class InputFormatterTest {
@@ -58,7 +60,7 @@ public class InputFormatterTest {
                 "§"
         };
 
-        Object[] output = InputFormatter.getTypesFromInput(inputTypes, input, null);
+        Object[] output = InputFormatter.getTypesFromInput(inputTypes, Arrays.asList(input), null);
 
         // First let's make sure we didn't lose anything, or get anything
         assertTrue(inputTypes.length == output.length);
@@ -102,7 +104,7 @@ public class InputFormatterTest {
                 "NOT_OP"
         };
 
-        Object[] output = InputFormatter.getTypesFromInput(inputTypes, input, null);
+        Object[] output = InputFormatter.getTypesFromInput(inputTypes, Arrays.asList(input), null);
 
         // First let's make sure we didn't lose anything, or get anything
         assertTrue(inputTypes.length == output.length);
@@ -125,7 +127,7 @@ public class InputFormatterTest {
         Class[] inputTypes = {Material.class, Material.class, Material.class};
         String[] input = {"gold_block", "DIAMOND_SWORD", "blaze_ROD"};
 
-        Object[] output = InputFormatter.getTypesFromInput(inputTypes, input, null);
+        Object[] output = InputFormatter.getTypesFromInput(inputTypes, Arrays.asList(input), null);
 
         // First let's make sure we didn't lose anything, or get anything
         assertTrue(inputTypes.length == output.length);
@@ -146,7 +148,7 @@ public class InputFormatterTest {
         Class[] inputTypes = {ItemStack.class};
         String[] input = {"diamond"};
 
-        Object[] output = InputFormatter.getTypesFromInput(inputTypes, input, null);
+        Object[] output = InputFormatter.getTypesFromInput(inputTypes, Arrays.asList(input), null);
 
         // First let's make sure we didn't lose anything, or get anything
         assertTrue(inputTypes.length == output.length);
@@ -165,7 +167,7 @@ public class InputFormatterTest {
         Class[] inputTypes = {MaterialData.class};
         String[] input = {"diamond_spade:24"};
 
-        Object[] output = InputFormatter.getTypesFromInput(inputTypes, input, null);
+        Object[] output = InputFormatter.getTypesFromInput(inputTypes, Arrays.asList(input), null);
 
         // First let's make sure we didn't lose anything, or get anything
         assertTrue(inputTypes.length == output.length);
@@ -184,7 +186,7 @@ public class InputFormatterTest {
         Class[] inputTypes = {GameMode.class, GameMode.class};
         String[] input = {"1", "adventure"};
 
-        Object[] output = InputFormatter.getTypesFromInput(inputTypes, input, null);
+        Object[] output = InputFormatter.getTypesFromInput(inputTypes, Arrays.asList(input), null);
 
         // First let's make sure we didn't lose anything, or get anything
         assertTrue(inputTypes.length == output.length);
@@ -204,7 +206,7 @@ public class InputFormatterTest {
         Class[] inputTypes = {Difficulty.class, Difficulty.class};
         String[] input = {"3", "peaceful"};
 
-        Object[] output = InputFormatter.getTypesFromInput(inputTypes, input, null);
+        Object[] output = InputFormatter.getTypesFromInput(inputTypes, Arrays.asList(input), null);
 
         // First let's make sure we didn't lose anything, or get anything
         assertTrue(inputTypes.length == output.length);
@@ -224,7 +226,7 @@ public class InputFormatterTest {
         Class[] inputTypes = {Class[].class};
         String[] input = {"Zombie,Creeper,Pig"};
 
-        Object[] output = InputFormatter.getTypesFromInput(inputTypes, input, null);
+        Object[] output = InputFormatter.getTypesFromInput(inputTypes, Arrays.asList(input), null);
 
         // First let's make sure we didn't lose anything, or get anything
         assertTrue(inputTypes.length == output.length);

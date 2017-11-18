@@ -28,6 +28,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Handles formatting the arguments we send to method invocation
@@ -35,11 +36,13 @@ import java.util.List;
 public class InputFormatter {
 
     @Nonnull
-    public static Object[] getTypesFromInput(Class[] classes, String[] input, @Nullable CommandSender sender) throws InputException {
+    public static Object[] getTypesFromInput(Class[] classes, List<String> input, @Nullable CommandSender sender) throws InputException {
         List<Object> out = new ArrayList<>();
 
-        for (int i = 0; i < classes.length; i++) {
-            out.add(getTypeForClass(classes[i], input[i], sender));
+        if (input.size() != 0) {
+            for (int i = 0; i < classes.length; i++) {
+                out.add(getTypeForClass(classes[i], input.get(i), sender));
+            }
         }
 
         return out.toArray();
@@ -65,6 +68,8 @@ public class InputFormatter {
             return getLocation(input, sender);
         } else if (clazz.equals(Entity.class)) {
             return getEntity(input, sender);
+        } else if (clazz.equals(UUID.class)) {
+            return getUUID(input, sender);
         } else if (clazz.equals(GameMode.class)) {
             return getGameMode(input);
         } else if (clazz.equals(Difficulty.class)) {
@@ -78,6 +83,23 @@ public class InputFormatter {
         }
 
         return null; // TODO
+    }
+
+    private static UUID getUUID(String input, CommandSender sender) throws InputException {
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
+
+            Entity entity = getEntity(input, sender);
+            if (entity != null) {
+                return entity.getUniqueId();
+            }
+        }
+
+        try {
+            return UUID.fromString(input);
+        } catch (IllegalArgumentException ex) {
+            throw new InputException(ex);
+        }
     }
 
     private static Object getPrimitive(Class clazz, String input) throws InputException {

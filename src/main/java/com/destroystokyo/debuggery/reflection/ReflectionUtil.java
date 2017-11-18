@@ -16,6 +16,8 @@
 
 package com.destroystokyo.debuggery.reflection;
 
+import org.apache.commons.lang3.Validate;
+
 import javax.annotation.Nonnull;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -35,7 +37,8 @@ public class ReflectionUtil {
      * @return method map for class
      */
     @Nonnull
-    public static Map<String, Method> getMethodMapFor(Class classIn) {
+    public static Map<String, Method> getMethodMapFor(@Nonnull Class classIn) {
+        Validate.notNull(classIn);
         if (globalMethodMap.containsKey(classIn)) {
             return globalMethodMap.get(classIn);
         } else {
@@ -43,6 +46,19 @@ public class ReflectionUtil {
             globalMethodMap.put(classIn, methodMap);
             return methodMap;
         }
+    }
+
+    @Nonnull
+    public static List<String> getArgsForMethod(@Nonnull List<String> args, @Nonnull Method method) {
+        List<String> argsOut = new ArrayList<>();
+
+        if (args.size() != 0 && method.getParameterCount() != 0) {
+            for (int i = 0; i < method.getParameterCount(); i++) {
+                argsOut.add(args.get(i));
+            }
+        }
+
+        return argsOut;
     }
 
     /**
@@ -75,7 +91,7 @@ public class ReflectionUtil {
     private static Map<String, Method> createMethodMapFor(Class clazz) {
         Map<String, Method> map = new HashMap<>();
         Map<String, Integer> methodCollisionMap = new HashMap<>();
-        char[] acceptableParamVals = {'.', '*', ',', ';', '\''};
+        char[] acceptableParamVals = {'.', '*', ',', ';', '\'', '`','⛄','-','_'};
 
         for (Method method : getAllPublicMethods(clazz)) {
             String identifier;
@@ -114,7 +130,7 @@ public class ReflectionUtil {
      * @return a simplified name
      */
     @Nonnull
-    private static String getSimpleMethodSignature(Method method, char paramVal) {
+    public static String getSimpleMethodSignature(Method method, char paramVal) {
         StringBuilder builder = new StringBuilder();
         builder.append(method.getName());
 
