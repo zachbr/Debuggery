@@ -87,8 +87,13 @@ public class ReflectionChain {
     }
 
     private Object reflect(Object instance, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
-        if (args.length != method.getParameterCount()) {
-            return "Method " + method.getName() + " requires " + method.getParameterCount() + " args.\n"
+        final int paramCount = method.getParameterCount();
+
+        if (args.length != paramCount) {
+            String name = method.getName();
+            String returnType = method.getReturnType().getSimpleName();
+
+            return "Method " + name + " requires " + paramCount + " args and returns a " + returnType + "\n"
                     + ReflectionUtil.getFormattedMethodSignature(method);
         }
 
@@ -97,7 +102,7 @@ public class ReflectionChain {
         }
 
         Object result;
-        if (method.getParameterCount() == 0) {
+        if (paramCount == 0) {
             result = method.invoke(instance);
         } else {
             result = method.invoke(instance, args);
