@@ -46,6 +46,13 @@ public class ReflectionUtil {
     }
 
     /**
+     * Clears the global method map
+     */
+    public static void clearMethodMapCache() {
+        globalMethodMap.clear();
+    }
+
+    /**
      * Attempts to parse a string for method parameters
      * Doesn't do any actual type detection or object instantiation, that's
      * not what this is for.
@@ -102,59 +109,14 @@ public class ReflectionUtil {
     @Nonnull
     private static Map<String, Method> createMethodMapFor(Class clazz) {
         Map<String, Method> map = new HashMap<>();
-        Map<String, Integer> methodCollisionMap = new HashMap<>();
-        char[] acceptableParamVals = {'.', '*', ',', ';', '\'', '`', '⛄', '-', '_'};
 
         for (Method method : getAllPublicMethods(clazz)) {
-            String identifier;
-
-            if (method.getParameterCount() == 0) {
-                identifier = getSimpleMethodSignature(method, acceptableParamVals[0]);
-            } else {
-                int methodCollisionCount = 0;
-
-                String methodID = method.getName() + method.getParameterCount();
-                if (methodCollisionMap.containsKey(methodID)) {
-                    methodCollisionCount = methodCollisionMap.get(methodID);
-                }
-
-                methodCollisionMap.put(methodID, methodCollisionCount + 1);
-                identifier = getSimpleMethodSignature(method, acceptableParamVals[methodCollisionCount]);
-            }
-
+            String identifier = getFormattedMethodSignature(method).replaceAll(" ", "");
             map.put(identifier, method);
         }
 
         return map;
     }
-
-    /**
-     * Gets a simplified method signature
-     * <p>
-     * The signature is simplified to aid in command processing and UX
-     * It will look something like this "method(..)"
-     * <p>
-     * Each param will result in an additional character between the parentheses,
-     * a method with no params will result in nothing between the parentheses
-     *
-     * @param method   which method to get a simplified name for
-     * @param paramVal the character to use between the parentheses
-     * @return a simplified name
-     */
-    @Nonnull
-    public static String getSimpleMethodSignature(Method method, char paramVal) {
-        StringBuilder builder = new StringBuilder();
-        builder.append(method.getName());
-
-        builder.append("(");
-        for (int i = 0; i < method.getParameterCount(); i++) {
-            builder.append(paramVal);
-        }
-        builder.append(")");
-
-        return builder.toString();
-    }
-
 
     /**
      * Gets a complete and formatted method signature

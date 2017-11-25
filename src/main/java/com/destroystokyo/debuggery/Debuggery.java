@@ -18,6 +18,7 @@ package com.destroystokyo.debuggery;
 
 import com.destroystokyo.debuggery.commands.*;
 import com.destroystokyo.debuggery.commands.base.CommandBase;
+import com.destroystokyo.debuggery.reflection.ReflectionUtil;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Collections;
@@ -30,6 +31,11 @@ public class Debuggery extends JavaPlugin {
     @Override
     public void onEnable() {
         this.registerCommands();
+    }
+
+    @Override
+    public void onDisable() {
+        ReflectionUtil.clearMethodMapCache();
     }
 
     private void registerCommands() {

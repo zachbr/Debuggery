@@ -31,7 +31,7 @@ public class ReflectionChainTest {
     public void reflect() throws NoSuchMethodException, IllegalAccessException, InputException, InvocationTargetException {
         // First something simple
         Method method = ReflTestClass.class.getMethod("getNumbersPlusParam", int.class);
-        String methodName = ReflectionUtil.getSimpleMethodSignature(method, '.');
+        String methodName = ReflectionUtil.getFormattedMethodSignature(method).replaceAll(" ", "");
         ReflTestClass instance = new ReflTestClass(1, 2, 3);
         String[] input = new String[]{methodName, "4"};
 
@@ -48,10 +48,10 @@ public class ReflectionChainTest {
 
         // Now test calling a method on an returned instance
         Method subClassGet = ReflTestClass.class.getMethod("getSubClass");
-        String subClassGetterName = ReflectionUtil.getSimpleMethodSignature(subClassGet, '.');
+        String subClassGetterName = ReflectionUtil.getFormattedMethodSignature(subClassGet).replaceAll(" ", "");
 
         Method subClassGetNum = ReflTestClass.ReflSubClass.class.getMethod("get1234", int.class);
-        String subClassGetNumName = ReflectionUtil.getSimpleMethodSignature(subClassGetNum, '.');
+        String subClassGetNumName = ReflectionUtil.getFormattedMethodSignature(subClassGetNum).replaceAll(" ", "");
 
         instance = new ReflTestClass(1, 2, 3);
         input = new String[]{subClassGetterName, subClassGetNumName, "5"};
