@@ -29,7 +29,6 @@ import org.bukkit.plugin.messaging.Messenger;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.lang.reflect.Array;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
@@ -147,8 +146,19 @@ public class OutputFormatter {
             array = newArray;
         }
 
-        Object[] arrayAsArray = (Object[]) array;
-        return handleCollection(Arrays.asList(arrayAsArray));
+        StringBuilder returnString = new StringBuilder("{");
+        boolean first = true;
+
+        for (Object entry : (Object[]) array) {
+            if (first) {
+                returnString.append(getOutput(entry));
+                first = false;
+            } else {
+                returnString.append(", ").append(getOutput(entry));
+            }
+        }
+
+        return returnString.append("}").toString();
     }
 
     @Nonnull
@@ -167,18 +177,6 @@ public class OutputFormatter {
 
     @Nonnull
     private static String handleCollection(Collection collection) {
-        StringBuilder returnString = new StringBuilder("{");
-        boolean first = true;
-
-        for (Object entry : collection) {
-            if (first) {
-                returnString.append(getOutput(entry));
-                first = false;
-            } else {
-                returnString.append(", ").append(getOutput(entry));
-            }
-        }
-
-        return returnString.append("}").toString();
+        return handleArray(collection.toArray());
     }
 }
