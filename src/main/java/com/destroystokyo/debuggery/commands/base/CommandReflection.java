@@ -88,6 +88,11 @@ public abstract class CommandReflection extends CommandBase {
         return true;
     }
 
+    /**
+     * Updates the locally cached reflection class
+     *
+     * @param typeIn class type to cache a reflection map for
+     */
     protected void updateReflectionClass(Class typeIn) {
         if (this.classType != typeIn) {
             availableMethods = ReflectionUtil.getMethodMapFor(typeIn);
@@ -99,28 +104,37 @@ public abstract class CommandReflection extends CommandBase {
     public List<String> tabCompleteLogic(CommandSender sender, Command command, String alias, String[] args) {
         List<String> arguments = new ArrayList<>(Arrays.asList(args));
         Map<String, Method> reflectionMap = this.availableMethods;
+        Method lastMethod = null;
         Class returnType = this.classType;
 
         int argsToSkip = 0;
+        int index = -1;
         Iterator<String> iterator = arguments.iterator();
 
         while (iterator.hasNext()) {
+            index++;
             String currentArg = iterator.next();
             if (argsToSkip > 0) {
                 iterator.remove();
                 argsToSkip--;
                 reflectionMap = null;
+
+                // Only send when last param is being tab completed, we don't want this happening during iteration
+                if (index == args.length - 1) {
+                    sender.sendMessage(ReflectionUtil.getFormattedMethodSignature(lastMethod));
+                }
+
                 continue;
             }
 
             reflectionMap = ReflectionUtil.getMethodMapFor(returnType);
 
             if (reflectionMap.get(currentArg) != null) {
-                Method method = reflectionMap.get(currentArg);
-                List<String> stringMethodArgs = ReflectionUtil.getArgsForMethod(arguments.subList(1, arguments.size()), method);
+                lastMethod = reflectionMap.get(currentArg);
+                List<String> stringMethodArgs = ReflectionUtil.getArgsForMethod(arguments.subList(1, arguments.size()), lastMethod);
                 argsToSkip = stringMethodArgs.size();
 
-                returnType = method.getReturnType();
+                returnType = lastMethod.getReturnType();
                 iterator.remove();
             }
         }
