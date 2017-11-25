@@ -88,18 +88,17 @@ public class InputFormatter {
     }
 
     private static UUID getUUID(String input, CommandSender sender) throws InputException {
-        if (sender instanceof Player) {
-            Player player = (Player) sender;
-
-            Entity entity = getEntity(input, sender);
-            if (entity != null) {
-                return entity.getUniqueId();
-            }
-        }
-
         try {
             return UUID.fromString(input);
         } catch (IllegalArgumentException ex) {
+            if (sender instanceof Player) {
+                Entity entity = getEntity(input, sender);
+
+                if (entity != null) {
+                    return entity.getUniqueId();
+                }
+            }
+
             throw new InputException(ex);
         }
     }
