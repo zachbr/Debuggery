@@ -22,6 +22,7 @@ import javax.annotation.Nonnull;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.*;
+import java.util.function.Predicate;
 
 public class ReflectionUtil {
     private static Map<Class, Map<String, Method>> globalMethodMap = new HashMap<>();
@@ -149,4 +150,37 @@ public class ReflectionUtil {
 
         return builder.toString();
     }
+
+    /**
+     * Gets the error message we should send when the input string is missing arguments
+     *
+     * @param method method with missing arguments
+     * @return error message
+     */
+    @Nonnull
+    public static String getArgMismatchString(Method method) {
+        final String methodName = method.getName();
+        final Class returnType = method.getReturnType();
+        final String returnTypeName = returnType.getSimpleName();
+        String returnInfo;
+
+        if (returnType.equals(Void.TYPE)) {
+            returnInfo = "returns void.";
+        } else if (startsWithVowel.test(returnTypeName)) {
+            returnInfo = "returns an " + returnTypeName;
+        } else {
+            returnInfo = "returns a " + returnTypeName;
+        }
+
+        return "Method " + methodName + " requires " + method.getParameterCount() + " args and " + returnInfo + "\n"
+                + ReflectionUtil.getFormattedMethodSignature(method);
+    }
+
+    /**
+     * Tests if a given string starts with a vowel
+     */
+    private static Predicate<String> startsWithVowel = s -> {
+        s = s.toLowerCase();
+        return s.startsWith("a") || s.startsWith("e") || s.startsWith("i") || s.startsWith("o") || s.startsWith("u");
+    };
 }

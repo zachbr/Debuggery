@@ -90,11 +90,7 @@ public class ReflectionChain {
         final int paramCount = method.getParameterCount();
 
         if (args.length != paramCount) {
-            String name = method.getName();
-            String returnType = method.getReturnType().getSimpleName();
-
-            return "Method " + name + " requires " + paramCount + " args and returns a " + returnType + "\n"
-                    + ReflectionUtil.getFormattedMethodSignature(method);
+            return ReflectionUtil.getArgMismatchString(method);
         }
 
         if (!method.isAccessible()) {
