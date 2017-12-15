@@ -51,7 +51,7 @@ public class ReflectionChain {
      * @throws InvocationTargetException
      * @throws IllegalAccessException
      */
-    public String startChain() throws InputException, InvocationTargetException, IllegalAccessException {
+    public String chain() throws InputException, InvocationTargetException, IllegalAccessException {
         Map<String, Method> reflectionMap;
         Object[] methodParameters;
         Object result = initialInstance;

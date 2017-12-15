@@ -17,6 +17,7 @@
 package com.destroystokyo.debuggery.reflection.formatters;
 
 import com.destroystokyo.debuggery.util.PlatformUtil;
+import org.apache.commons.lang3.NotImplementedException;
 import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
@@ -84,9 +85,10 @@ public class InputFormatter {
             return getBukkitClasses(input);
         }
 
-        return null; // TODO
+        throw new InputException(new NotImplementedException("Input handling for class type " + clazz.getSimpleName() + " not implemented yet"));
     }
 
+    @Nonnull
     private static UUID getUUID(String input, CommandSender sender) throws InputException {
         try {
             return UUID.fromString(input);
@@ -103,6 +105,7 @@ public class InputFormatter {
         }
     }
 
+    @Nonnull
     private static Object getPrimitive(Class clazz, String input) throws InputException {
         try {
             if (input == null) {

@@ -66,7 +66,7 @@ public abstract class CommandReflection extends CommandBase {
         String output;
 
         try {
-            output = new ReflectionChain(args, instance, sender).startChain();
+            output = new ReflectionChain(args, instance, sender).chain();
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | InputException ex) {
             final String errorMessage = ex instanceof InputException ? "Exception deducing proper types from your input!" : "Exception invoking method - See console for more details!";
             final Throwable cause = ex.getCause() == null ? ex : ex.getCause();
