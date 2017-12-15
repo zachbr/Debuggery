@@ -50,6 +50,7 @@ processResources {
 
 jar {
     from "LICENSE"
+    archivesBaseName = pluginName
 }
 
 test {
