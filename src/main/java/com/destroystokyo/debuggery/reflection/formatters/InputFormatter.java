@@ -18,7 +18,7 @@
 package com.destroystokyo.debuggery.reflection.formatters;
 
 import com.destroystokyo.debuggery.util.PlatformUtil;
-import org.apache.commons.lang3.NotImplementedException;
+import org.apache.commons.lang.NotImplementedException;
 import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;

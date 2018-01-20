@@ -22,7 +22,7 @@ import com.destroystokyo.debuggery.reflection.ReflectionUtil;
 import com.destroystokyo.debuggery.reflection.formatters.InputException;
 import com.destroystokyo.debuggery.util.FancyChatException;
 import com.destroystokyo.debuggery.util.PlatformUtil;
-import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -56,7 +56,7 @@ public abstract class CommandReflection extends CommandBase {
      * @return true if handled successfully
      */
     protected boolean doReflectionLookups(CommandSender sender, String[] args, Object instance) {
-        Validate.isInstanceOf(classType, instance);
+        Validate.isTrue(classType.isInstance(instance));
         final String inputMethod = args[0];
 
         if (!availableMethods.containsKey(inputMethod)) {
