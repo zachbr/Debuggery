@@ -26,7 +26,7 @@ import java.util.*;
 import java.util.function.Predicate;
 
 public class ReflectionUtil {
-    private static Map<Class, Map<String, Method>> globalMethodMap = new HashMap<>();
+    private static final Map<Class, Map<String, Method>> globalMethodMap = new HashMap<>();
 
     /**
      * Gets a method map for the specified class
@@ -98,7 +98,7 @@ public class ReflectionUtil {
             }
         }
 
-        return methods.toArray(new Method[methods.size()]);
+        return methods.toArray(new Method[0]);
     }
 
     /**
@@ -180,7 +180,7 @@ public class ReflectionUtil {
     /**
      * Tests if a given string starts with a vowel
      */
-    private static Predicate<String> startsWithVowel = s -> {
+    private static final Predicate<String> startsWithVowel = s -> {
         s = s.toLowerCase();
         return s.startsWith("a") || s.startsWith("e") || s.startsWith("i") || s.startsWith("o") || s.startsWith("u");
     };

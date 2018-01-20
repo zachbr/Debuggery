@@ -235,7 +235,7 @@ public class InputFormatter {
             classList.add(getBukkitClass(className));
         }
 
-        return classList.toArray(new Class[classList.size()]);
+        return classList.toArray(new Class[0]);
     }
 
     @Nonnull

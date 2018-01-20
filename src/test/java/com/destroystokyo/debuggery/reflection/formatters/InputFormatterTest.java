@@ -33,10 +33,13 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 public class InputFormatterTest {
 
+    @SuppressWarnings("RedundantCast")
     @Test
     public void testPrimitives() throws InputException {
         Class[] inputTypes = {
@@ -64,7 +67,7 @@ public class InputFormatterTest {
         Object[] output = InputFormatter.getTypesFromInput(inputTypes, Arrays.asList(input), null);
 
         // First let's make sure we didn't lose anything, or get anything
-        assertTrue(inputTypes.length == output.length);
+        assertEquals(inputTypes.length, output.length);
 
         // Next let's make sure everything is the right type
         // Java will autobox away our primitives, test against wrappers
@@ -79,14 +82,14 @@ public class InputFormatterTest {
 
         // Finally, let's make sure the values are correct
         // Yes, I am aware some of these casts are redundant, deal with it
-        assertTrue(output[0].equals((byte) 127));
-        assertTrue(output[1].equals((short) 15));
-        assertTrue(output[2].equals((int) 11612));
-        assertTrue(output[3].equals((long) 5512512));
-        assertTrue(output[4].equals((float) .0451));
-        assertTrue(output[5].equals((double) 2.254));
-        assertTrue(output[6].equals((boolean) true));
-        assertTrue(output[7].equals((char) '§'));
+        assertEquals(output[0], ((byte) 127));
+        assertEquals(output[1], ((short) 15));
+        assertEquals(output[2], ((int) 11612));
+        assertEquals(output[3], ((long) 5512512));
+        assertEquals(output[4], ((float) .0451));
+        assertEquals(output[5], ((double) 2.254));
+        assertEquals(output[6], ((boolean) true));
+        assertEquals(output[7], ((char) '§'));
     }
 
     @Test
@@ -108,7 +111,7 @@ public class InputFormatterTest {
         Object[] output = InputFormatter.getTypesFromInput(inputTypes, Arrays.asList(input), null);
 
         // First let's make sure we didn't lose anything, or get anything
-        assertTrue(inputTypes.length == output.length);
+        assertEquals(inputTypes.length, output.length);
 
         // Next let's make sure everything is the right type
         assertTrue(output[0] instanceof WeatherType);
@@ -117,10 +120,10 @@ public class InputFormatterTest {
         assertTrue(output[3] instanceof PermissionDefault);
 
         // Finally, let's make sure the values are correct
-        assertTrue(output[0] == WeatherType.DOWNFALL);
-        assertTrue(output[1] == EquipmentSlot.HEAD);
-        assertTrue(output[2] == MainHand.LEFT);
-        assertTrue(output[3] == PermissionDefault.NOT_OP);
+        assertSame(output[0], WeatherType.DOWNFALL);
+        assertSame(output[1], EquipmentSlot.HEAD);
+        assertSame(output[2], MainHand.LEFT);
+        assertSame(output[3], PermissionDefault.NOT_OP);
     }
 
     @Test
@@ -131,7 +134,7 @@ public class InputFormatterTest {
         Object[] output = InputFormatter.getTypesFromInput(inputTypes, Arrays.asList(input), null);
 
         // First let's make sure we didn't lose anything, or get anything
-        assertTrue(inputTypes.length == output.length);
+        assertEquals(inputTypes.length, output.length);
 
         // Next let's make sure everything is the right type
         for (Object object : output) {
@@ -139,9 +142,9 @@ public class InputFormatterTest {
         }
 
         // Finally, let's make sure the values are correct
-        assertTrue(output[0] == Material.GOLD_BLOCK);
-        assertTrue(output[1] == Material.DIAMOND_SWORD);
-        assertTrue(output[2] == Material.BLAZE_ROD);
+        assertSame(output[0], Material.GOLD_BLOCK);
+        assertSame(output[1], Material.DIAMOND_SWORD);
+        assertSame(output[2], Material.BLAZE_ROD);
     }
 
     @Test
@@ -152,7 +155,7 @@ public class InputFormatterTest {
         Object[] output = InputFormatter.getTypesFromInput(inputTypes, Arrays.asList(input), null);
 
         // First let's make sure we didn't lose anything, or get anything
-        assertTrue(inputTypes.length == output.length);
+        assertEquals(inputTypes.length, output.length);
 
         // Next let's make sure everything is the right type
         for (Object object : output) {
@@ -160,7 +163,7 @@ public class InputFormatterTest {
         }
 
         // Finally, let's make sure the values are correct
-        assertTrue(((ItemStack) output[0]).getType() == Material.DIAMOND);
+        assertSame(((ItemStack) output[0]).getType(), Material.DIAMOND);
     }
 
     @Test
@@ -171,7 +174,7 @@ public class InputFormatterTest {
         Object[] output = InputFormatter.getTypesFromInput(inputTypes, Arrays.asList(input), null);
 
         // First let's make sure we didn't lose anything, or get anything
-        assertTrue(inputTypes.length == output.length);
+        assertEquals(inputTypes.length, output.length);
 
         // Next let's make sure everything is the right type
         for (Object object : output) {
@@ -179,7 +182,7 @@ public class InputFormatterTest {
         }
 
         // Finally, let's make sure the values are correct
-        assertTrue(((MaterialData) output[0]).getItemType() == Material.DIAMOND_SPADE);
+        assertSame(((MaterialData) output[0]).getItemType(), Material.DIAMOND_SPADE);
     }
 
     @Test
@@ -190,7 +193,7 @@ public class InputFormatterTest {
         Object[] output = InputFormatter.getTypesFromInput(inputTypes, Arrays.asList(input), null);
 
         // First let's make sure we didn't lose anything, or get anything
-        assertTrue(inputTypes.length == output.length);
+        assertEquals(inputTypes.length, output.length);
 
         // Next let's make sure everything is the right type
         for (Object object : output) {
@@ -198,8 +201,8 @@ public class InputFormatterTest {
         }
 
         // Finally, let's make sure the values are correct
-        assertTrue(output[0] == GameMode.CREATIVE);
-        assertTrue(output[1] == GameMode.ADVENTURE);
+        assertSame(output[0], GameMode.CREATIVE);
+        assertSame(output[1], GameMode.ADVENTURE);
     }
 
     @Test
@@ -210,7 +213,7 @@ public class InputFormatterTest {
         Object[] output = InputFormatter.getTypesFromInput(inputTypes, Arrays.asList(input), null);
 
         // First let's make sure we didn't lose anything, or get anything
-        assertTrue(inputTypes.length == output.length);
+        assertEquals(inputTypes.length, output.length);
 
         // Next let's make sure everything is the right type
         for (Object object : output) {
@@ -218,8 +221,8 @@ public class InputFormatterTest {
         }
 
         // Finally, let's make sure the values are correct
-        assertTrue(output[0] == Difficulty.HARD);
-        assertTrue(output[1] == Difficulty.PEACEFUL);
+        assertSame(output[0], Difficulty.HARD);
+        assertSame(output[1], Difficulty.PEACEFUL);
     }
 
     @Test
@@ -230,7 +233,7 @@ public class InputFormatterTest {
         Object[] output = InputFormatter.getTypesFromInput(inputTypes, Arrays.asList(input), null);
 
         // First let's make sure we didn't lose anything, or get anything
-        assertTrue(inputTypes.length == output.length);
+        assertEquals(inputTypes.length, output.length);
 
         // Next let's make sure everything is the right type
         for (Object object : output) {
@@ -239,9 +242,9 @@ public class InputFormatterTest {
 
         // Finally, let's make sure the values are correct
         Class[] classes = (Class[]) output[0];
-        assertTrue(classes[0].equals(Zombie.class));
-        assertTrue(classes[1].equals(Creeper.class));
-        assertTrue(classes[2].equals(Pig.class));
+        assertEquals(classes[0], Zombie.class);
+        assertEquals(classes[1], Creeper.class);
+        assertEquals(classes[2], Pig.class);
     }
 
 }

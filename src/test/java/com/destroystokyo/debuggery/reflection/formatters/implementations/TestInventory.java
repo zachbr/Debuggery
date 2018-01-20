@@ -25,6 +25,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
+import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
@@ -217,6 +218,7 @@ public class TestInventory implements Inventory {
         throw new UnsupportedOperationException();
     }
 
+    @Nonnull
     @Override
     public ListIterator<ItemStack> iterator() {
         throw new UnsupportedOperationException();

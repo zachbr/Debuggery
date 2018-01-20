@@ -36,7 +36,6 @@ import java.util.Map;
 /**
  * Handles formatting the objects we get back from method invocation
  */
-@SuppressWarnings("Duplicates")
 public class OutputFormatter {
 
     @Nullable
