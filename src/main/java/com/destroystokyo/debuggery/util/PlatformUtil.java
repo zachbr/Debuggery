@@ -31,23 +31,24 @@ import java.util.List;
  * have stuffed in the main class.
  */
 public class PlatformUtil {
-    private static Boolean runningSpigotOrDeriv = null;
+    private static Boolean baseComponentApiPresent = null;
 
     /**
-     * Gets whether or not this server is running Spigot or a derivative
+     * Checks if we are able to use our fancy chat exceptions
+     * Really we're checking for Spigot-API's BaseComponent API
      *
-     * @return true if the server is running Spigot or a derivative
+     * @return true if we can use our fancy chat exceptions
      */
-    public static boolean isServerRunningSpigotOrDeriv() {
-        if (runningSpigotOrDeriv == null) {
+    public static boolean canUseFancyChatExceptions() {
+        if (baseComponentApiPresent == null) {
             try {
-                runningSpigotOrDeriv = Class.forName("org.spigotmc.SpigotConfig") != null;
+                baseComponentApiPresent = Class.forName("net.md_5.bungee.api.chat.BaseComponent") != null;
             } catch (ClassNotFoundException ignored) {
-                runningSpigotOrDeriv = false;
+                baseComponentApiPresent = false;
             }
         }
 
-        return runningSpigotOrDeriv;
+        return baseComponentApiPresent;
     }
 
     /**

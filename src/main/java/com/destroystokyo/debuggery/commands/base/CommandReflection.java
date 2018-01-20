@@ -72,13 +72,13 @@ public abstract class CommandReflection extends CommandBase {
             final String errorMessage = ex instanceof InputException ? "Exception deducing proper types from your input!" : "Exception invoking method - See console for more details!";
             final Throwable cause = ex.getCause() == null ? ex : ex.getCause();
 
-            if (PlatformUtil.isServerRunningSpigotOrDeriv()) {
+            if (PlatformUtil.canUseFancyChatExceptions()) {
                 FancyChatException.sendFancyChatException(sender, errorMessage, cause);
             } else {
                 sender.sendMessage(ChatColor.RED + errorMessage);
             }
 
-            ex.printStackTrace();
+            cause.printStackTrace();
             return true;
         }
 
