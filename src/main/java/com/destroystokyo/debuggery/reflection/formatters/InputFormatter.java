@@ -185,21 +185,21 @@ public class InputFormatter {
 
         String[] contents = input.split(",", 4);
         double[] xyz = new double[3];
+
         World world = Bukkit.getWorld(contents[0]);
+        if (world == null) {
+            throw new InputException(new NullPointerException("No world by that name could be found"));
+        }
 
         try {
-            for (int i = 1; i < contents.length; i++) {
-                xyz[i - 1] = Double.parseDouble(contents[i]);
+            for (int i = 0; i < contents.length - 1; i++) {
+                xyz[i] = Double.parseDouble(contents[i + 1]); // offset by 1 because of world at index 0
             }
         } catch (NumberFormatException ex) {
             throw new InputException(ex);
         }
 
-        try {
-            return new Location(world, xyz[0], xyz[1], xyz[2]);
-        } catch (IllegalArgumentException ex) {
-            throw new InputException(ex);
-        }
+        return new Location(world, xyz[0], xyz[1], xyz[2]);
     }
 
     @Nonnull
