@@ -33,13 +33,13 @@ import java.util.*;
  * Represents a chain of reflection operations
  */
 public class ReflectionChain {
-    private final List<String> input = new ArrayList<>();
+    private final List<String> input;
     private final Object initialInstance;
     @Nullable
     private final CommandSender owner;
 
     public ReflectionChain(@Nonnull String[] args, @Nonnull Object initialInstance, @Nullable CommandSender owner) {
-        input.addAll(Arrays.asList(args));
+        this.input = Arrays.asList(args);
         this.initialInstance = initialInstance;
         this.owner = owner;
     }
@@ -58,12 +58,10 @@ public class ReflectionChain {
         Object result = initialInstance;
 
         int argsToSkip = 0;
-        Iterator<String> iterator = input.iterator();
 
-        while (iterator.hasNext()) {
-            String currentArg = iterator.next();
+        for (int i = 0; i < input.size(); i++) {
+            String currentArg = input.get(i);
             if (argsToSkip > 0) {
-                iterator.remove();
                 argsToSkip--;
                 continue;
             }
@@ -72,12 +70,11 @@ public class ReflectionChain {
 
             if (reflectionMap.get(currentArg) != null) {
                 Method method = reflectionMap.get(currentArg);
-                List<String> stringMethodArgs = ReflectionUtil.getArgsForMethod(this.input.subList(1, input.size()), method);
+                List<String> stringMethodArgs = ReflectionUtil.getArgsForMethod(this.input.subList(i + 1, input.size()), method);
                 argsToSkip = stringMethodArgs.size();
 
                 methodParameters = InputFormatter.getTypesFromInput(method.getParameterTypes(), stringMethodArgs, this.owner);
                 result = reflect(result, method, methodParameters);
-                iterator.remove();
             } else {
                 result = ChatColor.RED + "Unknown or unavailable method";
                 break;

@@ -103,25 +103,21 @@ public abstract class CommandReflection extends CommandBase {
 
     @Override
     public List<String> tabCompleteLogic(CommandSender sender, Command command, String alias, String[] args) {
-        List<String> arguments = new ArrayList<>(Arrays.asList(args));
+        List<String> arguments = Arrays.asList(args);
         Map<String, Method> reflectionMap = this.availableMethods;
         Method lastMethod = null;
         Class returnType = this.classType;
 
         int argsToSkip = 0;
-        int index = -1;
-        Iterator<String> iterator = arguments.iterator();
 
-        while (iterator.hasNext()) {
-            index++;
-            String currentArg = iterator.next();
+        for (int i = 0; i < arguments.size(); i++) {
+            String currentArg = arguments.get(i);
             if (argsToSkip > 0) {
-                iterator.remove();
                 argsToSkip--;
                 reflectionMap = null;
 
                 // Only send when last param is being tab completed, we don't want this happening during iteration
-                if (index == args.length - 1) {
+                if (i == args.length - 1) {
                     sender.sendMessage(ReflectionUtil.getFormattedMethodSignature(lastMethod));
                 }
 
@@ -136,7 +132,6 @@ public abstract class CommandReflection extends CommandBase {
                 argsToSkip = stringMethodArgs.size();
 
                 returnType = lastMethod.getReturnType();
-                iterator.remove();
             }
         }
 
