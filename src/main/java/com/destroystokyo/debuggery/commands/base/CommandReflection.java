@@ -128,7 +128,7 @@ public abstract class CommandReflection extends CommandBase {
 
             if (reflectionMap.get(currentArg) != null) {
                 lastMethod = reflectionMap.get(currentArg);
-                List<String> stringMethodArgs = ReflectionUtil.getArgsForMethod(arguments.subList(1, arguments.size()), lastMethod);
+                List<String> stringMethodArgs = ReflectionUtil.getArgsForMethod(arguments.subList(i + 1, arguments.size()), lastMethod);
                 argsToSkip = stringMethodArgs.size();
 
                 returnType = lastMethod.getReturnType();
