@@ -20,6 +20,7 @@ package com.destroystokyo.debuggery.commands.base;
 import com.destroystokyo.debuggery.reflection.ReflectionChain;
 import com.destroystokyo.debuggery.reflection.ReflectionUtil;
 import com.destroystokyo.debuggery.reflection.formatters.InputException;
+import com.destroystokyo.debuggery.reflection.formatters.OutputFormatter;
 import com.destroystokyo.debuggery.util.FancyChatException;
 import com.destroystokyo.debuggery.util.PlatformUtil;
 import org.apache.commons.lang.Validate;
@@ -64,10 +65,10 @@ public abstract class CommandReflection extends CommandBase {
             return true;
         }
 
-        String output;
+        Object lastLink;
 
         try {
-            output = new ReflectionChain(args, instance, sender).chain();
+            lastLink = new ReflectionChain(args, instance, sender).chain();
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | InputException ex) {
             final String errorMessage = ex instanceof InputException ? "Exception deducing proper types from your input!" : "Exception invoking method - See console for more details!";
             final Throwable cause = ex.getCause() == null ? ex : ex.getCause();
@@ -82,8 +83,8 @@ public abstract class CommandReflection extends CommandBase {
             return true;
         }
 
-        if (output != null) {
-            sender.sendMessage(output);
+        if (lastLink != null) {
+            sender.sendMessage(OutputFormatter.getOutput(lastLink));
         }
 
         return true;

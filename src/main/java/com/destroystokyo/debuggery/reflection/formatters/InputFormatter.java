@@ -37,6 +37,16 @@ import java.util.UUID;
  */
 public class InputFormatter {
 
+    /**
+     * Takes a given list of strings and instantiates relevant objects based on the corresponding classes
+     * given to this function.
+     *
+     * @param classes class types the string arguments should correspond to
+     * @param input   list of input strings corresponding to the relevant class type
+     * @param sender  entity to use for shortcuts like "here", "there", etc.
+     * @return array of object instances pertaining to the input types
+     * @throws InputException when there's an issue determining the proper response for a given input
+     */
     @Nonnull
     public static Object[] getTypesFromInput(Class[] classes, List<String> input, @Nullable CommandSender sender) throws InputException {
         if (input.size() == 0) {

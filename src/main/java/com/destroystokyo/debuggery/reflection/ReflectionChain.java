@@ -19,7 +19,6 @@ package com.destroystokyo.debuggery.reflection;
 
 import com.destroystokyo.debuggery.reflection.formatters.InputException;
 import com.destroystokyo.debuggery.reflection.formatters.InputFormatter;
-import com.destroystokyo.debuggery.reflection.formatters.OutputFormatter;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -37,6 +36,7 @@ public class ReflectionChain {
     private final Object initialInstance;
     @Nullable
     private final CommandSender owner;
+    private Object endingInstance;
 
     public ReflectionChain(@Nonnull String[] args, @Nonnull Object initialInstance, @Nullable CommandSender owner) {
         this.input = Arrays.asList(args);
@@ -47,12 +47,12 @@ public class ReflectionChain {
     /**
      * Performs the reflection operation
      *
-     * @return Formatted output as a result of the operation
-     * @throws InputException
-     * @throws InvocationTargetException
-     * @throws IllegalAccessException
+     * @return final object instance at the end of the chain
+     * @throws InputException            see {@link InputFormatter#getTypesFromInput(Class[], List, CommandSender)}
+     * @throws InvocationTargetException see {@link Method#invoke(Object, Object...)}
+     * @throws IllegalAccessException    see {@link Method#invoke(Object, Object...)}
      */
-    public String chain() throws InputException, InvocationTargetException, IllegalAccessException {
+    public Object chain() throws InputException, InvocationTargetException, IllegalAccessException {
         Map<String, Method> reflectionMap;
         Object[] methodParameters;
         Object result = initialInstance;
@@ -67,24 +67,38 @@ public class ReflectionChain {
             }
 
             reflectionMap = ReflectionUtil.getMethodMapFor(result.getClass());
-
-            if (reflectionMap.get(currentArg) != null) {
-                Method method = reflectionMap.get(currentArg);
-                List<String> stringMethodArgs = ReflectionUtil.getArgsForMethod(this.input.subList(i + 1, input.size()), method);
-                argsToSkip = stringMethodArgs.size();
-
-                methodParameters = InputFormatter.getTypesFromInput(method.getParameterTypes(), stringMethodArgs, this.owner);
-                result = reflect(result, method, methodParameters);
-            } else {
+            if (reflectionMap.get(currentArg) == null) {
                 result = ChatColor.RED + "Unknown or unavailable method";
                 break;
             }
+
+
+            Method method = reflectionMap.get(currentArg);
+            List<String> stringMethodArgs = ReflectionUtil.getArgsForMethod(this.input.subList(i + 1, input.size()), method);
+            argsToSkip = stringMethodArgs.size();
+
+            methodParameters = InputFormatter.getTypesFromInput(method.getParameterTypes(), stringMethodArgs, this.owner);
+            result = reflect(result, method, methodParameters);
+
         }
 
-        return OutputFormatter.getOutput(result);
+        this.endingInstance = result;
+        return result;
     }
 
-    private Object reflect(Object instance, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
+    /**
+     * Gets the object instance that this reflection chain ended at, or null
+     * if the chain was never started.
+     *
+     * @return ending object instance or null
+     */
+    @Nullable
+    public Object getEndingInstance() {
+        return this.endingInstance;
+    }
+
+    @Nullable
+    private Object reflect(@Nonnull Object instance, @Nonnull Method method, @Nonnull Object[] args) throws InvocationTargetException, IllegalAccessException {
         final int paramCount = method.getParameterCount();
 
         if (args.length != paramCount) {
@@ -95,13 +109,6 @@ public class ReflectionChain {
             method.setAccessible(true);
         }
 
-        Object result;
-        if (paramCount == 0) {
-            result = method.invoke(instance);
-        } else {
-            result = method.invoke(instance, args);
-        }
-
-        return result;
+        return method.invoke(instance, args);
     }
 }
