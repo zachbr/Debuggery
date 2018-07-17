@@ -80,13 +80,13 @@ public class OutputFormatterTest {
         byte lightLevel = 5;
         Location loc = TestLocation.LOC_ZERO;
 
-        BlockState blockState = new TestBlockState(data, lightLevel, loc);
+        BlockState blockState = new TestBlockState(data, lightLevel, loc, true);
 
         String out = OutputFormatter.getOutput(blockState);
 
         assertNotNull(out);
         assertTrue(out.contains(data.toString()));
-        assertTrue(out.contains(String.valueOf(data.getItemTypeId())));
+        assertTrue(out.contains(String.valueOf(true)) || out.contains(String.valueOf(false))); // isPlaced values
         assertTrue(out.contains(String.valueOf(lightLevel)));
         assertTrue(out.contains(loc.toString()));
     }

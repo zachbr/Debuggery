@@ -18,6 +18,7 @@
 name: Debuggery
 main: com.destroystokyo.debuggery.Debuggery
 version: @version@
+api-version: 1.13
 author: Z750
 website: https://github.com/zachbr/Debuggery
 description: A small plugin designed to expose API values at runtime.

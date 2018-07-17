@@ -37,7 +37,7 @@ tasks.withType(JavaCompile) {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile 'com.destroystokyo.paper:paper-api:1.12.2-R0.1-SNAPSHOT'
+    compile 'com.destroystokyo.paper:paper-api:1.13-pre7-R0.1-SNAPSHOT'
 }
 
 import org.apache.tools.ant.filters.ReplaceTokens

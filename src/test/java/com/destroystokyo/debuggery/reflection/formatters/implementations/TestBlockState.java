@@ -23,6 +23,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.material.MaterialData;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
@@ -33,11 +34,13 @@ public class TestBlockState implements BlockState {
     private final MaterialData data;
     private final byte lightLevel;
     private final Location loc;
+    private final boolean placed;
 
-    public TestBlockState(MaterialData data, byte lightLevel, Location loc) {
+    public TestBlockState(MaterialData data, byte lightLevel, Location loc, boolean placed) {
         this.data = data;
         this.lightLevel = lightLevel;
         this.loc = loc;
+        this.placed = placed;
     }
 
     @Override
@@ -51,7 +54,17 @@ public class TestBlockState implements BlockState {
     }
 
     @Override
+    public BlockData getBlockData() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public void setData(MaterialData data) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setBlockData(BlockData blockData) {
         throw new UnsupportedOperationException();
     }
 
@@ -63,11 +76,6 @@ public class TestBlockState implements BlockState {
     @Override
     public void setType(Material type) {
         throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public int getTypeId() {
-        return this.data.getItemTypeId();
     }
 
     @Override
@@ -111,11 +119,6 @@ public class TestBlockState implements BlockState {
     }
 
     @Override
-    public boolean setTypeId(int type) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public boolean update() {
         throw new UnsupportedOperationException();
     }
@@ -142,7 +145,7 @@ public class TestBlockState implements BlockState {
 
     @Override
     public boolean isPlaced() {
-        throw new UnsupportedOperationException();
+        return placed;
     }
 
     @Override

@@ -169,7 +169,7 @@ public class InputFormatterTest {
     @Test
     public void testMaterialData() throws InputException {
         Class[] inputTypes = {MaterialData.class};
-        String[] input = {"diamond_spade:24"};
+        String[] input = {"diamond_shovel:24"};
 
         Object[] output = InputFormatter.getTypesFromInput(inputTypes, Arrays.asList(input), null);
 
@@ -182,7 +182,7 @@ public class InputFormatterTest {
         }
 
         // Finally, let's make sure the values are correct
-        assertSame(((MaterialData) output[0]).getItemType(), Material.DIAMOND_SPADE);
+        assertSame(((MaterialData) output[0]).getItemType(), Material.DIAMOND_SHOVEL);
     }
 
     @Test
