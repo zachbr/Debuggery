@@ -124,19 +124,19 @@ public class InputFormatter {
             }
 
             if (clazz.equals(byte.class)) {
-                return Byte.valueOf(input);
+                return Byte.parseByte(input);
             } else if (clazz.equals(short.class)) {
-                return Short.valueOf(input);
+                return Short.parseShort(input);
             } else if (clazz.equals(int.class)) {
-                return Integer.valueOf(input);
+                return Integer.parseInt(input);
             } else if (clazz.equals(long.class)) {
-                return Long.valueOf(input);
+                return Long.parseLong(input);
             } else if (clazz.equals(float.class)) {
-                return Float.valueOf(input);
+                return Float.parseFloat(input);
             } else if (clazz.equals(double.class)) {
-                return Double.valueOf(input);
+                return Double.parseDouble(input);
             } else if (clazz.equals(boolean.class)) {
-                return Boolean.valueOf(input);
+                return Boolean.parseBoolean(input);
             } else if (clazz.equals(char.class)) {
                 return input.charAt(0);
             }
