@@ -49,7 +49,7 @@ processResources {
 }
 
 jar {
-    from "LICENSE"
+    from "LICENSE.md"
     archivesBaseName = pluginName
 }
 
