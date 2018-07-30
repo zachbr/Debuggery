@@ -34,12 +34,6 @@ public class ItemCommand extends CommandReflection {
         Player player = (Player) sender;
         ItemStack itemStack = player.getInventory().getItemInMainHand();
 
-
-        if (args.length == 0) {
-            sender.sendMessage(itemStack.toString());
-            return true;
-        }
-
         return doReflectionLookups(sender, args, itemStack);
     }
 }

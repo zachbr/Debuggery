@@ -21,6 +21,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.WorldBorder;
 import org.bukkit.block.BlockState;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.help.HelpMap;
 import org.bukkit.help.HelpTopic;
@@ -53,6 +54,8 @@ public class OutputFormatter {
             return handleMap((Map) object);
         } else if (object.getClass().isArray()) {
             return handleArray(object);
+        } else if (object instanceof Entity) {
+            return handleEntity((Entity) object);
         } else if (object instanceof OfflinePlayer) {
             return handleOfflinePlayer((OfflinePlayer) object);
         } else if (object instanceof BlockState) {
@@ -178,5 +181,24 @@ public class OutputFormatter {
     @Nonnull
     private static String handleCollection(Collection collection) {
         return handleArray(collection.toArray());
+    }
+
+    @Nonnull
+    private static String handleEntity(Entity entity) {
+        String out = entity.toString();
+        final boolean hasTags = out.endsWith("}");
+        final String idStr = "id=" + entity.getEntityId();
+
+        if (hasTags) {
+            // strip off ending brace and append
+            out = out.substring(0, out.length() - 1);
+            out += ", " + idStr + "}";
+        } else {
+            // just append
+            out += "{" + idStr + "}";
+        }
+
+
+        return out;
     }
 }

@@ -23,6 +23,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Optional;
+
 public class ChunkCommand extends CommandReflection {
 
     public ChunkCommand() {
@@ -32,11 +34,6 @@ public class ChunkCommand extends CommandReflection {
     @Override
     protected boolean commandLogic(CommandSender sender, Command command, String label, String[] args) {
         Player player = (Player) sender;
-
-        if (args.length == 0) {
-            sender.sendMessage(player.getLocation().getChunk().toString());
-            return true;
-        }
 
         return doReflectionLookups(sender, args, player.getLocation().getChunk());
     }

@@ -34,11 +34,6 @@ public class BlockCommand extends CommandReflection {
         Player player = (Player) sender;
         Block block = player.getTargetBlock(null, 50);
 
-        if (args.length == 0) {
-            player.sendMessage(block.toString());
-            return true;
-        }
-
         return doReflectionLookups(sender, args, block);
     }
 }

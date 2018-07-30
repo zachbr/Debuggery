@@ -41,12 +41,6 @@ public class EntityCommand extends CommandReflection {
         }
 
         updateReflectionClass(entity.getClass());
-
-        if (args.length == 0) {
-            sender.sendMessage(entity.toString());
-            return true;
-        }
-
         return doReflectionLookups(sender, args, entity);
     }
 }

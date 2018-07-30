@@ -31,11 +31,6 @@ public class ServerCommand extends CommandReflection {
 
     @Override
     protected boolean commandLogic(CommandSender sender, Command command, String label, String[] args) {
-        if (args.length == 0) {
-            sender.sendMessage(Bukkit.getServer().toString());
-            return true;
-        }
-
         return doReflectionLookups(sender, args, Bukkit.getServer());
     }
 }

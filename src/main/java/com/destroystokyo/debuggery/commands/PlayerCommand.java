@@ -32,11 +32,6 @@ public class PlayerCommand extends CommandReflection {
     protected boolean commandLogic(CommandSender sender, Command command, String label, String[] args) {
         Player player = (Player) sender;
 
-        if (args.length == 0) {
-            sender.sendMessage(player.toString());
-            return true;
-        }
-
         return doReflectionLookups(sender, args, player);
     }
 }

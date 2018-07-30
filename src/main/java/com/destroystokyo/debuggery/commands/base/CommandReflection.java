@@ -28,6 +28,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
+import javax.annotation.Nullable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
@@ -57,6 +58,15 @@ public abstract class CommandReflection extends CommandBase {
      * @return true if handled successfully
      */
     protected boolean doReflectionLookups(CommandSender sender, String[] args, Object instance) {
+        // 0 args just return info on object itself
+
+        if (args.length == 0) {
+            sender.sendMessage(getOutputStringFor(instance));
+            return true;
+        }
+
+        // more than 0 args, start chains
+
         Validate.isTrue(classType.isInstance(instance));
         final String inputMethod = args[0];
 
@@ -84,7 +94,7 @@ public abstract class CommandReflection extends CommandBase {
         }
 
         if (lastLink != null) {
-            sender.sendMessage(OutputFormatter.getOutput(lastLink));
+            sender.sendMessage(getOutputStringFor(lastLink));
         }
 
         return true;
@@ -100,6 +110,17 @@ public abstract class CommandReflection extends CommandBase {
             availableMethods = ReflectionUtil.getMethodMapFor(typeIn);
             this.classType = typeIn;
         }
+    }
+
+    /**
+     * Convenience method to run objects past the OutputFormatter
+     *
+     * @param object Object to get String output for
+     * @return textual description of Object
+     */
+    @Nullable
+    protected String getOutputStringFor(Object object) {
+        return OutputFormatter.getOutput(object);
     }
 
     @Override
