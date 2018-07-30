@@ -281,7 +281,8 @@ public class InputFormatter {
     private static Class getBukkitClass(String input) throws InputException {
         // This is only used for entities right now, so we can save some drama and just search those packages
         final String[] searchPackages = {"org.bukkit.entity", "org.bukkit.entity.minecart"};
-        String normalized = Character.toUpperCase(input.charAt(0)) + input.substring(1).toLowerCase();
+
+        String normalized = input;
         if (normalized.endsWith(".class")) {
             normalized = normalized.substring(0, normalized.length() - 6);
         }
