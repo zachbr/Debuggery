@@ -20,6 +20,7 @@ package com.destroystokyo.debuggery.reflection.formatters;
 import com.destroystokyo.debuggery.util.PlatformUtil;
 import org.apache.commons.lang.NotImplementedException;
 import org.bukkit.*;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -76,6 +77,8 @@ public class InputFormatter {
             return getBukkitClass(input);
         } else if (clazz.equals(Material.class)) {
             return getMaterial(input);
+        } else if (BlockData.class.isAssignableFrom(clazz)) {
+            return getBlockData(input);
         } else if (clazz.equals(MaterialData.class)) {
             return getMaterialData(input);
         } else if (clazz.equals(Location.class)) {
@@ -90,6 +93,8 @@ public class InputFormatter {
             return getDifficulty(input);
         } else if (Enum.class.isAssignableFrom(clazz)) { // Do not use for all enum types, lacks magic value support
             return getValueFromEnum(clazz, input);
+        } else if (clazz.equals(ItemStack[].class)) {
+            return getArrayItemStacks(input, sender);
         } else if (clazz.equals(ItemStack.class)) {
             return getItemStack(input, sender);
         } else if (clazz.equals(Class[].class)) {
@@ -157,9 +162,21 @@ public class InputFormatter {
         }
     }
 
-    @Nonnull
+    @Nullable
     private static Material getMaterial(String input) {
         return Material.matchMaterial(input);
+    }
+
+    @Nonnull
+    private static ItemStack[] getArrayItemStacks(String input, CommandSender sender) {
+        List<ItemStack> stacksOut = new ArrayList<>();
+        String[] stacksIn = input.split(",");
+
+        for (String stack : stacksIn) {
+            stacksOut.add(getItemStack(stack, sender));
+        }
+
+        return stacksOut.toArray(new ItemStack[0]);
     }
 
     @Nonnull
@@ -170,6 +187,18 @@ public class InputFormatter {
             }
         }
         return new ItemStack(getMaterial(input));
+    }
+
+    @Nonnull
+    private static BlockData getBlockData(String input) {
+        // first try from straight material name
+        Material material = getMaterial(input);
+        if (material != null) {
+            return Bukkit.createBlockData(material);
+        }
+
+        // next try using vanilla data strings
+        return Bukkit.createBlockData(input);
     }
 
     @Nonnull

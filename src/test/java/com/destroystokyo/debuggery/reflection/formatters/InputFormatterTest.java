@@ -21,6 +21,7 @@ import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.WeatherType;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Pig;
 import org.bukkit.entity.Zombie;
@@ -145,6 +146,29 @@ public class InputFormatterTest {
         assertSame(output[0], Material.GOLD_BLOCK);
         assertSame(output[1], Material.DIAMOND_SWORD);
         assertSame(output[2], Material.BLAZE_ROD);
+    }
+
+    @Test
+    public void testArrayItemStacks() throws InputException {
+        Class[] inputTypes = {ItemStack[].class};
+        String[] input = {"diamond,sand,diamond_sword"};
+
+        Object[] output = InputFormatter.getTypesFromInput(inputTypes, Arrays.asList(input), null);
+
+        // ensure length of input is the same as output
+        assertEquals(inputTypes.length, output.length);
+
+        // ensure output is of proper type
+        for (Object object : output) {
+            assertTrue(object instanceof ItemStack[]);
+        }
+
+        ItemStack[] itemStackArr = (ItemStack[]) output[0];
+
+        // verify types in array
+        assertSame(itemStackArr[0].getType(), Material.DIAMOND);
+        assertSame(itemStackArr[1].getType(), Material.SAND);
+        assertSame(itemStackArr[2].getType(), Material.DIAMOND_SWORD);
     }
 
     @Test
