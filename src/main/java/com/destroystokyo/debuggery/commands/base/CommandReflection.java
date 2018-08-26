@@ -67,7 +67,7 @@ public abstract class CommandReflection extends CommandBase {
 
         // more than 0 args, start chains
 
-        Validate.isTrue(classType.isInstance(instance));
+        Validate.isTrue(classType.isInstance(instance), "Instance is of type: " + classType.getSimpleName() + "but was expecting: " + classType.getSimpleName());
         final String inputMethod = args[0];
 
         if (!availableMethods.containsKey(inputMethod)) {
@@ -137,11 +137,6 @@ public abstract class CommandReflection extends CommandBase {
             if (argsToSkip > 0) {
                 argsToSkip--;
                 reflectionMap = null;
-
-                // Only send when last param is being tab completed, we don't want this happening during iteration
-                if (i == args.length - 1) {
-                    sender.sendMessage(ReflectionUtil.getFormattedMethodSignature(lastMethod));
-                }
 
                 continue;
             }
