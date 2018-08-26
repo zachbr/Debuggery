@@ -35,12 +35,14 @@ public class TestBlockState implements BlockState {
     private final byte lightLevel;
     private final Location loc;
     private final boolean placed;
+    private final BlockData blockData;
 
-    public TestBlockState(MaterialData data, byte lightLevel, Location loc, boolean placed) {
+    public TestBlockState(MaterialData data, byte lightLevel, Location loc, boolean placed, BlockData blockData) {
         this.data = data;
         this.lightLevel = lightLevel;
         this.loc = loc;
         this.placed = placed;
+        this.blockData = blockData;
     }
 
     @Override
@@ -55,7 +57,7 @@ public class TestBlockState implements BlockState {
 
     @Override
     public BlockData getBlockData() {
-        throw new UnsupportedOperationException();
+        return this.blockData;
     }
 
     @Override

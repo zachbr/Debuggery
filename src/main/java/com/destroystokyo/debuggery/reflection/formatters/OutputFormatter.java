@@ -95,7 +95,7 @@ public class OutputFormatter {
     @Nonnull
     private static String handleBlockState(BlockState blockState) {
         return "[" + blockState.getData() + ", " +
-                "isPlaced=" + blockState.isPlaced() + ", " + // TODO - I'm not sure how handy this info is going to be, consider replacing
+                "blockData=" + blockState.getBlockData().getAsString() + ", " +
                 "light=" + blockState.getLightLevel() + ", " +
                 blockState.getLocation() + "]";
     }

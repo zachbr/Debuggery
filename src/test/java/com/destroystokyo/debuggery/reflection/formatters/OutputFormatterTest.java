@@ -23,6 +23,7 @@ import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.WorldBorder;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.command.CommandSender;
 import org.bukkit.help.HelpMap;
 import org.bukkit.help.HelpTopic;
@@ -80,13 +81,14 @@ public class OutputFormatterTest {
         byte lightLevel = 5;
         Location loc = TestLocation.LOC_ZERO;
 
-        BlockState blockState = new TestBlockState(data, lightLevel, loc, true);
+        BlockData blockData = new TestBlockData(Material.STONE, "minecraft:stone");
+        BlockState blockState = new TestBlockState(data, lightLevel, loc, true, blockData);
 
         String out = OutputFormatter.getOutput(blockState);
 
         assertNotNull(out);
         assertTrue(out.contains(data.toString()));
-        assertTrue(out.contains(String.valueOf(true)) || out.contains(String.valueOf(false))); // isPlaced values
+        assertTrue(out.contains(blockData.getAsString()));
         assertTrue(out.contains(String.valueOf(lightLevel)));
         assertTrue(out.contains(loc.toString()));
     }
