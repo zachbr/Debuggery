@@ -164,8 +164,12 @@ public class OutputFormatter {
         return returnString.append("}").toString();
     }
 
-    @Nonnull
+    @Nullable
     private static String handleMap(Map map) {
+        if (map.keySet().size() == 0) {
+            return null; // we don't want to display anything if the map is empty
+        }
+
         StringBuilder returnString = new StringBuilder();
 
         for (Object object : map.entrySet()) {
