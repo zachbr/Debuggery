@@ -16,18 +16,25 @@ You will find a compiled version in the `./build/libs/` directory.
 ## What is it?
 Debuggery is a small plugin designed to expose API values at runtime.
 
-![/dplayer setHealth(.)](https://i.imgur.com/VZV6wsk.png)
-![/dworld setStorm(.) true](https://i.imgur.com/MNamG2q.png)
-![/dentity setFireTicks(.) 100](https://i.imgur.com/Uv8toKI.png)
-![/dplayer setFlying(.)](https://i.imgur.com/Fv8PUC1.png)
-![/dworld createExplosion(..) world,-237,64,401 100](https://i.imgur.com/IlqBRhk.png)
-![/ditem getEnchantments](https://i.imgur.com/A8zXdSk.png)
+![tab-complete](https://i.imgur.com/H6IgP2H.png)
+![webby](https://i.imgur.com/UKVYKN8.png)
+![console](https://i.imgur.com/ETbwcCe.png)
+![explode](https://i.imgur.com/LWzkAy2.png)
+![return-info](https://i.imgur.com/IHLW3B7.png)
+![exception](https://i.imgur.com/dVx9M3U.png)
 
 ## Why?
-It is often helpful to see exactly what and how Bukkit will provide you with a piece of data. However, writing
-an entire plugin just for that to see that one output value is stupid.
+I got sick of maintaining a complicated API testing suite. This plugin allows me to check individual API behavior
+without having to write a test plugin for every minor issue that gets reported. That's not to say this can entirely
+replace proper testing of all API interactions in all circumstances... yet.
 
-Also because it can be useful right after a major game update.
+Furthermore, this is a massively handy utility to have while testing vanilla behaviors and other unrelated systems.
+
+**I do not recommend you install this plugin on a production server**
+
+Yes, it has permissions checks. No, I'm not aware of any way to get around them.
+
+This is still a lot of power to dump on your server. Do so with caution and at your own risk.
 
 ## How do I use it?
 To get a command listing, type /debuggery and hit tab.
@@ -49,9 +56,10 @@ from Bukkit's space delimiter system.
 Furthermore, every conversion from `string -> object` is added manually, so some are currently missing. Feel free to
 open an issue or contribute them.
 
-## What's the biggest limitation at the moment?
-~~You can only access top level methods directly on the object you're interfacing with. You cannot (currently) call a
-method on the result of another method. This is planned but not currently supported.~~
+## What's coming next?
+A rewrite of the input and output handling systems. The current systems are functional but suck to maintain.
+
+A true REPL leveraging Java 9's added functionality in this area. Obviously this feature would require Java 9+.
 
 ## Do you have a timeline for feature development?
 Nope. I am pretty busy. If you'd like something done sooner, feel free to contribute.
