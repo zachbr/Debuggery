@@ -162,13 +162,19 @@ public class InputFormatter {
         }
     }
 
-    @Nullable
-    private static Material getMaterial(String input) {
-        return Material.matchMaterial(input);
+    @Nonnull
+    private static Material getMaterial(String input) throws InputException {
+        Material material = Material.matchMaterial(input);
+
+        if (material == null) {
+            throw new InputException(new IllegalArgumentException("Could not find any matching materials for \"" + input + "\""));
+        } else {
+            return material;
+        }
     }
 
     @Nonnull
-    private static ItemStack[] getArrayItemStacks(String input, CommandSender sender) {
+    private static ItemStack[] getArrayItemStacks(String input, CommandSender sender) throws InputException {
         List<ItemStack> stacksOut = new ArrayList<>();
         String[] stacksIn = input.split(",");
 
@@ -180,25 +186,33 @@ public class InputFormatter {
     }
 
     @Nonnull
-    private static ItemStack getItemStack(String input, CommandSender sender) {
+    private static ItemStack getItemStack(String input, CommandSender sender) throws InputException {
         if (sender instanceof Player) {
             if (input.equalsIgnoreCase("this")) {
                 return ((Player) sender).getInventory().getItemInMainHand();
             }
         }
+
+        // try creating a new itemstack from material
         return new ItemStack(getMaterial(input));
     }
 
     @Nonnull
-    private static BlockData getBlockData(String input) {
+    private static BlockData getBlockData(String input) throws InputException {
         // first try from straight material name
-        Material material = getMaterial(input);
-        if (material != null) {
+        Material material;
+        try {
+            material = getMaterial(input);
             return Bukkit.createBlockData(material);
+        } catch (InputException ignored) {
         }
 
         // next try using vanilla data strings
-        return Bukkit.createBlockData(input);
+        try {
+            return Bukkit.createBlockData(input);
+        } catch (IllegalArgumentException ex) {
+            throw new InputException(ex);
+        }
     }
 
     @Nonnull
