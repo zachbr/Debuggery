@@ -69,6 +69,11 @@ public class InputFormatter {
             throw new IllegalArgumentException("Cannot determine input type for null class");
         }
 
+        // special case null
+        if (input.equals("\\null\\")) {
+            return null;
+        }
+
         if (clazz.equals(String.class)) {
             return input;
         } else if (clazz.isPrimitive()) {
