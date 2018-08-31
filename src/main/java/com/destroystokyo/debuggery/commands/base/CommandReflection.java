@@ -93,8 +93,9 @@ public abstract class CommandReflection extends CommandBase {
             return true;
         }
 
-        if (lastLink != null) {
-            sender.sendMessage(getOutputStringFor(lastLink));
+        String output = getOutputStringFor(lastLink);
+        if (output != null) {
+            sender.sendMessage(output);
         }
 
         return true;
@@ -119,7 +120,7 @@ public abstract class CommandReflection extends CommandBase {
      * @return textual description of Object
      */
     @Nullable
-    protected String getOutputStringFor(Object object) {
+    protected String getOutputStringFor(@Nullable Object object) {
         return OutputFormatter.getOutput(object);
     }
 
