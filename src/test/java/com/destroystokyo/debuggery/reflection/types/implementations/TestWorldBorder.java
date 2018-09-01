@@ -15,91 +15,99 @@
  * along with Debuggery.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.destroystokyo.debuggery.reflection.formatters.implementations;
+package com.destroystokyo.debuggery.reflection.types.implementations;
 
 import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
+import org.bukkit.WorldBorder;
 
-import java.util.Map;
-import java.util.UUID;
+public class TestWorldBorder implements WorldBorder {
+    private final Location center;
+    private final int size;
+    private final int damageAmount;
 
-public class TestOfflinePlayer implements OfflinePlayer {
-    private final String name;
-    private final UUID uuid;
-
-    public TestOfflinePlayer(String name, UUID uuid) {
-        this.name = name;
-        this.uuid = uuid;
+    public TestWorldBorder(int size, int damageAmount, Location center) {
+        this.size = size;
+        this.damageAmount = damageAmount;
+        this.center = center;
     }
 
     @Override
-    public boolean isOnline() {
+    public void reset() {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public String getName() {
-        return this.name;
+    public double getSize() {
+        return this.size;
     }
 
     @Override
-    public UUID getUniqueId() {
-        return this.uuid;
-    }
-
-    @Override
-    public boolean isBanned() {
+    public void setSize(double newSize) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean isWhitelisted() {
+    public void setSize(double newSize, long seconds) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setWhitelisted(boolean value) {
+    public Location getCenter() {
+        return this.center;
+    }
+
+    @Override
+    public void setCenter(Location location) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Player getPlayer() {
+    public void setCenter(double x, double z) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public long getFirstPlayed() {
+    public double getDamageBuffer() {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public long getLastPlayed() {
+    public void setDamageBuffer(double blocks) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean hasPlayedBefore() {
+    public double getDamageAmount() {
+        return this.damageAmount;
+    }
+
+    @Override
+    public void setDamageAmount(double damage) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Location getBedSpawnLocation() {
+    public int getWarningTime() {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Map<String, Object> serialize() {
+    public void setWarningTime(int seconds) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean isOp() {
+    public int getWarningDistance() {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setOp(boolean value) {
+    public void setWarningDistance(int distance) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean isInside(Location location) {
         throw new UnsupportedOperationException();
     }
 }

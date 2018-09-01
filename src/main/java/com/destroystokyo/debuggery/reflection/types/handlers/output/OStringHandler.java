@@ -15,24 +15,24 @@
  * along with Debuggery.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.destroystokyo.debuggery.reflection.formatters;
+package com.destroystokyo.debuggery.reflection.types.handlers.output;
+
+import com.destroystokyo.debuggery.reflection.types.handlers.base.OHandler;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-/**
- * Wrapper so that we can properly inform the user when it's their input
- * that's causing the problem, rather than some API/Implementation contract.
- */
-public class InputException extends Exception {
-    @Nonnull
-    private final Throwable wrappedException;
+public class OStringHandler implements OHandler {
 
-    InputException(@Nonnull Throwable throwable) {
-        this.wrappedException = throwable;
+    @Nullable
+    @Override
+    public String getFormattedOutput(Object object) {
+        return (String) object;
     }
 
     @Nonnull
-    public Throwable getCause() {
-        return wrappedException;
+    @Override
+    public Class<?> getRelevantClass() {
+        return String.class;
     }
 }

@@ -19,8 +19,8 @@ package com.destroystokyo.debuggery.commands.base;
 
 import com.destroystokyo.debuggery.reflection.ReflectionChain;
 import com.destroystokyo.debuggery.reflection.ReflectionUtil;
-import com.destroystokyo.debuggery.reflection.formatters.InputException;
-import com.destroystokyo.debuggery.reflection.formatters.OutputFormatter;
+import com.destroystokyo.debuggery.reflection.types.InputException;
+import com.destroystokyo.debuggery.reflection.types.TypeHandler;
 import com.destroystokyo.debuggery.util.FancyChatException;
 import com.destroystokyo.debuggery.util.PlatformUtil;
 import org.apache.commons.lang.Validate;
@@ -114,14 +114,14 @@ public abstract class CommandReflection extends CommandBase {
     }
 
     /**
-     * Convenience method to run objects past the OutputFormatter
+     * Convenience method to run objects past the TypeHandler
      *
      * @param object Object to get String output for
      * @return textual description of Object
      */
     @Nullable
     protected String getOutputStringFor(@Nullable Object object) {
-        return OutputFormatter.getOutput(object);
+        return TypeHandler.getInstance().getOutputFor(object);
     }
 
     @Override

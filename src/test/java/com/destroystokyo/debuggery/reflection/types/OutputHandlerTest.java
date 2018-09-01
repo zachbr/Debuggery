@@ -15,9 +15,9 @@
  * along with Debuggery.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.destroystokyo.debuggery.reflection.formatters;
+package com.destroystokyo.debuggery.reflection.types;
 
-import com.destroystokyo.debuggery.reflection.formatters.implementations.*;
+import com.destroystokyo.debuggery.reflection.types.implementations.*;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -35,11 +35,11 @@ import java.util.*;
 
 import static org.junit.Assert.*;
 
-public class OutputFormatterTest {
+public class OutputHandlerTest {
 
     @Test
     public void testNullInput() {
-        assertNull(OutputFormatter.getOutput(null));
+        assertNull(TypeHandler.getInstance().getOutputFor(null));
     }
 
     @Test
@@ -49,7 +49,7 @@ public class OutputFormatterTest {
 
         OfflinePlayer player = new TestOfflinePlayer(name, uuid);
 
-        String out = OutputFormatter.getOutput(player);
+        String out = TypeHandler.getInstance().getOutputFor(player);
 
         assertNotNull(out);
         assertTrue(out.contains(name));
@@ -64,7 +64,7 @@ public class OutputFormatterTest {
 
         WorldBorder border = new TestWorldBorder(size, damageAmt, loc);
 
-        String out = OutputFormatter.getOutput(border);
+        String out = TypeHandler.getInstance().getOutputFor(border);
 
         assertNotNull(out);
         assertTrue(out.contains(String.valueOf(size)));
@@ -84,7 +84,7 @@ public class OutputFormatterTest {
         BlockData blockData = new TestBlockData(Material.STONE, "minecraft:stone");
         BlockState blockState = new TestBlockState(data, lightLevel, loc, true, blockData);
 
-        String out = OutputFormatter.getOutput(blockState);
+        String out = TypeHandler.getInstance().getOutputFor(blockState);
 
         assertNotNull(out);
         assertTrue(out.contains(data.toString()));
@@ -100,7 +100,7 @@ public class OutputFormatterTest {
 
         HelpMap helpMap = new TestHelpMap(topicTacos, topicDebuggery);
 
-        String out = OutputFormatter.getOutput(helpMap);
+        String out = TypeHandler.getInstance().getOutputFor(helpMap);
 
         assertNotNull(out);
         assertTrue(out.contains(topicTacos.getName()));
@@ -130,7 +130,7 @@ public class OutputFormatterTest {
 
         Messenger messenger = new TestMessenger(messengersIn, messengersOut);
 
-        String out = OutputFormatter.getOutput(messenger);
+        String out = TypeHandler.getInstance().getOutputFor(messenger);
 
         assertNotNull(out);
 
@@ -154,7 +154,7 @@ public class OutputFormatterTest {
 
         CommandSender sender = new TestCommandSender(false, name);
 
-        String out = OutputFormatter.getOutput(sender);
+        String out = TypeHandler.getInstance().getOutputFor(sender);
 
         assertNotNull(out);
         assertTrue(out.contains(name));
@@ -169,7 +169,7 @@ public class OutputFormatterTest {
                 new TestCommandSender(false, "choco")
         };
 
-        String out = OutputFormatter.getOutput(senderArray);
+        String out = TypeHandler.getInstance().getOutputFor(senderArray);
 
         assertNotNull(out);
         for (CommandSender sender : senderArray) {
@@ -179,7 +179,7 @@ public class OutputFormatterTest {
         // Now test primitives, since we do some special handling there
         int[] intArray = {1, 2, 3, 4, 5};
 
-        out = OutputFormatter.getOutput(intArray);
+        out = TypeHandler.getInstance().getOutputFor(intArray);
         assertNotNull(out);
 
         for (int val : intArray) {
@@ -198,7 +198,7 @@ public class OutputFormatterTest {
         map.put(tacoKey, tacoVal);
         map.put(potatoKey, potatoVal);
 
-        String out = OutputFormatter.getOutput(map);
+        String out = TypeHandler.getInstance().getOutputFor(map);
 
         assertNotNull(out);
 
@@ -270,7 +270,7 @@ public class OutputFormatterTest {
         };
         List<String> collection = Arrays.asList(values);
 
-        String out = OutputFormatter.getOutput(collection);
+        String out = TypeHandler.getInstance().getOutputFor(collection);
 
         assertNotNull(out);
 

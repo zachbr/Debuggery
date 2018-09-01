@@ -15,46 +15,37 @@
  * along with Debuggery.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.destroystokyo.debuggery.reflection.formatters.implementations;
+package com.destroystokyo.debuggery.reflection.types.implementations;
 
-import org.bukkit.Material;
-import org.bukkit.block.data.BlockData;
+import org.bukkit.Chunk;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.block.Block;
 
-public class TestBlockData implements BlockData {
-    private final Material material;
-    private final String asString;
+public class TestLocation extends Location {
+    public static final TestLocation LOC_ZERO = new TestLocation(null, 0, 0, 0);
 
-    public TestBlockData(Material material, String asString) {
-        this.material = material;
-        this.asString = asString;
+    public TestLocation(World world, double x, double y, double z) {
+        super(world, x, y, z);
     }
 
     @Override
-    public Material getMaterial() {
-        return material;
-    }
-
-    @Override
-    public String getAsString() {
-        return asString;
-    }
-
-    @Override
-    public BlockData merge(BlockData blockData) {
+    public World getWorld() {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean matches(BlockData blockData) {
+    public void setWorld(World world) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public BlockData clone() {
-        try {
-            return (BlockData) super.clone();
-        } catch (CloneNotSupportedException ex) {
-            throw new AssertionError("Clone not supported!", ex);
-        }
+    public Chunk getChunk() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Block getBlock() {
+        throw new UnsupportedOperationException();
     }
 }

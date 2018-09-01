@@ -17,8 +17,8 @@
 
 package com.destroystokyo.debuggery.reflection;
 
-import com.destroystokyo.debuggery.reflection.formatters.InputException;
-import com.destroystokyo.debuggery.reflection.formatters.OutputFormatter;
+import com.destroystokyo.debuggery.reflection.types.InputException;
+import com.destroystokyo.debuggery.reflection.types.TypeHandler;
 import org.junit.Test;
 
 import java.lang.reflect.InvocationTargetException;
@@ -38,7 +38,7 @@ public class ReflectionChainTest {
         String[] input = new String[]{methodName, "4"};
 
         Object endChainObj = new ReflectionChain(input, instance, null).chain();
-        String result = OutputFormatter.getOutput(endChainObj);
+        String result = TypeHandler.getInstance().getOutputFor(endChainObj);
 
         Predicate<String> passes = s -> s.contains("1") && s.contains("2") && s.contains("3") && s.contains("4");
         if (!passes.test(result)) {
@@ -60,7 +60,7 @@ public class ReflectionChainTest {
         input = new String[]{subClassGetterName, subClassGetNumName, "5"};
 
         endChainObj = new ReflectionChain(input, instance, null).chain();
-        result = OutputFormatter.getOutput(endChainObj);
+        result = TypeHandler.getInstance().getOutputFor(endChainObj);
 
         passes = s -> s.contains("1") && s.contains("2") && s.contains("3") && s.contains("4") && s.contains("5");
         if (!passes.test(result)) {

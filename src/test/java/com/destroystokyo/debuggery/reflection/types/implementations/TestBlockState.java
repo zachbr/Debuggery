@@ -15,7 +15,7 @@
  * along with Debuggery.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.destroystokyo.debuggery.reflection.formatters.implementations;
+package com.destroystokyo.debuggery.reflection.types.implementations;
 
 import org.bukkit.Chunk;
 import org.bukkit.Location;

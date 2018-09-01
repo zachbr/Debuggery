@@ -15,21 +15,27 @@
  * along with Debuggery.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.destroystokyo.debuggery.reflection.formatters.implementations;
+package com.destroystokyo.debuggery.reflection.types.handlers.output;
 
+import com.destroystokyo.debuggery.reflection.types.handlers.base.OHandler;
 import org.bukkit.command.CommandSender;
-import org.bukkit.help.HelpTopic;
 
-public class TestHelpTopic extends HelpTopic {
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-    public TestHelpTopic(String commandName, String helpMsg, String permNode) {
-        this.name = commandName;
-        this.fullText = this.shortText = helpMsg;
-        this.amendedPermission = permNode;
+public class OCommandSender implements OHandler {
+
+    @Nullable
+    @Override
+    public String getFormattedOutput(Object object) {
+        final CommandSender sender = (CommandSender) object;
+
+        return sender.getName();
     }
 
+    @Nonnull
     @Override
-    public boolean canSee(CommandSender player) {
-        throw new UnsupportedOperationException();
+    public Class<?> getRelevantClass() {
+        return CommandSender.class;
     }
 }

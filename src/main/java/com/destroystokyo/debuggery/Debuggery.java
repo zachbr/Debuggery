@@ -20,6 +20,9 @@ package com.destroystokyo.debuggery;
 import com.destroystokyo.debuggery.commands.*;
 import com.destroystokyo.debuggery.commands.base.CommandBase;
 import com.destroystokyo.debuggery.reflection.ReflectionUtil;
+import com.destroystokyo.debuggery.reflection.types.TypeHandler;
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Collections;
@@ -27,10 +30,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Debuggery extends JavaPlugin {
+    private static final boolean DEBUG_LOGGING = Boolean.getBoolean("debuggery.debuglogging");
     private final Map<String, CommandBase> commands = new HashMap<>();
 
     @Override
     public void onEnable() {
+        if (DEBUG_LOGGING) {
+            this.getLogger().warning("Debug logging enabled!");
+        }
+
+        TypeHandler.getInstance(); // init type handler at startup
         this.registerCommands();
     }
 
@@ -64,5 +73,18 @@ public class Debuggery extends JavaPlugin {
 
     public Map<String, CommandBase> getAllCommands() {
         return Collections.unmodifiableMap(commands);
+    }
+
+    public static void debugLn(String arg) {
+        if (!DEBUG_LOGGING) {
+            return;
+        }
+
+        Plugin debuggery = Bukkit.getPluginManager().getPlugin("Debuggery");
+        if (debuggery == null) { // for testing w/ dummy server
+            System.out.println("DEBUG: " + arg);
+        } else {
+            debuggery.getLogger().warning("DEBUG: " + arg);
+        }
     }
 }

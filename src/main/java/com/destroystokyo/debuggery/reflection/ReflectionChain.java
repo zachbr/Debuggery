@@ -17,8 +17,8 @@
 
 package com.destroystokyo.debuggery.reflection;
 
-import com.destroystokyo.debuggery.reflection.formatters.InputException;
-import com.destroystokyo.debuggery.reflection.formatters.InputFormatter;
+import com.destroystokyo.debuggery.reflection.types.InputException;
+import com.destroystokyo.debuggery.reflection.types.TypeHandler;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -48,7 +48,7 @@ public class ReflectionChain {
      * Performs the reflection operation
      *
      * @return final object instance at the end of the chain
-     * @throws InputException            see {@link InputFormatter#getTypesFromInput(Class[], List, CommandSender)}
+     * @throws InputException            see {@link TypeHandler#instantiateObjectFor(Class, String, CommandSender)}
      * @throws InvocationTargetException see {@link Method#invoke(Object, Object...)}
      * @throws IllegalAccessException    see {@link Method#invoke(Object, Object...)}
      */
@@ -77,7 +77,7 @@ public class ReflectionChain {
             List<String> stringMethodArgs = ReflectionUtil.getArgsForMethod(this.input.subList(i + 1, input.size()), method);
             argsToSkip = stringMethodArgs.size();
 
-            methodParameters = InputFormatter.getTypesFromInput(method.getParameterTypes(), stringMethodArgs, this.owner);
+            methodParameters = TypeHandler.getInstance().instantiateTypes(method.getParameterTypes(), stringMethodArgs, this.owner);
             result = reflect(result, method, methodParameters);
 
         }
