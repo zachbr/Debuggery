@@ -88,7 +88,7 @@ public class TypeHandler {
         }
 
         // failing that, just give the generic toString
-        debugLn("Unable to find compatible handler for " + object.getClass().getCanonicalName());
+        debugLn("Unable to find compatible output handler for " + object.getClass().getCanonicalName());
         return String.valueOf(object);
     }
 
@@ -284,7 +284,7 @@ public class TypeHandler {
             debugLn("Found input handler " + handler + " for " + clazz);
         } else {
             // otherwise fall back to a polymorphic handler lookup
-            debugLn("Could not find any specific input handler for " + clazz + " , using polymorphic lookup...");
+            debugLn("Could not find any specific input handler for " + clazz + ", using polymorphic lookup...");
             handler = getIPolymorphicHandler(clazz);
         }
 
