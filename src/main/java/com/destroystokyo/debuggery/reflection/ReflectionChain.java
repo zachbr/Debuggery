@@ -48,7 +48,7 @@ public class ReflectionChain {
      * Performs the reflection operation
      *
      * @return final object instance at the end of the chain
-     * @throws InputException            see {@link TypeHandler#instantiateObjectFor(Class, String, CommandSender)}
+     * @throws InputException            see {@link TypeHandler#instantiateTypes(Class[], List, CommandSender)}
      * @throws InvocationTargetException see {@link Method#invoke(Object, Object...)}
      * @throws IllegalAccessException    see {@link Method#invoke(Object, Object...)}
      */

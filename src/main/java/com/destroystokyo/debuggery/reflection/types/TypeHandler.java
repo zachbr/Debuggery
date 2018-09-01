@@ -29,10 +29,10 @@ import java.util.*;
 import static com.destroystokyo.debuggery.Debuggery.debugLn;
 
 /**
- * Manages all class handling
+ * Manages all type handling
  * <p>
  * All conversions from string -> object and vice-versa are implemented as individual
- * {@link IHandler} instances and accessed through this managing class
+ * {@link Handler} instances and accessed through this managing class
  */
 public class TypeHandler {
     private static TypeHandler singletonInstance;

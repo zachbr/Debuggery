@@ -22,7 +22,6 @@ import com.destroystokyo.debuggery.commands.base.CommandBase;
 import com.destroystokyo.debuggery.reflection.ReflectionUtil;
 import com.destroystokyo.debuggery.reflection.types.TypeHandler;
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Collections;
@@ -30,12 +29,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Debuggery extends JavaPlugin {
-    private static final boolean DEBUG_LOGGING = Boolean.getBoolean("debuggery.debuglogging");
+    private static final boolean DEBUG_MODE = Boolean.getBoolean("debuggery.debug");
+    private static final boolean DUMMY_SERVER = isDummyServer();
     private final Map<String, CommandBase> commands = new HashMap<>();
 
     @Override
     public void onEnable() {
-        if (DEBUG_LOGGING) {
+        if (DEBUG_MODE) {
             this.getLogger().warning("Debug logging enabled!");
         }
 
@@ -75,16 +75,25 @@ public class Debuggery extends JavaPlugin {
         return Collections.unmodifiableMap(commands);
     }
 
+    /**
+     * Logs a message if debug mode has been enabled via system property
+     *
+     * @param arg message to log
+     */
     public static void debugLn(String arg) {
-        if (!DEBUG_LOGGING) {
+        if (!DEBUG_MODE) {
             return;
         }
 
-        Plugin debuggery = Bukkit.getPluginManager().getPlugin("Debuggery");
-        if (debuggery == null) { // for testing w/ dummy server
+        if (DUMMY_SERVER) {
             System.out.println("DEBUG: " + arg);
         } else {
-            debuggery.getLogger().warning("DEBUG: " + arg);
+            // this is dumb and if it wasn't just a debug only log I'd probably care enough to fix it
+            Bukkit.getPluginManager().getPlugin("Debuggery").getLogger().warning("DEBUG: " + arg);
         }
+    }
+
+    private static boolean isDummyServer() {
+        return Bukkit.getServer() == null;
     }
 }
