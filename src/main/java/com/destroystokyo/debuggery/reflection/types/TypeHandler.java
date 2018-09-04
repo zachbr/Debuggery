@@ -78,18 +78,14 @@ public class TypeHandler {
             return null;
         }
 
-        // loop through all values looking for any assignable classes that
-        // we can use the formatters on
-        for (OHandler handler : outputHandlers) {
-            if (handler.getRelevantClass().isAssignableFrom(object.getClass())) {
-                debugLn("Found output handler " + handler + " for " + object.getClass().getCanonicalName());
-                return handler.getFormattedOutput(object);
-            }
+        OHandler handler = getOHandlerForClass(object.getClass());
+        if (handler != null) {
+            return handler.getFormattedOutput(object);
+        } else {
+            // failing that, just give the generic toString
+            debugLn("Unable to find compatible output handler for " + object.getClass().getCanonicalName());
+            return String.valueOf(object);
         }
-
-        // failing that, just give the generic toString
-        debugLn("Unable to find compatible output handler for " + object.getClass().getCanonicalName());
-        return String.valueOf(object);
     }
 
     @Nonnull
@@ -148,7 +144,7 @@ public class TypeHandler {
         if (handler instanceof IHandler) {
             return registerInputHandler((IHandler) handler);
         } else {
-            return registerOuputHandler((OHandler) handler);
+            return registerOutputHandler((OHandler) handler);
         }
     }
 
@@ -187,7 +183,7 @@ public class TypeHandler {
      * @param handler type handler to register
      * @return true if successfully added
      */
-    private boolean registerOuputHandler(OHandler handler) {
+    private boolean registerOutputHandler(OHandler handler) {
         // first, make sure this handler isn't already registered
         if (outputHandlers.contains(handler)) {
             debugLn("Handler already registered!");
@@ -219,6 +215,46 @@ public class TypeHandler {
     }
 
     /**
+     * Removes a {@link IHandler} from the input system
+     *
+     * @param clazz the {@link Class} type associated with the handler
+     * @return true if successfully removed
+     */
+    public boolean removeInputHandlerFor(Class clazz) {
+        Validate.notNull(clazz);
+
+        debugLn("Attempting to remove handler for class: " + clazz + " from input handlers.");
+
+        IHandler handler = getIHandlerForClass(clazz);
+        if (handler != null) {
+            return removeHandler(handler);
+        } else {
+            debugLn(" Cannot remove handler for class we cannot find: " + clazz);
+            return false;
+        }
+    }
+
+    /**
+     * Removes a {@link IHandler} from the input system
+     *
+     * @param clazz the {@link Class} type associated with the handler
+     * @return true if successfully removed
+     */
+    public boolean removeOutputHandlerFor(Class clazz) {
+        Validate.notNull(clazz);
+
+        debugLn("Attempting to remove handler for class: " + clazz + " from output handlers.");
+
+        OHandler handler = getOHandlerForClass(clazz);
+        if (handler != null) {
+            return removeHandler(handler);
+        } else {
+            debugLn(" Cannot remove handler for class we cannot find: " + clazz);
+            return false;
+        }
+    }
+
+    /**
      * Removes an Input Handler from the input handling system
      *
      * @param handler type handler to remove
@@ -236,7 +272,7 @@ public class TypeHandler {
             debugLn("Removed handler " + handler + " from Input Handlers");
 
             // if we removed earlier and this is polymorphic, remove it from that collection
-            // we MUST keep these in sync with one anotehr
+            // we MUST keep these in sync with one another
             if (handler instanceof IPolymorphicHandler) {
                 polymorphicHandlers.remove(handler);
                 debugLn("Removed handler " + handler + " from polymorphic map");
@@ -292,32 +328,53 @@ public class TypeHandler {
     }
 
     /**
-     * Searches through the polymorphic handlers looking for one capable of handling
-     * the specific {@link Class}
+     * Searches through the polymorphic input handlers looking for one capable of
+     * handling the specific {@link Class}
      *
      * @param clazz {@link Class} type to look for a handler for
-     * @return Relevant handler or null if none could be found
+     * @return Relevant input handler or null if none could be found
      */
     @Nullable
     private IPolymorphicHandler getIPolymorphicHandler(Class clazz) {
         Validate.notNull(clazz);
 
-        IPolymorphicHandler handler = null;
-        for (IPolymorphicHandler potential : polymorphicHandlers) {
-            // check if the polymorphic handler is capable of handling the given class
-            if (potential.getRelevantClass().isAssignableFrom(clazz)) {
-                debugLn("Found polymorphic input handler " + potential + " for " + clazz);
+        return getGenericPolymorphicForFrom(clazz, polymorphicHandlers);
+    }
 
-                handler = potential;
-                break; // do not attempt to keep looking, we don't want overwriting
+    /**
+     * Gets the relevant {@link OHandler} for the given {@link Class}
+     *
+     * @param clazz {@link} Class to search with
+     * @return relevant output handler or null if none could be found
+     */
+    @Nullable
+    private OHandler getOHandlerForClass(Class clazz) {
+        Validate.notNull(clazz);
+
+        return getGenericPolymorphicForFrom(clazz, outputHandlers);
+    }
+
+    /**
+     * Searches for a {@link Handler} in the given {@link Collection} capable of handling
+     * the given {@link Class}.
+     *
+     * @param clazz {@link Class} type to look for a handler for
+     * @param toSearch {@link Collection} to search through
+     * @return relevant handler or null
+     */
+    private <T extends Handler> T getGenericPolymorphicForFrom(Class clazz, Collection<T> toSearch) {
+        Validate.notNull(clazz);
+        Validate.notNull(toSearch);
+
+        for (T handler : toSearch) {
+            if (handler.getRelevantClass().isAssignableFrom(clazz)) {
+                debugLn("Found handler " + handler + " for " + clazz + " in " + toSearch);
+                return handler;
             }
         }
 
-        if (handler == null) {
-            debugLn("Unable to find any polymorphic input handler for " + clazz);
-        }
-
-        return handler;
+        debugLn("Unable to find handler for " + clazz + " from " + toSearch);
+        return null;
     }
 
     /**
