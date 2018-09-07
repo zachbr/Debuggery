@@ -40,10 +40,10 @@ public class TypeHandler {
     // input handlers
     // keep these two in sync on additions and removals
     private final Map<Class, IHandler> inputHandlers = new HashMap<>();
-    private final Set<IPolymorphicHandler> polymorphicHandlers = new HashSet<>();
+    private final Set<IPolymorphicHandler> polymorphicHandlers = new LinkedHashSet<>();
 
     // output handlers
-    private final Set<OHandler> outputHandlers = new HashSet<>();
+    private final Set<OHandler> outputHandlers = new LinkedHashSet<>();
 
     private TypeHandler() {
         Bootstrap.init(this);
@@ -83,7 +83,6 @@ public class TypeHandler {
             return handler.getFormattedOutput(object);
         } else {
             // failing that, just give the generic toString
-            debugLn("Unable to find compatible output handler for " + object.getClass().getCanonicalName());
             return String.valueOf(object);
         }
     }
@@ -224,7 +223,7 @@ public class TypeHandler {
     boolean removeInputHandlerFor(Class clazz) {
         Validate.notNull(clazz);
 
-        debugLn("Attempting to remove handler for class: " + clazz + " from input handlers.");
+        debugLn("Attempting to remove handler for class: " + clazz + " from Input Handlers.");
 
         IHandler handler = getIHandlerForClass(clazz);
         if (handler != null) {
@@ -244,7 +243,7 @@ public class TypeHandler {
     boolean removeOutputHandlerFor(Class clazz) {
         Validate.notNull(clazz);
 
-        debugLn("Attempting to remove handler for class: " + clazz + " from output handlers.");
+        debugLn("Attempting to remove handler for class: " + clazz + " from Output Handlers.");
 
         OHandler handler = getOHandlerForClass(clazz);
         if (handler != null) {
@@ -336,7 +335,7 @@ public class TypeHandler {
     private IPolymorphicHandler getIPolymorphicHandler(Class clazz) {
         Validate.notNull(clazz);
 
-        return getGenericPolymorphicForFrom(clazz, polymorphicHandlers);
+        return getGenericPolymorphicForFrom(clazz, polymorphicHandlers, "Input Handlers");
     }
 
     /**
@@ -349,30 +348,32 @@ public class TypeHandler {
     private OHandler getOHandlerForClass(Class clazz) {
         Validate.notNull(clazz);
 
-        return getGenericPolymorphicForFrom(clazz, outputHandlers);
+        return getGenericPolymorphicForFrom(clazz, outputHandlers, "Output Handlers");
     }
 
     /**
      * Searches for a {@link Handler} in the given {@link Collection} capable of handling
      * the given {@link Class}.
      *
-     * @param clazz    {@link Class} type to look for a handler for
-     * @param toSearch {@link Collection} to search through
+     * @param clazz     {@link Class} type to look for a handler for
+     * @param toSearch  {@link Collection} to search through
+     * @param debugName {@link String} collection name to use in debug messages
      * @return relevant handler or null
      */
     @Nullable
-    private <T extends Handler> T getGenericPolymorphicForFrom(Class clazz, Collection<T> toSearch) {
+    private <T extends Handler> T getGenericPolymorphicForFrom(Class clazz, Collection<T> toSearch, @Nullable String debugName) {
         Validate.notNull(clazz);
         Validate.notNull(toSearch);
 
+        final String debugMsg = debugName == null ? toSearch.toString() : debugName;
         for (T handler : toSearch) {
             if (handler.getRelevantClass().isAssignableFrom(clazz)) {
-                debugLn("Found existing polymorphic handler " + handler + " for " + clazz + " in " + toSearch);
+                debugLn("Found existing polymorphic handler " + handler + " for " + clazz + " in " + debugMsg);
                 return handler;
             }
         }
 
-        debugLn("Unable to find existing polymorphic handler for " + clazz + " from " + toSearch);
+        debugLn("Unable to find existing polymorphic handler for " + clazz + " in " + debugMsg);
         return null;
     }
 
