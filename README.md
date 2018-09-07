@@ -57,8 +57,6 @@ Furthermore, every conversion from `string -> object` is added manually, so some
 open an issue or contribute them.
 
 ## What's coming next?
-A rewrite of the input and output handling systems. The current systems are functional but suck to maintain.
-
 A true REPL leveraging Java 9's added functionality in this area. Obviously this feature would require Java 9+.
 
 ## Do you have a timeline for feature development?
