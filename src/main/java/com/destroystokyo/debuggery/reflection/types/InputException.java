@@ -27,7 +27,7 @@ public class InputException extends Exception {
     @Nonnull
     private final Throwable wrappedException;
 
-    public InputException(@Nonnull Throwable throwable) { // todo - see if public still necessary when done
+    InputException(@Nonnull Throwable throwable) {
         this.wrappedException = throwable;
     }
 

@@ -19,9 +19,12 @@ package com.destroystokyo.debuggery;
 
 import com.destroystokyo.debuggery.commands.*;
 import com.destroystokyo.debuggery.commands.base.CommandBase;
+import com.destroystokyo.debuggery.commands.base.CommandReflection;
 import com.destroystokyo.debuggery.reflection.ReflectionUtil;
 import com.destroystokyo.debuggery.reflection.types.TypeHandler;
 import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Collections;

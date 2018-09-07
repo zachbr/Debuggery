@@ -30,5 +30,5 @@ public interface Handler {
      * @return relevant class
      */
     @Nonnull
-    Class<?> getRelevantClass(); // todo - rename
+    Class<?> getRelevantClass();
 }

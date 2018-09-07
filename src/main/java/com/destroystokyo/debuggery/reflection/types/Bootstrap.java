@@ -46,12 +46,11 @@ class Bootstrap {
 
         new IPrimitivesHandler(typeHandler); // Special cased for multi-registration
 
-        registration.add(new IBlockDataHandler());
+        // order can matter here
         registration.add(new IBukkitClassHandler());
         registration.add(new IBukkitClassesHandler());
         registration.add(new IDifficultyHandler());
         registration.add(new IEntityHandler());
-        registration.add(new IEnumHandler());
         registration.add(new IGameModeHandler());
         registration.add(new IItemStackHandler());
         registration.add(new IItemStacksHandler());
@@ -60,6 +59,9 @@ class Bootstrap {
         registration.add(new IMaterialHandler());
         registration.add(new IStringHandler());
         registration.add(new IUUIDHandler());
+        // register polymorphics last
+        registration.add(new IBlockDataHandler());
+        registration.add(new IEnumHandler());
 
         //
         // Output Handlers
@@ -67,10 +69,11 @@ class Bootstrap {
 
         new OArrayHandler(typeHandler); // Special cased for multi-registration
 
+        // order can matter here
         registration.add(new OBlockStateHandler());
         registration.add(new OCollectionHandler());
+        registration.add(new OEntityHandler()); // above CommandSender
         registration.add(new OCommandSender());
-        registration.add(new OEntityHandler());
         registration.add(new OHelpMapHandler());
         registration.add(new OInventoryHandler());
         registration.add(new OMapHandler());
@@ -79,7 +82,12 @@ class Bootstrap {
         registration.add(new OStringHandler());
         registration.add(new OWorldBorderHandler());
 
-        registration.forEach(typeHandler::registerHandler);
+        for (Handler handler : registration) {
+            if (!typeHandler.registerHandler(handler)) {
+                throw new IllegalArgumentException("Unable to register " + handler);
+            }
+        }
+
         debugLn("End TypeHandler bootstrap");
     }
 }

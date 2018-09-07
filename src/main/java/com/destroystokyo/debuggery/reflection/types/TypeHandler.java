@@ -139,7 +139,7 @@ public class TypeHandler {
     public boolean registerHandler(Handler handler) {
         Validate.notNull(handler);
 
-        debugLn("Attempting to register handler: " + handler + " for class: " + handler.getRelevantClass().getCanonicalName());
+        debugLn("-- Attempting to register handler: " + handler + " for class: " + handler.getRelevantClass().getCanonicalName());
 
         if (handler instanceof IHandler) {
             return registerInputHandler((IHandler) handler);
@@ -158,19 +158,19 @@ public class TypeHandler {
         final Class handlerRelevantClass = handler.getRelevantClass();
 
         // first, make sure there isn't an existing handler already registered to this type
-        final IHandler existingHandler = inputHandlers.get(handlerRelevantClass);
+        final IHandler existingHandler = getIHandlerForClass(handlerRelevantClass);
         if (existingHandler != null) {
-            debugLn("Handler clashing with " + existingHandler);
+            debugLn("-- Cannot register " + handler + ", conflicts with " + existingHandler);
             return false;
         } else {
             inputHandlers.put(handlerRelevantClass, handler);
-            debugLn("Added handler " + handler + " to Input Handlers");
+            debugLn("-- Added handler " + handler + " to Input Handlers");
 
             // if this handler is polymorphic, add it to that collection as well
             // we MUST keep these in sync with one another
             if (handler instanceof IPolymorphicHandler) {
                 polymorphicHandlers.add((IPolymorphicHandler) handler);
-                debugLn("Handler " + handler + " registered as polymorphic");
+                debugLn("-- -- Handler " + handler + " registered as polymorphic");
             }
 
             return true;
@@ -185,12 +185,13 @@ public class TypeHandler {
      */
     private boolean registerOutputHandler(OHandler handler) {
         // first, make sure this handler isn't already registered
-        if (outputHandlers.contains(handler)) {
-            debugLn("Handler already registered!");
+        OHandler existingHandler = getOHandlerForClass(handler.getRelevantClass());
+        if (existingHandler != null) {
+            debugLn("-- Cannot register " + handler + ", conflicts with " + existingHandler);
             return false;
         } else {
             outputHandlers.add(handler);
-            debugLn("Added handler " + handler + " to Output Handlers");
+            debugLn("-- Added handler " + handler + " to Output Handlers");
 
             return true;
         }
@@ -202,7 +203,7 @@ public class TypeHandler {
      * @param handler type handler
      * @return true if successfully removed
      */
-    public boolean removeHandler(Handler handler) {
+    boolean removeHandler(Handler handler) {
         Validate.notNull(handler);
 
         debugLn("Attempting to remove handler: " + handler);
@@ -215,12 +216,12 @@ public class TypeHandler {
     }
 
     /**
-     * Removes a {@link IHandler} from the input system
+     * Removes a {@link IHandler} from the input system based on its class type
      *
      * @param clazz the {@link Class} type associated with the handler
      * @return true if successfully removed
      */
-    public boolean removeInputHandlerFor(Class clazz) {
+    boolean removeInputHandlerFor(Class clazz) {
         Validate.notNull(clazz);
 
         debugLn("Attempting to remove handler for class: " + clazz + " from input handlers.");
@@ -235,12 +236,12 @@ public class TypeHandler {
     }
 
     /**
-     * Removes a {@link IHandler} from the input system
+     * Removes a {@link OHandler} from the output system based on its class type
      *
      * @param clazz the {@link Class} type associated with the handler
      * @return true if successfully removed
      */
-    public boolean removeOutputHandlerFor(Class clazz) {
+    boolean removeOutputHandlerFor(Class clazz) {
         Validate.notNull(clazz);
 
         debugLn("Attempting to remove handler for class: " + clazz + " from output handlers.");
@@ -255,20 +256,18 @@ public class TypeHandler {
     }
 
     /**
-     * Removes an Input Handler from the input handling system
+     * Removes an Input Handler instance from the input handling system
      *
      * @param handler type handler to remove
      * @return true if successfully removed
      */
     private boolean removeInputHandler(IHandler handler) {
-        final Class clazz = handler.getRelevantClass();
-
         // make sure the given handler is even registered in the first place
-        if (!inputHandlers.containsKey(clazz)) {
+        if (!inputHandlers.containsValue(handler)) {
             debugLn("Input Handler doesn't appear to be registered, can't remove");
             return false;
         } else {
-            inputHandlers.remove(clazz);
+            inputHandlers.remove(handler.getRelevantClass(), handler);
             debugLn("Removed handler " + handler + " from Input Handlers");
 
             // if we removed earlier and this is polymorphic, remove it from that collection
@@ -283,7 +282,7 @@ public class TypeHandler {
     }
 
     /**
-     * Removes an Output Handler from the output handling system
+     * Removes an Output Handler instance from the output handling system
      *
      * @param handler type handler to remove
      * @return true if successfully removed
@@ -304,8 +303,7 @@ public class TypeHandler {
     /**
      * Searches all handlers looking for the relevant handler for the given {@link Class}.
      * <p>
-     * If it cannot find an explicit handler, it will fall back to looking through the
-     * polymorphic handlers
+     * This is obliged to check for explicit handlers first before then looking through polymorphic handlers.
      *
      * @param clazz {@link Class} type to look for a handler for
      * @return Relevant handler or null if none could be found
@@ -358,22 +356,23 @@ public class TypeHandler {
      * Searches for a {@link Handler} in the given {@link Collection} capable of handling
      * the given {@link Class}.
      *
-     * @param clazz {@link Class} type to look for a handler for
+     * @param clazz    {@link Class} type to look for a handler for
      * @param toSearch {@link Collection} to search through
      * @return relevant handler or null
      */
+    @Nullable
     private <T extends Handler> T getGenericPolymorphicForFrom(Class clazz, Collection<T> toSearch) {
         Validate.notNull(clazz);
         Validate.notNull(toSearch);
 
         for (T handler : toSearch) {
             if (handler.getRelevantClass().isAssignableFrom(clazz)) {
-                debugLn("Found handler " + handler + " for " + clazz + " in " + toSearch);
+                debugLn("Found existing polymorphic handler " + handler + " for " + clazz + " in " + toSearch);
                 return handler;
             }
         }
 
-        debugLn("Unable to find handler for " + clazz + " from " + toSearch);
+        debugLn("Unable to find existing polymorphic handler for " + clazz + " from " + toSearch);
         return null;
     }
 
@@ -382,6 +381,7 @@ public class TypeHandler {
      *
      * @return unmodifiable collection
      */
+    @Nonnull
     Collection<IHandler> getAllInputHandlers() {
         return Collections.unmodifiableCollection(inputHandlers.values());
     }
@@ -391,6 +391,7 @@ public class TypeHandler {
      *
      * @return unmodifiable collection
      */
+    @Nonnull
     Collection<OHandler> getAllOutputHandlers() {
         return Collections.unmodifiableCollection(outputHandlers);
     }
