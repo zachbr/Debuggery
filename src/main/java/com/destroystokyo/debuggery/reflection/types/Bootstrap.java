@@ -20,11 +20,10 @@ package com.destroystokyo.debuggery.reflection.types;
 import com.destroystokyo.debuggery.reflection.types.handlers.base.Handler;
 import com.destroystokyo.debuggery.reflection.types.handlers.input.*;
 import com.destroystokyo.debuggery.reflection.types.handlers.output.*;
+import com.destroystokyo.debuggery.util.DebugLogger;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.destroystokyo.debuggery.Debuggery.debugLn;
 
 /**
  * Bootstraps all handler classes into the TypeHandler system
@@ -37,7 +36,7 @@ class Bootstrap {
      * @param typeHandler {@link TypeHandler} instance to bootstrap
      */
     static void init(TypeHandler typeHandler) {
-        debugLn("Begin TypeHandler bootstrap");
+        DebugLogger.debugLn("Begin TypeHandler bootstrap");
         List<Handler> registration = new ArrayList<>();
 
         //
@@ -88,6 +87,6 @@ class Bootstrap {
             }
         }
 
-        debugLn("End TypeHandler bootstrap");
+        DebugLogger.debugLn("End TypeHandler bootstrap");
     }
 }
