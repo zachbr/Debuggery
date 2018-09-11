@@ -97,6 +97,16 @@ public class ReflectionChain {
         return this.endingInstance;
     }
 
+    /**
+     * Performs an individual reflective operation
+     *
+     * @param instance what to operate on
+     * @param method   what to call
+     * @param args     parameters to pass to operation
+     * @return resulting object instance or null if that's the correct result
+     * @throws InvocationTargetException see {@link Method#invoke(Object, Object...)}
+     * @throws IllegalAccessException    see {@link Method#invoke(Object, Object...)}
+     */
     @Nullable
     private Object reflect(@Nonnull Object instance, @Nonnull Method method, @Nonnull Object[] args) throws InvocationTargetException, IllegalAccessException {
         final int paramCount = method.getParameterCount();

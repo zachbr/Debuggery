@@ -17,14 +17,9 @@
 
 package com.destroystokyo.debuggery.reflection.types.implementations;
 
-import org.bukkit.help.HelpMap;
-import org.bukkit.help.HelpTopic;
-import org.bukkit.help.HelpTopicFactory;
+import org.bukkit.help.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class TestHelpMap implements HelpMap {
     private List<HelpTopic> helpTopics = new ArrayList<>();

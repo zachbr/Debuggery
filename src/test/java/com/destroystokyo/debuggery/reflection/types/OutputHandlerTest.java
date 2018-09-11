@@ -18,10 +18,7 @@
 package com.destroystokyo.debuggery.reflection.types;
 
 import com.destroystokyo.debuggery.reflection.types.implementations.*;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.WorldBorder;
+import org.bukkit.*;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.command.CommandSender;

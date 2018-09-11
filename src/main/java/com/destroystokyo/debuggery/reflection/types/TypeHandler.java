@@ -30,7 +30,7 @@ import java.util.*;
 /**
  * Manages all type handling
  * <p>
- * All conversions from string -> object and vice-versa are implemented as individual
+ * All conversions from string to object and vice-versa are implemented as individual
  * {@link Handler} instances and accessed through this managing class
  */
 public class TypeHandler {
@@ -87,6 +87,15 @@ public class TypeHandler {
         }
     }
 
+    /**
+     * Creates new instances of the requested class types using the provided input
+     *
+     * @param classes {@link Class} types to be instantiated
+     * @param input   The input to be used in the instantiation of the new instances
+     * @param sender  {@link CommandSender} to be used to provide helpful shortcuts when available
+     * @return {@link Object} array of the requested types, instantiated and ready for use
+     * @throws InputException when there's an issue instantiating the requested types
+     */
     @Nonnull
     public Object[] instantiateTypes(Class[] classes, List<String> input, @Nullable CommandSender sender) throws InputException {
         Validate.notNull(classes);
@@ -101,6 +110,15 @@ public class TypeHandler {
         return outputObjects.toArray();
     }
 
+    /**
+     * Creates new instances of the requested class types using the provided input
+     *
+     * @param clazz  {@link Class} type to be instantiated
+     * @param input  The input to be used in the instantiation of the new instances
+     * @param sender {@link CommandSender} to be used to provide helpful shortcuts when available
+     * @return An instance of the requested class or null
+     * @throws InputException when there's an issue instantiating the requested type
+     */
     @Nullable
     private Object instantiateObjectFor(Class clazz, String input, @Nullable CommandSender sender) throws InputException {
         Validate.notNull(clazz);
@@ -151,7 +169,7 @@ public class TypeHandler {
      * Registers an input handler to the system
      *
      * @param handler type handler to register
-     * @return true if sucessfully registered
+     * @return true if successfully registered
      */
     private boolean registerInputHandler(IHandler handler) {
         final Class handlerRelevantClass = handler.getRelevantClass();
@@ -358,6 +376,7 @@ public class TypeHandler {
      * @param clazz     {@link Class} type to look for a handler for
      * @param toSearch  {@link Collection} to search through
      * @param debugName {@link String} collection name to use in debug messages
+     * @param <T>       {@link Handler} type to get
      * @return relevant handler or null
      */
     @Nullable

@@ -17,10 +17,7 @@
 
 package com.destroystokyo.debuggery.reflection.types.implementations;
 
-import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.data.BlockData;
@@ -56,13 +53,13 @@ public class TestBlockState implements BlockState {
     }
 
     @Override
-    public BlockData getBlockData() {
-        return this.blockData;
+    public void setData(MaterialData data) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setData(MaterialData data) {
-        throw new UnsupportedOperationException();
+    public BlockData getBlockData() {
+        return this.blockData;
     }
 
     @Override

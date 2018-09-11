@@ -23,9 +23,7 @@ import com.destroystokyo.debuggery.reflection.ReflectionUtil;
 import com.destroystokyo.debuggery.reflection.types.TypeHandler;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Debuggery extends JavaPlugin {
     public static final boolean DEBUG_MODE = Boolean.getBoolean("debuggery.debug");

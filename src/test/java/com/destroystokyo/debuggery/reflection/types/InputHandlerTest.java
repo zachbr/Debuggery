@@ -17,16 +17,9 @@
 
 package com.destroystokyo.debuggery.reflection.types;
 
-import org.bukkit.Difficulty;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
-import org.bukkit.WeatherType;
-import org.bukkit.entity.Creeper;
-import org.bukkit.entity.Pig;
-import org.bukkit.entity.Zombie;
-import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.MainHand;
+import org.bukkit.*;
+import org.bukkit.entity.*;
+import org.bukkit.inventory.*;
 import org.bukkit.material.MaterialData;
 import org.bukkit.permissions.PermissionDefault;
 import org.junit.Test;

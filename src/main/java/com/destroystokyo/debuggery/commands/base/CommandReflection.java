@@ -33,6 +33,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 
+/**
+ * Base class for all commands that use reflection to dig into Bukkit's API
+ */
 public abstract class CommandReflection extends CommandBase {
     private Map<String, Method> availableMethods;
     private Class classType;

@@ -29,7 +29,16 @@ public class ReflectionUtil {
     private static final Map<Class, Map<String, Method>> globalMethodMap = new HashMap<>();
 
     /**
+     * Tests if a given string starts with a vowel
+     */
+    private static final Predicate<String> startsWithVowel = s -> {
+        s = s.toLowerCase();
+        return s.startsWith("a") || s.startsWith("e") || s.startsWith("i") || s.startsWith("o") || s.startsWith("u");
+    };
+
+    /**
      * Gets a method map for the specified class
+     * <p>
      * Will check the local cache before generating a new one.
      *
      * @param classIn class to get a method map for
@@ -56,6 +65,7 @@ public class ReflectionUtil {
 
     /**
      * Attempts to parse a string for method parameters
+     * <p>
      * Doesn't do any actual type detection or object instantiation, that's
      * not what this is for.
      *
@@ -103,6 +113,7 @@ public class ReflectionUtil {
 
     /**
      * Generates a map containing method names and the methods themselves
+     * <p>
      * Used for reflection based command handling
      *
      * @param clazz which class to get methods for
@@ -176,12 +187,4 @@ public class ReflectionUtil {
         return "Method " + methodName + " requires " + method.getParameterCount() + " args and " + returnInfo + "\n"
                 + ReflectionUtil.getFormattedMethodSignature(method);
     }
-
-    /**
-     * Tests if a given string starts with a vowel
-     */
-    private static final Predicate<String> startsWithVowel = s -> {
-        s = s.toLowerCase();
-        return s.startsWith("a") || s.startsWith("e") || s.startsWith("i") || s.startsWith("o") || s.startsWith("u");
-    };
 }

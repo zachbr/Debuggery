@@ -19,9 +19,7 @@ package com.destroystokyo.debuggery.reflection.types.implementations;
 
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.messaging.Messenger;
-import org.bukkit.plugin.messaging.PluginMessageListener;
-import org.bukkit.plugin.messaging.PluginMessageListenerRegistration;
+import org.bukkit.plugin.messaging.*;
 
 import java.util.Set;
 

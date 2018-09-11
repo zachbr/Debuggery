@@ -19,15 +19,10 @@ package com.destroystokyo.debuggery.commands.base;
 
 import com.google.common.collect.Lists;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
+import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Class to handle all the stupid minutia involved with commands
@@ -103,6 +98,10 @@ public abstract class CommandBase implements CommandExecutor, TabCompleter {
 
     /**
      * Shows help text for this command
+     *
+     * @param sender {@link CommandSender} responsible for sending the message
+     * @param args   arguments for the given command
+     * @return whether the command was successfully handled
      */
     public final boolean showHelpText(CommandSender sender, String[] args) {
         if (!sender.hasPermission(this.permission)) {
@@ -130,17 +129,33 @@ public abstract class CommandBase implements CommandExecutor, TabCompleter {
     }
 
     /**
-     * This is what our command classes will use to implement their own logic
+     * Used by classes to implement their primary command logic
+     *
+     * @param sender  {@link CommandSender} responsible for sending the message
+     * @param command Relevant {@link Command} being used
+     * @param label   Command label in use
+     * @param args    arguments for the given command
+     * @return whether the command was successfully handled
      */
     protected abstract boolean commandLogic(CommandSender sender, Command command, String label, String[] args);
 
     /**
      * Called whenever someone uses the /debuggery command with a specific command topic
+     *
+     * @param sender {@link CommandSender} responsible for sending the message
+     * @param args   arguments for the given command
+     * @return whether the command was successfully handled
      */
     protected abstract boolean helpLogic(CommandSender sender, String[] args);
 
     /**
      * Used by classes to implement their tab completion logic
+     *
+     * @param sender  {@link CommandSender} responsible for sending the message
+     * @param command Relevant {@link Command} being used
+     * @param alias   Command alias in use
+     * @param args    arguments for the given command
+     * @return whether the command was successfully handled
      */
     protected abstract List<String> tabCompleteLogic(CommandSender sender, Command command, String alias, String[] args);
 

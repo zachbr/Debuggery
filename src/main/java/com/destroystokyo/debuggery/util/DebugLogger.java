@@ -25,6 +25,11 @@ public class DebugLogger {
     private static final boolean DUMMY_SERVER = Bukkit.getServer() == null;
     private static Debuggery instance;
 
+    /**
+     * Writes a debug log message if the plugin's debug mode has been enabled
+     *
+     * @param arg message to log
+     */
     public static void debugLn(String arg) {
         if (!Debuggery.DEBUG_MODE) {
             return;
