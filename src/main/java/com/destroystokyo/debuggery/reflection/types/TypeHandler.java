@@ -34,6 +34,7 @@ import java.util.*;
  * {@link Handler} instances and accessed through this managing class
  */
 public class TypeHandler {
+    static final String NULL_INSTANCE_KEYWORD = "\\null\\";
     private static TypeHandler singletonInstance;
 
     // input handlers
@@ -127,7 +128,7 @@ public class TypeHandler {
         Object out = null;
 
         // if the user has explicitly requested null (via '\null\') then just give them null
-        if (input.equals("\\null\\")) {
+        if (input.equals(NULL_INSTANCE_KEYWORD)) {
             return null;
         }
 

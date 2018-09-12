@@ -25,6 +25,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.function.Predicate;
 
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 public class ReflectionChainTest {
@@ -59,7 +60,8 @@ public class ReflectionChainTest {
         instance = new ReflTestClass(1, 2, 3);
         input = new String[]{subClassGetterName, subClassGetNumName, "5"};
 
-        endChainObj = new ReflectionChain(input, instance, null).chain();
+        ReflectionChain chain = new ReflectionChain(input, instance, null);
+        endChainObj = chain.chain();
         result = TypeHandler.getInstance().getOutputFor(endChainObj);
 
         passes = s -> s.contains("1") && s.contains("2") && s.contains("3") && s.contains("4") && s.contains("5");
@@ -70,5 +72,8 @@ public class ReflectionChainTest {
 
         // Verify the output contains the expected data we put in, ignoring random formatting details
         assertTrue(passes.test(result));
+
+        // Verify we can get the ending instance and that it matches our earlier result
+        assertSame(endChainObj, chain.getEndingInstance());
     }
 }

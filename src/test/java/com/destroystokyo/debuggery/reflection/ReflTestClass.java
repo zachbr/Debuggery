@@ -43,6 +43,9 @@ class ReflTestClass {
         return subClass;
     }
 
+    public void methodWithLotsOfParams(int i, int j, int k, int l, int m, int n, int o) {
+    }
+
     static class ReflSubClass {
 
         public int[] get1234(int num) {

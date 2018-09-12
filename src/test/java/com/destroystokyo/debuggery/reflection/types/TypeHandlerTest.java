@@ -188,4 +188,37 @@ public class TypeHandlerTest {
             ex.printStackTrace();
         }
     }
+
+    @Test(expected = InputException.class) // must throw
+    public void ensureThrowsOnNoSuchIHandler() throws InputException {
+        class RandomUnknown {
+        }
+        ;
+
+        // verify that if we have an unknown type requested, it always throws
+
+        Class[] requestedType = {RandomUnknown.class};
+        TypeHandler.getInstance().instantiateTypes(requestedType, Collections.singletonList("blah"), null);
+    }
+
+    @Test
+    public void ensureNullAlwaysAvailable() throws InputException {
+        Object[] array = TypeHandler.getInstance().instantiateTypes(new Class[]{Object.class}, Collections.singletonList(TypeHandler.NULL_INSTANCE_KEYWORD), null);
+        Object instance = array[0];
+
+        // verify we always have access to null
+
+        assertNull(instance);
+    }
+
+    @Test
+    public void ensureNullInputGivesNullOutput() {
+        String output = TypeHandler.getInstance().getOutputFor(null);
+
+        // verifies that the output handler never gives us anything for a null input object
+        // this matters because it's how we know not to send any message at all, rather than an empty string or empty
+        // brackets or something
+
+        assertNull(output);
+    }
 }
