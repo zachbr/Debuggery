@@ -1,4 +1,4 @@
-Debuggery [![Build Status](https://ci.destroystokyo.com/buildStatus/icon?job=Debuggery)](https://ci.destroystokyo.com/job/Debuggery)
+Debuggery [![Build Status](https://ci.destroystokyo.com/buildStatus/icon?job=Debuggery)](https://ci.destroystokyo.com/job/Debuggery) [![Codecov](https://img.shields.io/codecov/c/github/zachbr/debuggery.svg)](https://codecov.io/gh/zachbr/Debuggery)
 =========
 
 ## Building
