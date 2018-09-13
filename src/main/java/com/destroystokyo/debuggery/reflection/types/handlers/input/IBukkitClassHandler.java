@@ -28,7 +28,8 @@ public class IBukkitClassHandler implements IHandler {
     @Nonnull
     static Class getClass(String input) throws ClassNotFoundException {
         // This is only used for entities right now, so we can save some drama and just search those packages
-        final String[] searchPackages = {"org.bukkit.entity", "org.bukkit.entity.minecart"};
+        // todo above assumption no longer true, figure out what to do here
+        final String[] searchPackages = {"org.bukkit", "org.bukkit.entity", "org.bukkit.entity.minecart"};
 
         String normalized = input;
         if (normalized.endsWith(".class")) {

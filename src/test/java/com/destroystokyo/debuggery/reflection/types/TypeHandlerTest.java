@@ -221,4 +221,21 @@ public class TypeHandlerTest {
 
         assertNull(output);
     }
+
+    @Test
+    public void ensureInputExceptionNeverWrapsItself() {
+        // Make sure that InputExceptions never end up wrapping themselves
+        // We only ever want to wrap the base cause
+
+        Exception trueException = new NotImplementedException("hiya!");
+        InputException baseException = new InputException(trueException);
+        InputException level2 = new InputException(baseException);
+
+        assertSame(trueException, level2.getCause());
+
+        InputException level3 = new InputException(level2);
+        InputException level4 = new InputException(level3);
+
+        assertSame(trueException, level4.getCause());
+    }
 }

@@ -24,7 +24,8 @@ import org.bukkit.material.MaterialData;
 import org.bukkit.permissions.PermissionDefault;
 import org.junit.Test;
 
-import java.util.Arrays;
+import java.util.*;
+import java.util.function.*;
 
 import static org.junit.Assert.*;
 
@@ -259,6 +260,49 @@ public class InputHandlerTest {
         assertEquals(classes[0], Zombie.class);
         assertEquals(classes[1], Creeper.class);
         assertEquals(classes[2], Pig.class);
+    }
+
+    @Test
+    public void testCollection() throws InputException {
+        Class[] inputTypes = {List.class, Set.class, Collection.class};
+        String[] input = {"Material:Grass,Stone,Dirt", "SkullType:Wither,Zombie,Creeper", "PortalType:Nether,Ender"};
+
+        Object[] output = TypeHandler.getInstance().instantiateTypes(inputTypes, Arrays.asList(input), null);
+
+        // verify we got the types we requested
+        assertTrue(output[0] instanceof List);
+        assertTrue(output[1] instanceof Set);
+        assertTrue(output[2] instanceof Collection);
+
+        BiFunction<Collection, Object[], Boolean> testAllPresent = (collection, testers) -> {
+            boolean passes = true;
+            for (Object tester : testers) {
+                if (!collection.contains(tester)) {
+                    System.out.println("CANNOT FIND REQUESTED TYPE: " + tester);
+                    passes = false;
+                }
+            }
+
+            return passes;
+        };
+
+        // verify list contents
+        List list = (List) output[0];
+        Material[] expectedMats = {Material.GRASS, Material.STONE, Material.DIRT};
+        assertSame(expectedMats.length, list.size());
+        assertTrue(testAllPresent.apply(list, expectedMats));
+
+        // verify set contents
+        Set set = (Set) output[1];
+        SkullType[] expectedSkulls = { SkullType.WITHER, SkullType.ZOMBIE, SkullType.CREEPER};
+        assertSame(expectedSkulls.length, set.size());
+        assertTrue(testAllPresent.apply(set, expectedSkulls));
+
+        // verify collection contents
+        Collection collection = (Collection) output[2];
+        PortalType[] expectedPortTypes = {PortalType.ENDER, PortalType.NETHER};
+        assertSame(expectedPortTypes.length, collection.size());
+        assertTrue(testAllPresent.apply(collection, expectedPortTypes));
     }
 
 }

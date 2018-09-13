@@ -28,6 +28,11 @@ public class InputException extends Exception {
     private final Throwable wrappedException;
 
     InputException(@Nonnull Throwable throwable) {
+        if (throwable instanceof InputException) {
+            // Ensure we do not re-wrap ourselves here
+            throwable = ((InputException) throwable).getCause();
+        }
+
         this.wrappedException = throwable;
     }
 

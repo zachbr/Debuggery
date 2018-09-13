@@ -60,6 +60,7 @@ class Bootstrap {
         registration.add(new IUUIDHandler());
         // register polymorphics last
         registration.add(new IBlockDataHandler());
+        registration.add(new ICollectionHandler());
         registration.add(new IEnumHandler());
 
         //
