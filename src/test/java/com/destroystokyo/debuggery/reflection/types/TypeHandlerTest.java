@@ -158,6 +158,39 @@ public class TypeHandlerTest {
         final boolean iStringRemoveByClassSuccess = TypeHandler.getInstance().removeInputHandlerFor(String.class);
         final boolean oCollectionRemoveByClassSuccess = TypeHandler.getInstance().removeOutputHandlerFor(Collection.class);
 
+        // attempt removing handlers for a class that doesn't exist
+        class randomUnusedClass {}
+        IHandler iNotRegistered = new IHandler() {
+            @Nonnull
+            @Override
+            public Object instantiateInstance(String input, Class clazz, @Nullable CommandSender sender) throws Exception {
+                throw new NotImplementedException();
+            }
+
+            @Nonnull
+            @Override
+            public Class<?> getRelevantClass() {
+                return randomUnusedClass.class;
+            }
+        };
+
+        OHandler oNotRegistered = new OHandler() {
+            @Nullable
+            @Override
+            public String getFormattedOutput(Object object) {
+                throw new NotImplementedException();
+            }
+
+            @Nonnull
+            @Override
+            public Class<?> getRelevantClass() {
+                return randomUnusedClass.class;
+            }
+        };
+
+        final boolean removedUnregisteredIHandler = TypeHandler.getInstance().removeHandler(iNotRegistered);
+        final boolean removedUnregisteredOHandler = TypeHandler.getInstance().removeHandler(oNotRegistered);
+
         //
         // Validation
         //
@@ -173,6 +206,8 @@ public class TypeHandlerTest {
         assertTrue("Unable to remove output local class by instance!", oLocalClassRemoveByInstanceSucesss);
         assertTrue("Unable to remove input string handler by class type!", iStringRemoveByClassSuccess);
         assertTrue("Unable to remove output collection handler by class type!", oCollectionRemoveByClassSuccess);
+        assertFalse("Attempting to remove an unregistered IHandler didnt return false!", removedUnregisteredIHandler);
+        assertFalse("Attempting to remvoe an unregistered OHandler didnt return false!", removedUnregisteredOHandler);
 
         //
         // Cleanup
@@ -191,9 +226,7 @@ public class TypeHandlerTest {
 
     @Test(expected = InputException.class) // must throw
     public void ensureThrowsOnNoSuchIHandler() throws InputException {
-        class RandomUnknown {
-        }
-        ;
+        class RandomUnknown {}
 
         // verify that if we have an unknown type requested, it always throws
 

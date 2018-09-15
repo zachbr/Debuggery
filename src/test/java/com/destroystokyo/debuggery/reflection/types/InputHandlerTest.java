@@ -264,8 +264,9 @@ public class InputHandlerTest {
 
     @Test
     public void testCollection() throws InputException {
-        Class[] inputTypes = {List.class, Set.class, Collection.class};
-        String[] input = {"Material:Grass,Stone,Dirt", "SkullType:Wither,Zombie,Creeper", "PortalType:Nether,Ender"};
+        Class[] inputTypes = {List.class, Set.class, Collection.class, Queue.class, Vector.class};
+        String[] input = {"Material:Grass,Stone,Dirt", "SkullType:Wither,Zombie,Creeper", "PortalType:Nether,Ender",
+        "TreeType:Redwood,RED_MUSHROOM,dark_oak", "GameMode:Creative,Survival,Adventure"};
 
         Object[] output = TypeHandler.getInstance().instantiateTypes(inputTypes, Arrays.asList(input), null);
 
@@ -273,6 +274,8 @@ public class InputHandlerTest {
         assertTrue(output[0] instanceof List);
         assertTrue(output[1] instanceof Set);
         assertTrue(output[2] instanceof Collection);
+        assertTrue(output[3] instanceof Queue);
+        assertTrue(output[4] instanceof Vector);
 
         BiFunction<Collection, Object[], Boolean> testAllPresent = (collection, testers) -> {
             boolean passes = true;
@@ -303,6 +306,18 @@ public class InputHandlerTest {
         PortalType[] expectedPortTypes = {PortalType.ENDER, PortalType.NETHER};
         assertSame(expectedPortTypes.length, collection.size());
         assertTrue(testAllPresent.apply(collection, expectedPortTypes));
+
+        // verify queue contents
+        Queue queue = (Queue) output[3];
+        TreeType[] expectedClasses = {TreeType.REDWOOD, TreeType.RED_MUSHROOM, TreeType.DARK_OAK};
+        assertSame(expectedClasses.length, queue.size());
+        assertTrue(testAllPresent.apply(queue, expectedClasses));
+
+        // verify vector contents
+        Vector vector = (Vector) output[4];
+        GameMode[] expectedGameModes = {GameMode.SURVIVAL, GameMode.CREATIVE, GameMode.ADVENTURE};
+        assertSame(expectedGameModes.length, vector.size());
+        assertTrue(testAllPresent.apply(vector, expectedGameModes));
     }
 
 }
