@@ -24,26 +24,26 @@ website: https://github.com/zachbr/Debuggery
 description: A small plugin designed to expose API values at runtime.
 commands:
   debuggery:
-    description: Debuggery Command!
+    description: Debuggery!
     usage: /debuggery
   dblock:
-    description: Returns block info!
+    description: Returns block info
     usage: /dblock
   dchunk:
-    description: Returns chunk info!
+    description: Returns chunk info
     usage: /dchunk
   dentity:
-    description: Returns entity info!
+    description: Returns entity info
     usage: /dentity
   ditem:
-    description: Returns item info!
+    description: Returns item info
     usage: /ditem
   dplayer:
-    description: Returns player info!
+    description: Returns player info
     usage: /dplayer
   dserver:
-    description: Returns server info!
+    description: Returns server info
     usage: /dserver
   dworld:
-    description: Returns world info!
+    description: Returns world info
     usage: /dworld

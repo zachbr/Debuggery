@@ -45,26 +45,20 @@ public class Debuggery extends JavaPlugin {
     }
 
     private void registerCommands() {
-        // :(
-        BlockCommand block = new BlockCommand();
-        ChunkCommand chunk = new ChunkCommand();
-        DebuggeryCommand debuggery = new DebuggeryCommand(this);
-        EntityCommand entity = new EntityCommand();
-        ItemCommand item = new ItemCommand();
-        PlayerCommand player = new PlayerCommand();
-        ServerCommand server = new ServerCommand();
-        WorldCommand world = new WorldCommand();
-
-        commands.put(block.getName(), block);
-        commands.put(chunk.getName(), chunk);
-        commands.put(debuggery.getName(), debuggery);
-        commands.put(entity.getName(), entity);
-        commands.put(item.getName(), item);
-        commands.put(player.getName(), player);
-        commands.put(server.getName(), server);
-        commands.put(world.getName(), world);
+        this.registerCommand(new BlockCommand());
+        this.registerCommand(new ChunkCommand());
+        this.registerCommand(new DebuggeryCommand(this));
+        this.registerCommand(new EntityCommand());
+        this.registerCommand(new ItemCommand());
+        this.registerCommand(new PlayerCommand());
+        this.registerCommand(new ServerCommand());
+        this.registerCommand(new WorldCommand());
 
         commands.values().forEach(c -> this.getCommand(c.getName()).setExecutor(c));
+    }
+
+    private void registerCommand(final CommandBase command) {
+        this.commands.put(command.getName(), command);
     }
 
     public Map<String, CommandBase> getAllCommands() {
