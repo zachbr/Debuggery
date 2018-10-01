@@ -2,23 +2,19 @@ buildscript {
     repositories {
         mavenCentral()
     }
-    dependencies {
-        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0-RC3'
-    }
 }
 
 plugins {
-    id 'net.minecrell.licenser' version "0.3"
+    id 'java'
+    id 'jacoco'
+    id 'net.minecrell.licenser' version "0.4.1"
 }
-
-apply plugin: 'java'
-apply plugin: 'jacoco'
 
 group = pluginGroup
 version = pluginVersion
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 11
+targetCompatibility = 11
 
 repositories {
     mavenCentral()
@@ -37,8 +33,10 @@ tasks.withType(JavaCompile) {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile 'com.destroystokyo.paper:paper-api:1.13-R0.1-SNAPSHOT'
+    compile 'com.destroystokyo.paper:paper-api:1.13.1-R0.1-SNAPSHOT'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.1.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.1.1'
 }
 
 import org.apache.tools.ant.filters.ReplaceTokens
@@ -56,12 +54,17 @@ jar {
 
 test {
     testLogging.showStandardStreams = true
+    useJUnitPlatform()
 }
 
 // updateLicenses | checkLicenses
 license {
     ext.name = 'Debuggery'
     header = project.file('HEADER.txt')
+}
+
+jacoco {
+    toolVersion = "0.8.2"
 }
 
 jacocoTestReport {

@@ -23,6 +23,7 @@ import org.bukkit.Difficulty;
 import org.bukkit.WeatherType;
 import org.bukkit.command.CommandSender;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -224,14 +225,15 @@ public class TypeHandlerTest {
         }
     }
 
-    @Test(expected = InputException.class) // must throw
-    public void ensureThrowsOnNoSuchIHandler() throws InputException {
-        class RandomUnknown {}
-
+    @Test
+    public void ensureThrowsOnNoSuchIHandler() {
         // verify that if we have an unknown type requested, it always throws
+        Assertions.assertThrows(InputException.class, () -> {
+            class RandomUnknown {}
 
-        Class[] requestedType = {RandomUnknown.class};
-        TypeHandler.getInstance().instantiateTypes(requestedType, Collections.singletonList("blah"), null);
+            Class[] requestedType = {RandomUnknown.class};
+            TypeHandler.getInstance().instantiateTypes(requestedType, Collections.singletonList("blah"), null);
+        });
     }
 
     @Test

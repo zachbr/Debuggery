@@ -80,6 +80,11 @@ public class TestInventory implements Inventory {
     }
 
     @Override
+    public HashMap<Integer, ItemStack> removeItemAnySlot(ItemStack... items) throws IllegalArgumentException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public ItemStack[] getContents() {
         return this.contents.toArray(new ItemStack[contents.size()]);
     }

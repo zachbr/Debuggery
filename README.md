@@ -2,7 +2,9 @@ Debuggery [![Build Status](https://ci.destroystokyo.com/buildStatus/icon?job=Deb
 =========
 
 ## Building
-Debuggery requires [Java 8] to build.
+Debuggery requires **Java 11** to build.
+
+I recommend either using the [OpenJDK reference builds] or the [AdoptOpenJDK builds].
 
 Once cloned, use the gradle wrapper included in this repository to build a runnable jar.
 
@@ -11,7 +13,8 @@ Once cloned, use the gradle wrapper included in this repository to build a runna
 You will find a compiled version in the `./build/libs/` directory.
 
 
-[Java 8]: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+[OpenJDK reference builds]: http://jdk.java.net/11/
+[AdoptOpenJDK builds]: https://adoptopenjdk.net/?variant=openjdk11&jvmVariant=hotspot
 
 ## What is it?
 Debuggery is a small plugin designed to expose API values at runtime.
