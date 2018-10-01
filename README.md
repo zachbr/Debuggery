@@ -4,7 +4,7 @@ Debuggery [![Build Status](https://ci.destroystokyo.com/buildStatus/icon?job=Deb
 ## Building
 Debuggery requires **Java 11** to build.
 
-I recommend either using the [OpenJDK reference builds] or the [AdoptOpenJDK builds].
+I recommend using either the [OpenJDK reference builds] or the [AdoptOpenJDK builds].
 
 Once cloned, use the gradle wrapper included in this repository to build a runnable jar.
 
