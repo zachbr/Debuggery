@@ -332,7 +332,7 @@ public class TypeHandler {
 
         // first check for an explicit input handler to use for this type
         IHandler handler = inputHandlers.get(clazz);
-        if (!(handler == null)) {
+        if (handler != null) {
             DebugLogger.debugLn("Found input handler " + handler + " for " + clazz);
         } else {
             // otherwise fall back to a polymorphic handler lookup

@@ -36,6 +36,7 @@ public class InputException extends Exception {
         this.wrappedException = throwable;
     }
 
+    @Override
     @Nonnull
     public Throwable getCause() {
         return wrappedException;

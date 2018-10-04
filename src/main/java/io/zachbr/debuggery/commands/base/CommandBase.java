@@ -28,6 +28,9 @@ import java.util.*;
  * Class to handle all the stupid minutia involved with commands
  */
 public abstract class CommandBase implements CommandExecutor, TabCompleter {
+    private static final String NO_PERMS_MSG = ChatColor.RED + "You do not have permission to do that!";
+    private static final String PLAYER_USE_ONLY_MSG = ChatColor.RED + "This command can only be used by players!";
+
     private final String name;
     private final String permission;
     private final boolean requiresPlayer;
@@ -84,12 +87,12 @@ public abstract class CommandBase implements CommandExecutor, TabCompleter {
     @Override
     public final boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!sender.hasPermission(this.permission)) {
-            sender.sendMessage(ChatColor.RED + "You do not have permission to do that!");
+            sender.sendMessage(NO_PERMS_MSG);
             return true;
         }
 
         if (this.requiresPlayer && !(sender instanceof Player)) {
-            sender.sendMessage(ChatColor.RED + "This command can only be used by players!");
+            sender.sendMessage(PLAYER_USE_ONLY_MSG);
             return true;
         }
 
@@ -105,7 +108,7 @@ public abstract class CommandBase implements CommandExecutor, TabCompleter {
      */
     public final boolean showHelpText(CommandSender sender, String[] args) {
         if (!sender.hasPermission(this.permission)) {
-            sender.sendMessage(ChatColor.RED + "You do not have permission to do that!");
+            sender.sendMessage(NO_PERMS_MSG);
             return true;
         }
 
@@ -116,12 +119,12 @@ public abstract class CommandBase implements CommandExecutor, TabCompleter {
     @Override
     public final List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (!sender.hasPermission(this.permission)) {
-            sender.sendMessage(ChatColor.RED + "You do not have permission to do that!");
+            sender.sendMessage(NO_PERMS_MSG);
             return Collections.emptyList();
         }
 
         if (this.requiresPlayer && !(sender instanceof Player)) {
-            sender.sendMessage(ChatColor.RED + "This command can only be used by players!");
+            sender.sendMessage(PLAYER_USE_ONLY_MSG);
             return Collections.emptyList();
         }
 

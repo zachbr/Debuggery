@@ -30,7 +30,7 @@ public class OMapHandler implements OHandler {
     @Override
     public String getFormattedOutput(Object object) {
         final Map map = (Map) object;
-        if (map.keySet().size() == 0) {
+        if (map.isEmpty()) {
             return null; // we don't want to display anything if the map is empty
         }
 

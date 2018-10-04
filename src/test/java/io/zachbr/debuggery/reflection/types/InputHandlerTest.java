@@ -25,7 +25,7 @@ import org.bukkit.permissions.PermissionDefault;
 import org.junit.Test;
 
 import java.util.*;
-import java.util.function.*;
+import java.util.function.BiFunction;
 
 import static org.junit.Assert.*;
 
@@ -112,10 +112,10 @@ public class InputHandlerTest {
         assertTrue(output[3] instanceof PermissionDefault);
 
         // Finally, let's make sure the values are correct
-        assertSame(output[0], WeatherType.DOWNFALL);
-        assertSame(output[1], EquipmentSlot.HEAD);
-        assertSame(output[2], MainHand.LEFT);
-        assertSame(output[3], PermissionDefault.NOT_OP);
+        assertSame(WeatherType.DOWNFALL, output[0]);
+        assertSame(EquipmentSlot.HEAD, output[1]);
+        assertSame(MainHand.LEFT, output[2]);
+        assertSame(PermissionDefault.NOT_OP, output[3]);
     }
 
     @Test
@@ -134,9 +134,9 @@ public class InputHandlerTest {
         }
 
         // Finally, let's make sure the values are correct
-        assertSame(output[0], Material.GOLD_BLOCK);
-        assertSame(output[1], Material.DIAMOND_SWORD);
-        assertSame(output[2], Material.BLAZE_ROD);
+        assertSame(Material.GOLD_BLOCK, output[0]);
+        assertSame(Material.DIAMOND_SWORD, output[1]);
+        assertSame(Material.BLAZE_ROD, output[2]);
     }
 
     @Test
@@ -157,9 +157,9 @@ public class InputHandlerTest {
         ItemStack[] itemStackArr = (ItemStack[]) output[0];
 
         // verify types in array
-        assertSame(itemStackArr[0].getType(), Material.DIAMOND);
-        assertSame(itemStackArr[1].getType(), Material.SAND);
-        assertSame(itemStackArr[2].getType(), Material.DIAMOND_SWORD);
+        assertSame(Material.DIAMOND, itemStackArr[0].getType());
+        assertSame(Material.SAND, itemStackArr[1].getType());
+        assertSame(Material.DIAMOND_SWORD, itemStackArr[2].getType());
     }
 
     @Test
@@ -178,7 +178,7 @@ public class InputHandlerTest {
         }
 
         // Finally, let's make sure the values are correct
-        assertSame(((ItemStack) output[0]).getType(), Material.DIAMOND);
+        assertSame(Material.DIAMOND, ((ItemStack) output[0]).getType());
     }
 
     @Test
@@ -197,7 +197,7 @@ public class InputHandlerTest {
         }
 
         // Finally, let's make sure the values are correct
-        assertSame(((MaterialData) output[0]).getItemType(), Material.DIAMOND_SHOVEL);
+        assertSame(Material.DIAMOND_SHOVEL, ((MaterialData) output[0]).getItemType());
     }
 
     @Test
@@ -216,8 +216,8 @@ public class InputHandlerTest {
         }
 
         // Finally, let's make sure the values are correct
-        assertSame(output[0], GameMode.CREATIVE);
-        assertSame(output[1], GameMode.ADVENTURE);
+        assertSame(GameMode.CREATIVE, output[0]);
+        assertSame(GameMode.ADVENTURE, output[1]);
     }
 
     @Test
@@ -236,8 +236,8 @@ public class InputHandlerTest {
         }
 
         // Finally, let's make sure the values are correct
-        assertSame(output[0], Difficulty.HARD);
-        assertSame(output[1], Difficulty.PEACEFUL);
+        assertSame(Difficulty.HARD, output[0]);
+        assertSame(Difficulty.PEACEFUL, output[1]);
     }
 
     @Test
@@ -266,7 +266,7 @@ public class InputHandlerTest {
     public void testCollection() throws InputException {
         Class[] inputTypes = {List.class, Set.class, Collection.class, Queue.class, Vector.class};
         String[] input = {"Material:Grass,Stone,Dirt", "SkullType:Wither,Zombie,Creeper", "PortalType:Nether,Ender",
-        "TreeType:Redwood,RED_MUSHROOM,dark_oak", "GameMode:Creative,Survival,Adventure"};
+                "TreeType:Redwood,RED_MUSHROOM,dark_oak", "GameMode:Creative,Survival,Adventure"};
 
         Object[] output = TypeHandler.getInstance().instantiateTypes(inputTypes, Arrays.asList(input), null);
 
@@ -297,7 +297,7 @@ public class InputHandlerTest {
 
         // verify set contents
         Set set = (Set) output[1];
-        SkullType[] expectedSkulls = { SkullType.WITHER, SkullType.ZOMBIE, SkullType.CREEPER};
+        SkullType[] expectedSkulls = {SkullType.WITHER, SkullType.ZOMBIE, SkullType.CREEPER};
         assertSame(expectedSkulls.length, set.size());
         assertTrue(testAllPresent.apply(set, expectedSkulls));
 

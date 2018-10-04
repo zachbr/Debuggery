@@ -69,8 +69,8 @@ public class TypeHandlerTest {
 
         assertTrue(output[0] instanceof Difficulty);
         assertTrue(output[1] instanceof WeatherType);
-        assertEquals(output[0], Difficulty.EASY);
-        assertEquals(output[1], WeatherType.CLEAR);
+        assertEquals(Difficulty.EASY, output[0]);
+        assertEquals(WeatherType.CLEAR, output[1]);
     }
 
     @Test
