@@ -25,6 +25,7 @@ import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 
 import java.util.*;
 import java.util.function.BiFunction;
@@ -338,6 +339,11 @@ public class InputHandlerTest {
         assertSame(PotionEffectType.NIGHT_VISION, output[0]);
         assertSame(PotionEffectType.SPEED, output[1]);
         assertSame(PotionEffectType.INVISIBILITY, output[2]);
+
+        // Test throws when no type exists
+        Assertions.assertThrows(InputException.class, () -> {
+            Object[] out = TypeHandler.getInstance().instantiateTypes(new Class[]{PotionEffectType.class}, Collections.singletonList("doesntExist"), null);
+        });
     }
 
     @Test
