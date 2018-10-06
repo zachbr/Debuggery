@@ -52,12 +52,14 @@ jar {
     archivesBaseName = pluginName
 }
 
-test {
+compileTestJava {
     // Gradle/JUnit/Somebody's ASM lib isn't updated for JEP-181 and it breaks things
     // hopefully less things than this will inevitably break in the future
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
+}
 
+test {
     testLogging.showStandardStreams = true
     useJUnit()
 }
@@ -74,8 +76,8 @@ jacoco {
 
 jacocoTestReport {
     reports {
-        xml.enabled true
-        html.enabled false
+        xml.enabled = true
+        html.enabled = false
     }
 }
 
