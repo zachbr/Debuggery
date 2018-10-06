@@ -18,7 +18,7 @@
 package io.zachbr.debuggery.reflection;
 
 @SuppressWarnings("WeakerAccess")
-class ReflTestClass {
+public class ReflTestClass {
     private int some;
     private int random;
     private int numbers;

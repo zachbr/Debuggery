@@ -17,6 +17,7 @@
 
 package io.zachbr.debuggery.reflection.types;
 
+import io.zachbr.debuggery.reflection.ReflTestClass;
 import io.zachbr.debuggery.reflection.types.handlers.base.*;
 import org.apache.commons.lang.NotImplementedException;
 import org.bukkit.Difficulty;
@@ -35,6 +36,7 @@ import java.util.stream.Collectors;
 import static org.junit.Assert.*;
 
 public class TypeHandlerTest {
+    private static final Class CASE_NEVER_WILL_BE_REGISTERED = Assertions.class;
 
     @Test
     public void validateAllHandlers() {
@@ -114,7 +116,7 @@ public class TypeHandlerTest {
         final boolean collectionOutputAddSuccess = TypeHandler.getInstance().registerHandler(oCollectionHandler);
 
         // now test that adding a random new class will work
-        abstract class LocalClass {}
+        Class testClassToRegister = ReflTestClass.class;
 
         IHandler iLocalClassHandler = new IHandler() {
             @Nonnull
@@ -126,7 +128,7 @@ public class TypeHandlerTest {
             @Nonnull
             @Override
             public Class<?> getRelevantClass() {
-                return LocalClass.class;
+                return testClassToRegister;
             }
         };
 
@@ -140,7 +142,7 @@ public class TypeHandlerTest {
             @Nonnull
             @Override
             public Class<?> getRelevantClass() {
-                return LocalClass.class;
+                return testClassToRegister;
             }
         };
 
@@ -160,7 +162,6 @@ public class TypeHandlerTest {
         final boolean oCollectionRemoveByClassSuccess = TypeHandler.getInstance().removeOutputHandlerFor(Collection.class);
 
         // attempt removing handlers for a class that doesn't exist
-        class randomUnusedClass {}
         IHandler iNotRegistered = new IHandler() {
             @Nonnull
             @Override
@@ -171,7 +172,7 @@ public class TypeHandlerTest {
             @Nonnull
             @Override
             public Class<?> getRelevantClass() {
-                return randomUnusedClass.class;
+                return CASE_NEVER_WILL_BE_REGISTERED;
             }
         };
 
@@ -185,7 +186,7 @@ public class TypeHandlerTest {
             @Nonnull
             @Override
             public Class<?> getRelevantClass() {
-                return randomUnusedClass.class;
+                return CASE_NEVER_WILL_BE_REGISTERED;
             }
         };
 
@@ -229,9 +230,7 @@ public class TypeHandlerTest {
     public void ensureThrowsOnNoSuchIHandler() {
         // verify that if we have an unknown type requested, it always throws
         Assertions.assertThrows(InputException.class, () -> {
-            class RandomUnknown {}
-
-            Class[] requestedType = {RandomUnknown.class};
+            Class[] requestedType = {CASE_NEVER_WILL_BE_REGISTERED};
             TypeHandler.getInstance().instantiateTypes(requestedType, Collections.singletonList("blah"), null);
         });
     }
