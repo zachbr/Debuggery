@@ -18,7 +18,7 @@
 package io.zachbr.debuggery.reflection.types;
 
 import io.zachbr.debuggery.reflection.types.handlers.base.*;
-import io.zachbr.debuggery.util.DebugLogger;
+import io.zachbr.debuggery.util.DebugUtil;
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.commons.lang.Validate;
 import org.bukkit.command.CommandSender;
@@ -83,7 +83,6 @@ public class TypeHandler {
             return handler.getFormattedOutput(object);
         } else {
             // failing that, just give the generic toString
-            DebugLogger.debugLn("Unable to find compatible output handler for " + object.getClass().getCanonicalName());
             return String.valueOf(object);
         }
     }
@@ -157,7 +156,7 @@ public class TypeHandler {
     public boolean registerHandler(Handler handler) {
         Validate.notNull(handler);
 
-        DebugLogger.debugLn("-- Attempting to register handler: " + handler + " for class: " + handler.getRelevantClass().getCanonicalName());
+        DebugUtil.debugLn("-- Attempting to register handler: " + handler + " for class: " + handler.getRelevantClass().getCanonicalName());
 
         if (handler instanceof IHandler) {
             return registerInputHandler((IHandler) handler);
@@ -178,17 +177,17 @@ public class TypeHandler {
         // first, make sure there isn't an existing handler already registered to this type
         final IHandler existingHandler = getIHandlerForClass(handlerRelevantClass);
         if (existingHandler != null) {
-            DebugLogger.debugLn("-- Cannot register " + handler + ", conflicts with " + existingHandler);
+            DebugUtil.debugLn("-- Cannot register " + handler + ", conflicts with " + existingHandler);
             return false;
         } else {
             inputHandlers.put(handlerRelevantClass, handler);
-            DebugLogger.debugLn("-- Added handler " + handler + " to Input Handlers");
+            DebugUtil.debugLn("-- Added handler " + handler + " to Input Handlers");
 
             // if this handler is polymorphic, add it to that collection as well
             // we MUST keep these in sync with one another
             if (handler instanceof IPolymorphicHandler) {
                 polymorphicHandlers.add((IPolymorphicHandler) handler);
-                DebugLogger.debugLn("-- -- Handler " + handler + " registered as polymorphic");
+                DebugUtil.debugLn("-- -- Handler " + handler + " registered as polymorphic");
             }
 
             return true;
@@ -205,11 +204,11 @@ public class TypeHandler {
         // first, make sure this handler isn't already registered
         OHandler existingHandler = getOHandlerForClass(handler.getRelevantClass());
         if (existingHandler != null) {
-            DebugLogger.debugLn("-- Cannot register " + handler + ", conflicts with " + existingHandler);
+            DebugUtil.debugLn("-- Cannot register " + handler + ", conflicts with " + existingHandler);
             return false;
         } else {
             outputHandlers.add(handler);
-            DebugLogger.debugLn("-- Added handler " + handler + " to Output Handlers");
+            DebugUtil.debugLn("-- Added handler " + handler + " to Output Handlers");
 
             return true;
         }
@@ -224,7 +223,7 @@ public class TypeHandler {
     boolean removeHandler(Handler handler) {
         Validate.notNull(handler);
 
-        DebugLogger.debugLn("Attempting to remove handler: " + handler);
+        DebugUtil.debugLn("Attempting to remove handler: " + handler);
 
         if (handler instanceof IHandler) {
             return removeInputHandler((IHandler) handler);
@@ -242,13 +241,13 @@ public class TypeHandler {
     boolean removeInputHandlerFor(Class clazz) {
         Validate.notNull(clazz);
 
-        DebugLogger.debugLn("Attempting to remove handler for class: " + clazz + " from Input Handlers.");
+        DebugUtil.debugLn("Attempting to remove handler for class: " + clazz + " from Input Handlers.");
 
         IHandler handler = getIHandlerForClass(clazz);
         if (handler != null) {
             return removeHandler(handler);
         } else {
-            DebugLogger.debugLn(" Cannot remove handler for class we cannot find: " + clazz);
+            DebugUtil.debugLn(" Cannot remove handler for class we cannot find: " + clazz);
             return false;
         }
     }
@@ -262,13 +261,13 @@ public class TypeHandler {
     boolean removeOutputHandlerFor(Class clazz) {
         Validate.notNull(clazz);
 
-        DebugLogger.debugLn("Attempting to remove handler for class: " + clazz + " from Output Handlers.");
+        DebugUtil.debugLn("Attempting to remove handler for class: " + clazz + " from Output Handlers.");
 
         OHandler handler = getOHandlerForClass(clazz);
         if (handler != null) {
             return removeHandler(handler);
         } else {
-            DebugLogger.debugLn(" Cannot remove handler for class we cannot find: " + clazz);
+            DebugUtil.debugLn(" Cannot remove handler for class we cannot find: " + clazz);
             return false;
         }
     }
@@ -282,17 +281,17 @@ public class TypeHandler {
     private boolean removeInputHandler(IHandler handler) {
         // make sure the given handler is even registered in the first place
         if (!inputHandlers.containsValue(handler)) {
-            DebugLogger.debugLn("Input Handler doesn't appear to be registered, can't remove");
+            DebugUtil.debugLn("Input Handler doesn't appear to be registered, can't remove");
             return false;
         } else {
             inputHandlers.remove(handler.getRelevantClass(), handler);
-            DebugLogger.debugLn("Removed handler " + handler + " from Input Handlers");
+            DebugUtil.debugLn("Removed handler " + handler + " from Input Handlers");
 
             // if we removed earlier and this is polymorphic, remove it from that collection
             // we MUST keep these in sync with one another
             if (handler instanceof IPolymorphicHandler) {
                 polymorphicHandlers.remove(handler);
-                DebugLogger.debugLn("Removed handler " + handler + " from polymorphic map");
+                DebugUtil.debugLn("Removed handler " + handler + " from polymorphic map");
             }
 
             return true;
@@ -308,11 +307,11 @@ public class TypeHandler {
     private boolean removeOutputHandler(OHandler handler) {
         // make sure the given handler is even registered in the first place
         if (!outputHandlers.contains(handler)) {
-            DebugLogger.debugLn("Handler doesn't appear to be registered, can't remove");
+            DebugUtil.debugLn("Handler doesn't appear to be registered, can't remove");
             return false;
         } else {
             outputHandlers.remove(handler);
-            DebugLogger.debugLn("Removed handler " + handler + " from Output Handlers");
+            DebugUtil.debugLn("Removed handler " + handler + " from Output Handlers");
 
             return true;
         }
@@ -333,10 +332,10 @@ public class TypeHandler {
         // first check for an explicit input handler to use for this type
         IHandler handler = inputHandlers.get(clazz);
         if (handler != null) {
-            DebugLogger.debugLn("Found input handler " + handler + " for " + clazz);
+            DebugUtil.debugLn("Found input handler " + handler + " for " + clazz);
         } else {
             // otherwise fall back to a polymorphic handler lookup
-            DebugLogger.debugLn("Could not find any specific input handler for " + clazz + ", using polymorphic lookup...");
+            DebugUtil.debugLn("Could not find any specific input handler for " + clazz + ", using polymorphic lookup...");
             handler = getIPolymorphicHandler(clazz);
         }
 
@@ -388,12 +387,12 @@ public class TypeHandler {
         final String debugMsg = debugName == null ? toSearch.toString() : debugName;
         for (T handler : toSearch) {
             if (handler.getRelevantClass().isAssignableFrom(clazz)) {
-                DebugLogger.debugLn("Found existing polymorphic handler " + handler + " for " + clazz + " in " + debugMsg);
+                DebugUtil.debugLn("Found existing polymorphic handler " + handler + " for " + clazz + " in " + debugMsg);
                 return handler;
             }
         }
 
-        DebugLogger.debugLn("Unable to find existing polymorphic handler for " + clazz + " in " + debugMsg);
+        DebugUtil.debugLn("Unable to find existing polymorphic handler for " + clazz + " in " + debugMsg);
         return null;
     }
 

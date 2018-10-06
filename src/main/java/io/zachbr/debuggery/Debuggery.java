@@ -21,19 +21,17 @@ import io.zachbr.debuggery.commands.*;
 import io.zachbr.debuggery.commands.base.CommandBase;
 import io.zachbr.debuggery.reflection.ReflectionUtil;
 import io.zachbr.debuggery.reflection.types.TypeHandler;
+import io.zachbr.debuggery.util.DebugUtil;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
 
 public class Debuggery extends JavaPlugin {
-    public static final boolean DEBUG_MODE = Boolean.getBoolean("debuggery.debug");
     private final Map<String, CommandBase> commands = new HashMap<>();
 
     @Override
     public void onEnable() {
-        if (DEBUG_MODE) {
-            this.getLogger().warning("Debug mode enabled!");
-        }
+        DebugUtil.printDebugInfo();
 
         TypeHandler.getInstance(); // init type handler at startup
         this.registerCommands();

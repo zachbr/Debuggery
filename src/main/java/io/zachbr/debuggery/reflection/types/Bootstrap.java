@@ -20,7 +20,7 @@ package io.zachbr.debuggery.reflection.types;
 import io.zachbr.debuggery.reflection.types.handlers.base.Handler;
 import io.zachbr.debuggery.reflection.types.handlers.input.*;
 import io.zachbr.debuggery.reflection.types.handlers.output.*;
-import io.zachbr.debuggery.util.DebugLogger;
+import io.zachbr.debuggery.util.DebugUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,7 @@ class Bootstrap {
      * @param typeHandler {@link TypeHandler} instance to bootstrap
      */
     static void init(TypeHandler typeHandler) {
-        DebugLogger.debugLn("Begin TypeHandler bootstrap");
+        DebugUtil.debugLn("Begin TypeHandler bootstrap");
         List<Handler> registration = new ArrayList<>();
 
         //
@@ -88,6 +88,6 @@ class Bootstrap {
             }
         }
 
-        DebugLogger.debugLn("End TypeHandler bootstrap");
+        DebugUtil.debugLn("End TypeHandler bootstrap");
     }
 }
