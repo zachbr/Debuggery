@@ -3,6 +3,7 @@ Debuggery [![Build Status](https://ci.destroystokyo.com/buildStatus/icon?job=Deb
 
 ## Building
 Debuggery requires **Java 11** to build.
+If you need a Java 8 build, check out the older releases [here](https://github.com/zachbr/Debuggery/releases/).
 
 I recommend using either the [OpenJDK reference builds] or the [AdoptOpenJDK builds].
 
