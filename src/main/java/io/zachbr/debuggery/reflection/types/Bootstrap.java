@@ -56,6 +56,8 @@ class Bootstrap {
         registration.add(new ILocationHandler());
         registration.add(new IMaterialDataHandler());
         registration.add(new IMaterialHandler());
+        registration.add(new IPotionEffectHandler());
+        registration.add(new IPotionEffectTypeHandler());
         registration.add(new IStringHandler());
         registration.add(new IUUIDHandler());
         // register polymorphics last

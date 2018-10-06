@@ -22,6 +22,8 @@ import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
 import org.bukkit.material.MaterialData;
 import org.bukkit.permissions.PermissionDefault;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.junit.Test;
 
 import java.util.*;
@@ -320,4 +322,51 @@ public class InputHandlerTest {
         assertTrue(testAllPresent.apply(vector, expectedGameModes));
     }
 
+    @Test
+    public void testPotionEffectType() throws InputException {
+        Class[] inputTypes = {PotionEffectType.class, PotionEffectType.class, PotionEffectType.class};
+        String[] input = {"NIGHT_VISION", "speed", "iNviSiBilIty"};
+
+        Object[] output = TypeHandler.getInstance().instantiateTypes(inputTypes, Arrays.asList(input), null);
+
+        assertEquals(inputTypes.length, output.length);
+
+        for (Object object : output) {
+            assertTrue(object instanceof PotionEffectType);
+        }
+
+        assertSame(PotionEffectType.NIGHT_VISION, output[0]);
+        assertSame(PotionEffectType.SPEED, output[1]);
+        assertSame(PotionEffectType.INVISIBILITY, output[2]);
+    }
+
+    @Test
+    public void testPotionEffect() throws InputException {
+        Class[] inputTypes = {PotionEffect.class, PotionEffect.class, PotionEffect.class};
+        String[] input = {"NIGHT_VISION", "speed,200,5", "iNviSiBilIty,150,2"};
+
+        Object[] output = TypeHandler.getInstance().instantiateTypes(inputTypes, Arrays.asList(input), null);
+
+        assertEquals(inputTypes.length, output.length);
+
+        for (Object object : output) {
+            assertTrue(object instanceof PotionEffect);
+        }
+
+        PotionEffect effect0 = (PotionEffect) output[0];
+        PotionEffect effect1 = (PotionEffect) output[1];
+        PotionEffect effect2 = (PotionEffect) output[2];
+
+        // basic case, all we guarantee is the type
+        assertSame(PotionEffectType.NIGHT_VISION, effect0.getType());
+
+        // secondary case, we guarantee type and duration
+        assertSame(PotionEffectType.SPEED, effect1.getType());
+        assertEquals(200, effect1.getDuration());
+
+        // tertiary case, we guarantee type, duration, and amplifer
+        assertSame(PotionEffectType.INVISIBILITY, effect2.getType());
+        assertEquals(150, effect2.getDuration());
+        assertEquals(2, effect2.getAmplifier());
+    }
 }
