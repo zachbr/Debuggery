@@ -31,7 +31,7 @@ public class Debuggery extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        DebugUtil.printDebugInfo();
+        DebugUtil.printSystemInfo();
 
         TypeHandler.getInstance(); // init type handler at startup
         this.registerCommands();

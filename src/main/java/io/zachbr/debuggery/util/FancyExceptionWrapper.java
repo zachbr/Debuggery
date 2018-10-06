@@ -30,7 +30,7 @@ import java.io.StringWriter;
  * <p>
  * Has to be kept separate and never called from a CraftBukkit server.
  */
-public class FancyChatException {
+public class FancyExceptionWrapper {
 
     /**
      * Sends a fancy hover text stack trace message to the client

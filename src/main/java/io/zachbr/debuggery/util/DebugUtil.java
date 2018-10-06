@@ -21,6 +21,9 @@ import io.zachbr.debuggery.Debuggery;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DebugUtil {
     private static final boolean DEBUG_MODE = Boolean.getBoolean("debuggery.debug");
     private static final boolean DUMMY_SERVER = Bukkit.getServer() == null;
@@ -35,21 +38,39 @@ public class DebugUtil {
         return DebugUtil.DEBUG_MODE;
     }
 
-    public static void printDebugInfo() {
+    /**
+     * Prints system information to the console
+     */
+    public static void printSystemInfo() {
         if (!isDebugMode()) {
             return;
         }
 
         DebugUtil.debugLn("========================");
-        DebugUtil.debugLn("Debuggery Ver: " + getPlugin().getDescription().getVersion());
-        DebugUtil.debugLn("Server Impl: " + Bukkit.getServer().getName());
-        DebugUtil.debugLn("Server Ver: " + Bukkit.getServer().getVersion());
-        DebugUtil.debugLn("Impl API Ver: " + Bukkit.getServer().getBukkitVersion());
-        DebugUtil.debugLn("Java Runtime: " + System.getProperty("java.runtime.version"));
-        DebugUtil.debugLn("Operating System: " + System.getProperty("os.name") + " "
-                + System.getProperty("os.arch") + " "
-                + System.getProperty("os.version"));
+        for (String line : getSystemInfo()) {
+            DebugUtil.debugLn(line);
+        }
         DebugUtil.debugLn("========================");
+    }
+
+    /**
+     * Gets system information
+     *
+     * @return array of lines
+     */
+    public static String[] getSystemInfo() {
+        List<String> out = new ArrayList<>();
+
+        out.add("Debuggery Ver: " + getPlugin().getDescription().getVersion());
+        out.add("Server Impl: " + Bukkit.getServer().getName());
+        out.add("Server Ver: " + Bukkit.getServer().getVersion());
+        out.add("Impl API Ver: " + Bukkit.getServer().getBukkitVersion());
+        out.add("Java Runtime: " + System.getProperty("java.runtime.version"));
+        out.add("Operating System: " + System.getProperty("os.name") + " "
+                + System.getProperty("os.version") + " "
+                + "(" + System.getProperty("os.arch") + ")");
+
+        return out.toArray(new String[0]);
     }
 
     /**

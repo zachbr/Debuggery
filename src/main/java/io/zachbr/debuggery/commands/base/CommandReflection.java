@@ -21,7 +21,7 @@ import io.zachbr.debuggery.reflection.ReflectionChain;
 import io.zachbr.debuggery.reflection.ReflectionUtil;
 import io.zachbr.debuggery.reflection.types.InputException;
 import io.zachbr.debuggery.reflection.types.TypeHandler;
-import io.zachbr.debuggery.util.FancyChatException;
+import io.zachbr.debuggery.util.FancyExceptionWrapper;
 import io.zachbr.debuggery.util.PlatformUtil;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
@@ -87,7 +87,7 @@ public abstract class CommandReflection extends CommandBase {
             final Throwable cause = ex.getCause() == null ? ex : ex.getCause();
 
             if (PlatformUtil.canUseFancyChatExceptions()) {
-                FancyChatException.sendFancyChatException(sender, errorMessage, cause);
+                FancyExceptionWrapper.sendFancyChatException(sender, errorMessage, cause);
             } else {
                 sender.sendMessage(ChatColor.RED + errorMessage);
             }
