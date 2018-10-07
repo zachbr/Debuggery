@@ -17,6 +17,8 @@
 
 package io.zachbr.debuggery.reflection;
 
+import java.util.List;
+
 @SuppressWarnings("WeakerAccess")
 public class ReflTestClass {
     private int some;
@@ -41,6 +43,10 @@ public class ReflTestClass {
 
     public ReflSubClass getSubClass() {
         return subClass;
+    }
+
+    public List alwaysReturnsNull() {
+        return null;
     }
 
     public void methodWithLotsOfParams(int i, int j, int k, int l, int m, int n, int o) {

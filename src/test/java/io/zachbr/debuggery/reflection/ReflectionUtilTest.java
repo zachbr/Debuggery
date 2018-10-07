@@ -24,8 +24,10 @@ import org.junit.Test;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.*;
+import java.util.function.BiConsumer;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class ReflectionUtilTest {
@@ -88,5 +90,33 @@ public class ReflectionUtilTest {
         out = ReflectionUtil.getArgsForMethod(inputStr, noParams);
 
         assertEquals(0, out.size());
+    }
+
+    @Test
+    public void validateArgsMismatchContent() throws NoSuchMethodException {
+        BiConsumer<Method, String> validateBasics = (method, s) -> {
+            s = s.toLowerCase();
+            assertTrue(s.contains(method.getName().toLowerCase()));
+            assertTrue(s.contains(method.getReturnType().getSimpleName().toLowerCase()));
+            assertTrue(s.contains(String.valueOf(method.getParameterCount())));
+        };
+
+        Method voidReturn = ReflTestClass.class.getMethod("methodWithLotsOfParams", int.class, int.class, int.class, int.class, int.class, int.class, int.class);
+        String voidReturnDescriptor = ReflectionUtil.getArgMismatchString(voidReturn);
+        validateBasics.accept(voidReturn, voidReturnDescriptor);
+        // ensure we point out its void
+        assertTrue(voidReturnDescriptor.toLowerCase().contains("void"));
+
+        Method getSubClass = ReflTestClass.class.getMethod("getSubClass");
+        String getterDescriptor = ReflectionUtil.getArgMismatchString(getSubClass);
+        validateBasics.accept(getSubClass, getterDescriptor);
+        // check our a, an, grammar predicate while we're here
+        assertTrue(getterDescriptor.toLowerCase().contains(" a "));
+
+        Method getSomeNumbers = ReflTestClass.class.getMethod("getSomeNumbers");
+        String someNumbersDescriptor = ReflectionUtil.getArgMismatchString(getSomeNumbers);
+        validateBasics.accept(getSomeNumbers, someNumbersDescriptor);
+        // check our a, an, grammar predicate while we're here
+        assertTrue(someNumbersDescriptor.toLowerCase().contains(" an "));
     }
 }

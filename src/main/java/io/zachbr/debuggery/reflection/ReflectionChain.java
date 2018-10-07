@@ -19,6 +19,7 @@ package io.zachbr.debuggery.reflection;
 
 import io.zachbr.debuggery.reflection.types.InputException;
 import io.zachbr.debuggery.reflection.types.TypeHandler;
+import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -54,9 +55,10 @@ public class ReflectionChain {
      */
     public Object chain() throws InputException, InvocationTargetException, IllegalAccessException {
         Map<String, Method> reflectionMap;
-        Object[] methodParameters;
         Object result = initialInstance;
 
+        Method currentMethod;
+        Object[] methodParameters;
         int argsToSkip = 0;
 
         for (int i = 0; i < input.size(); i++) {
@@ -66,19 +68,25 @@ public class ReflectionChain {
                 continue;
             }
 
+            Validate.notNull(result);
             reflectionMap = ReflectionUtil.getMethodMapFor(result.getClass());
-            if (reflectionMap.get(currentArg) == null) {
+
+            currentMethod = reflectionMap.get(currentArg);
+            if (currentMethod == null) {
                 result = ChatColor.RED + "Unknown or unavailable method";
                 break;
             }
 
-
-            Method method = reflectionMap.get(currentArg);
-            List<String> stringMethodArgs = ReflectionUtil.getArgsForMethod(this.input.subList(i + 1, input.size()), method);
+            List<String> stringMethodArgs = ReflectionUtil.getArgsForMethod(this.input.subList(i + 1, input.size()), currentMethod);
             argsToSkip = stringMethodArgs.size();
 
-            methodParameters = TypeHandler.getInstance().instantiateTypes(method.getParameterTypes(), stringMethodArgs, this.owner);
-            result = reflect(result, method, methodParameters);
+            methodParameters = TypeHandler.getInstance().instantiateTypes(currentMethod.getParameterTypes(), stringMethodArgs, this.owner);
+            result = reflect(result, currentMethod, methodParameters);
+
+            if (currentMethod.getReturnType() != Void.TYPE && result == null) {
+                result = ChatColor.RED + ReflectionUtil.getFormattedMethodSignature(currentMethod) + " returned null!";
+                break;
+            }
 
         }
 
@@ -115,7 +123,7 @@ public class ReflectionChain {
             return ReflectionUtil.getArgMismatchString(method);
         }
 
-        if (!method.isAccessible()) {
+        if (!method.canAccess(instance)) {
             method.setAccessible(true);
         }
 
