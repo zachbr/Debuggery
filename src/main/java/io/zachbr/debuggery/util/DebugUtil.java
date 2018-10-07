@@ -19,49 +19,52 @@ package io.zachbr.debuggery.util;
 
 import io.zachbr.debuggery.Debuggery;
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class DebugUtil {
     private static final boolean DEBUG_MODE = Boolean.getBoolean("debuggery.debug");
     private static final boolean DUMMY_SERVER = Bukkit.getServer() == null;
-    private static Debuggery plugin;
+    private static DebugUtil instance;
 
-    /**
-     * Gets whether the plugin is running in debug mode
-     *
-     * @return True if debug mode enabled
-     */
+    private final Debuggery plugin;
+    private final Set<CommandSender> debugListeners = new HashSet<>();
+
+    public DebugUtil(Debuggery instance) {
+        this.plugin = instance;
+        DebugUtil.instance = this;
+    }
+
     public static boolean isDebugMode() {
         return DebugUtil.DEBUG_MODE;
     }
 
     /**
-     * Prints system information to the console
+     * Prints system information
      */
-    public static void printSystemInfo() {
+    public void printSystemInfo() {
         if (!isDebugMode()) {
             return;
         }
 
-        DebugUtil.debugLn("========================");
+        debugLn("========================");
         for (String line : getSystemInfo()) {
-            DebugUtil.debugLn(line);
+            debugLn(line);
         }
-        DebugUtil.debugLn("========================");
+        debugLn("========================");
     }
 
     /**
-     * Gets system information
+     * Gets system information as an array of lines
      *
-     * @return array of lines
+     * @return system information
      */
-    public static String[] getSystemInfo() {
+    public String[] getSystemInfo() {
         List<String> out = new ArrayList<>();
 
-        out.add("Debuggery Ver: " + getPlugin().getDescription().getVersion());
+        out.add("Debuggery Ver: " + plugin.getDescription().getVersion());
         out.add("Server Impl: " + Bukkit.getServer().getName());
         out.add("Server Ver: " + Bukkit.getServer().getVersion());
         out.add("Impl API Ver: " + Bukkit.getServer().getBukkitVersion());
@@ -74,9 +77,11 @@ public class DebugUtil {
     }
 
     /**
-     * Writes a debug log message if the plugin's debug mode has been enabled
+     * Logs a message to the debugging log stream
+     * <p>
+     * Which is currently just the normal one with a prefix
      *
-     * @param arg message to log
+     * @param arg what to log
      */
     public static void debugLn(String arg) {
         if (!isDebugMode()) {
@@ -88,21 +93,20 @@ public class DebugUtil {
         if (DUMMY_SERVER) {
             System.out.println(out);
         } else {
-            getPlugin().getLogger().warning(out);
+            if (instance == null) {
+                throw new NullPointerException("Null instance at runtime!");
+            }
+
+            String colorOut = ChatColor.YELLOW + out;
+
+            instance.plugin.getLogger().info(colorOut);
+            for (CommandSender sender : instance.debugListeners) {
+                sender.sendMessage(colorOut);
+            }
         }
     }
 
-    private static Debuggery getPlugin() {
-        if (plugin == null) {
-            Plugin byName = Bukkit.getServer().getPluginManager().getPlugin("Debuggery");
-            if (byName == null) {
-                // account for stupidity
-                throw new AssertionError("Congrats, you broke it.");
-            }
-
-            plugin = (Debuggery) byName;
-        }
-
-        return plugin;
+    public Set<CommandSender> getListeners() {
+        return debugListeners;
     }
 }

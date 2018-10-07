@@ -32,6 +32,9 @@ commands:
   dchunk:
     description: Returns chunk info
     usage: /dchunk
+  ddebug:
+    description: Returns internal system info
+    usage: /ddebug
   dentity:
     description: Returns entity info
     usage: /dentity

@@ -28,10 +28,11 @@ import java.util.*;
 
 public class Debuggery extends JavaPlugin {
     private final Map<String, CommandBase> commands = new HashMap<>();
+    private final DebugUtil debugUtil = new DebugUtil(this);
 
     @Override
     public void onEnable() {
-        DebugUtil.printSystemInfo();
+        debugUtil.printSystemInfo();
 
         TypeHandler.getInstance(); // init type handler at startup
         this.registerCommands();
@@ -45,6 +46,7 @@ public class Debuggery extends JavaPlugin {
     private void registerCommands() {
         this.registerCommand(new BlockCommand());
         this.registerCommand(new ChunkCommand());
+        this.registerCommand(new DebugCommand(this));
         this.registerCommand(new DebuggeryCommand(this));
         this.registerCommand(new EntityCommand());
         this.registerCommand(new ItemCommand());
@@ -61,5 +63,9 @@ public class Debuggery extends JavaPlugin {
 
     public Map<String, CommandBase> getAllCommands() {
         return Collections.unmodifiableMap(commands);
+    }
+
+    public DebugUtil getDebugUtil() {
+        return this.debugUtil;
     }
 }

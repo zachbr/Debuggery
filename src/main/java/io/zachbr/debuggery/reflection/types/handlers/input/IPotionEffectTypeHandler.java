@@ -18,7 +18,6 @@
 package io.zachbr.debuggery.reflection.types.handlers.input;
 
 import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
-import io.zachbr.debuggery.util.DebugUtil;
 import org.bukkit.command.CommandSender;
 import org.bukkit.potion.PotionEffectType;
 
