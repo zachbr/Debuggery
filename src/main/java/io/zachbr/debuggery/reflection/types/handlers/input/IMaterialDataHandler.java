@@ -22,12 +22,12 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.material.MaterialData;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class IMaterialDataHandler implements IHandler {
 
-    @Nonnull
+    @NotNull
     @Override
     public MaterialData instantiateInstance(String input, Class clazz, @Nullable CommandSender sender) {
         String[] contents = input.split(":", 2);
@@ -37,7 +37,7 @@ public class IMaterialDataHandler implements IHandler {
         return new MaterialData(material, data);
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Class<?> getRelevantClass() {
         return MaterialData.class;

@@ -21,8 +21,8 @@ import io.zachbr.debuggery.reflection.types.handlers.base.OHandler;
 import org.bukkit.help.HelpMap;
 import org.bukkit.help.HelpTopic;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class OHelpMapHandler implements OHandler {
 
@@ -45,7 +45,7 @@ public class OHelpMapHandler implements OHandler {
         return returnString.append("]").toString();
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Class<?> getRelevantClass() {
         return HelpMap.class;

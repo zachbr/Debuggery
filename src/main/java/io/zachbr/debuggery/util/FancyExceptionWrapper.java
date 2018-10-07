@@ -21,7 +21,7 @@ import net.md_5.bungee.api.chat.*;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -51,7 +51,7 @@ public class FancyExceptionWrapper {
      * @param throwable    throwable to format and display on hover
      * @return BaseComponent ready to send
      */
-    @Nonnull
+    @NotNull
     private static BaseComponent formatException(String errorMessage, Throwable throwable) {
         final StringWriter writer = new StringWriter();
         throwable.printStackTrace(new PrintWriter(writer));

@@ -21,8 +21,8 @@ import io.zachbr.debuggery.reflection.types.TypeHandler;
 import io.zachbr.debuggery.reflection.types.handlers.base.OHandler;
 import org.bukkit.inventory.Inventory;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class OInventoryHandler implements OHandler {
 
@@ -38,7 +38,7 @@ public class OInventoryHandler implements OHandler {
         return basicInfo + TypeHandler.getInstance().getOutputFor(inventory.getContents());
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Class<?> getRelevantClass() {
         return Inventory.class;

@@ -21,8 +21,8 @@ import io.zachbr.debuggery.reflection.types.TypeHandler;
 import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
 import org.bukkit.command.CommandSender;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class IPrimitivesHandler {
 
@@ -31,13 +31,13 @@ public class IPrimitivesHandler {
         Class[] supportedClasses = {byte.class, short.class, int.class, long.class, float.class, double.class, boolean.class, char.class};
         for (Class clazz : supportedClasses) {
             IHandler handler = new IHandler() {
-                @Nonnull
+                @NotNull
                 @Override
                 public Object instantiateInstance(String input, Class clazz, @Nullable CommandSender sender) {
                     return getPrimitive(input, clazz);
                 }
 
-                @Nonnull
+                @NotNull
                 @Override
                 public Class<?> getRelevantClass() {
                     return clazz;

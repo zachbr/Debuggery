@@ -23,8 +23,8 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
@@ -39,7 +39,7 @@ public class ReflectionChain {
     private final CommandSender owner;
     private Object endingInstance;
 
-    public ReflectionChain(@Nonnull String[] args, @Nonnull Object initialInstance, @Nullable CommandSender owner) {
+    public ReflectionChain(@NotNull String[] args, @NotNull Object initialInstance, @Nullable CommandSender owner) {
         this.input = Arrays.asList(args);
         this.initialInstance = initialInstance;
         this.owner = owner;
@@ -116,7 +116,7 @@ public class ReflectionChain {
      * @throws IllegalAccessException    see {@link Method#invoke(Object, Object...)}
      */
     @Nullable
-    private Object reflect(@Nonnull Object instance, @Nonnull Method method, @Nonnull Object[] args) throws InvocationTargetException, IllegalAccessException {
+    private Object reflect(@NotNull Object instance, @NotNull Method method, @NotNull Object[] args) throws InvocationTargetException, IllegalAccessException {
         final int paramCount = method.getParameterCount();
 
         if (args.length != paramCount) {

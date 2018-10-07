@@ -20,14 +20,14 @@ package io.zachbr.debuggery.reflection.types.handlers.input;
 import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
 import org.bukkit.command.CommandSender;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class IBukkitClassesHandler implements IHandler {
 
-    @Nonnull
+    @NotNull
     @Override
     public Class[] instantiateInstance(String input, Class clazz, @Nullable CommandSender sender) throws ClassNotFoundException {
         List<Class> classList = new ArrayList<>();
@@ -40,7 +40,7 @@ public class IBukkitClassesHandler implements IHandler {
         return classList.toArray(new Class[0]);
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Class<?> getRelevantClass() {
         return Class[].class;

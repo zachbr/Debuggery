@@ -17,17 +17,17 @@
 
 package io.zachbr.debuggery.reflection.types;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Wrapper so that we can properly inform the user when it's their input
  * that's causing the problem, rather than some API/Implementation contract.
  */
 public class InputException extends Exception {
-    @Nonnull
+    @NotNull
     private final Throwable wrappedException;
 
-    InputException(@Nonnull Throwable throwable) {
+    InputException(@NotNull Throwable throwable) {
         if (throwable instanceof InputException) {
             // Ensure we do not re-wrap ourselves here
             throwable = ((InputException) throwable).getCause();
@@ -37,7 +37,7 @@ public class InputException extends Exception {
     }
 
     @Override
-    @Nonnull
+    @NotNull
     public Throwable getCause() {
         return wrappedException;
     }

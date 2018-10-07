@@ -23,12 +23,12 @@ import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.command.CommandSender;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class IBlockDataHandler implements IPolymorphicHandler {
 
-    @Nonnull
+    @NotNull
     @Override
     public BlockData instantiateInstance(String input, Class clazz, @Nullable CommandSender sender) {
         // first try from straight material name
@@ -43,7 +43,7 @@ public class IBlockDataHandler implements IPolymorphicHandler {
         return Bukkit.createBlockData(input); // will throw illegalargumentexception
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Class<?> getRelevantClass() {
         return BlockData.class;

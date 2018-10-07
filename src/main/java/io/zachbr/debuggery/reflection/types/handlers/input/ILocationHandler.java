@@ -22,8 +22,8 @@ import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class ILocationHandler implements IHandler {
 
@@ -52,13 +52,13 @@ public class ILocationHandler implements IHandler {
         return new Location(world, xyz[0], xyz[1], xyz[2]);
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Location instantiateInstance(String input, Class clazz, @Nullable CommandSender sender) {
         return getLocation(input, sender); // separate method so that related commands can get to it
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Class<?> getRelevantClass() {
         return Location.class;

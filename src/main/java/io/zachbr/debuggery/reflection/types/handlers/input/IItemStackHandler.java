@@ -22,8 +22,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class IItemStackHandler implements IHandler {
 
@@ -38,13 +38,13 @@ public class IItemStackHandler implements IHandler {
         return new ItemStack(IMaterialHandler.getMaterial(input));
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public ItemStack instantiateInstance(String input, Class clazz, @Nullable CommandSender sender) {
         return getItemStack(input, sender);
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Class<?> getRelevantClass() {
         return ItemStack.class;

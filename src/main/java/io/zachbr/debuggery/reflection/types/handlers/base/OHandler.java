@@ -17,7 +17,7 @@
 
 package io.zachbr.debuggery.reflection.types.handlers.base;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Responsible for taking an instance of an object and converting it

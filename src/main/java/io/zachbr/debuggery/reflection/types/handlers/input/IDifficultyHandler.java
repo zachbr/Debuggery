@@ -21,12 +21,12 @@ import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
 import org.bukkit.Difficulty;
 import org.bukkit.command.CommandSender;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class IDifficultyHandler implements IHandler {
 
-    @Nonnull
+    @NotNull
     @Override
     public Difficulty instantiateInstance(String input, Class clazz, @Nullable CommandSender sender) {
         try {
@@ -39,7 +39,7 @@ public class IDifficultyHandler implements IHandler {
         return IEnumHandler.getEnumValue(input, Difficulty.class);
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Class<?> getRelevantClass() {
         return Difficulty.class;

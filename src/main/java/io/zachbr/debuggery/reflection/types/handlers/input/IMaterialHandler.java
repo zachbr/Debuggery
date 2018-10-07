@@ -21,8 +21,8 @@ import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class IMaterialHandler implements IHandler {
 
@@ -36,13 +36,13 @@ public class IMaterialHandler implements IHandler {
         }
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Material instantiateInstance(String input, Class clazz, @Nullable CommandSender sender) {
         return getMaterial(input); // separate method so other handlers can access
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Class<?> getRelevantClass() {
         return Material.class;

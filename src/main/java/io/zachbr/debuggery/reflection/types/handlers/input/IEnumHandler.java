@@ -20,8 +20,8 @@ package io.zachbr.debuggery.reflection.types.handlers.input;
 import io.zachbr.debuggery.reflection.types.handlers.base.IPolymorphicHandler;
 import org.bukkit.command.CommandSender;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class IEnumHandler implements IPolymorphicHandler {
 
@@ -29,13 +29,13 @@ public class IEnumHandler implements IPolymorphicHandler {
         return Enum.valueOf((Class<T>) clazz, input.toUpperCase());
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Enum instantiateInstance(String input, Class clazz, @Nullable CommandSender sender) {
         return getEnumValue(input, clazz); // separated so other handlers can access
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Class<?> getRelevantClass() {
         return Enum.class;

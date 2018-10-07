@@ -20,8 +20,8 @@ package io.zachbr.debuggery.reflection.types.handlers.output;
 import io.zachbr.debuggery.reflection.types.handlers.base.OHandler;
 import org.bukkit.entity.Entity;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class OEntityHandler implements OHandler {
 
@@ -46,7 +46,7 @@ public class OEntityHandler implements OHandler {
         return out;
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Class<?> getRelevantClass() {
         return Entity.class;

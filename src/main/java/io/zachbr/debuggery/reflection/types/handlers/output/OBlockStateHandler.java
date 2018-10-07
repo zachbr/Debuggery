@@ -20,8 +20,8 @@ package io.zachbr.debuggery.reflection.types.handlers.output;
 import io.zachbr.debuggery.reflection.types.handlers.base.OHandler;
 import org.bukkit.block.BlockState;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class OBlockStateHandler implements OHandler {
 
@@ -36,7 +36,7 @@ public class OBlockStateHandler implements OHandler {
                 blockState.getLocation() + "]";
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Class<?> getRelevantClass() {
         return BlockState.class;

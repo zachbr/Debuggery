@@ -23,8 +23,8 @@ import org.apache.commons.lang.NotImplementedException;
 import org.apache.commons.lang.Validate;
 import org.bukkit.command.CommandSender;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import java.util.*;
 
 /**
@@ -54,7 +54,7 @@ public class TypeHandler {
      *
      * @return instance of {@link TypeHandler}
      */
-    @Nonnull
+    @NotNull
     public static TypeHandler getInstance() {
         if (singletonInstance == null) {
             singletonInstance = new TypeHandler();
@@ -96,7 +96,7 @@ public class TypeHandler {
      * @return {@link Object} array of the requested types, instantiated and ready for use
      * @throws InputException when there's an issue instantiating the requested types
      */
-    @Nonnull
+    @NotNull
     public Object[] instantiateTypes(Class[] classes, List<String> input, @Nullable CommandSender sender) throws InputException {
         Validate.notNull(classes);
         Validate.notNull(input);
@@ -401,7 +401,7 @@ public class TypeHandler {
      *
      * @return unmodifiable collection
      */
-    @Nonnull
+    @NotNull
     Collection<IHandler> getAllInputHandlers() {
         return Collections.unmodifiableCollection(inputHandlers.values());
     }
@@ -411,7 +411,7 @@ public class TypeHandler {
      *
      * @return unmodifiable collection
      */
-    @Nonnull
+    @NotNull
     Collection<OHandler> getAllOutputHandlers() {
         return Collections.unmodifiableCollection(outputHandlers);
     }

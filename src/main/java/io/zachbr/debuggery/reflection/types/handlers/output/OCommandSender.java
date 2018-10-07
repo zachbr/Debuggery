@@ -20,8 +20,8 @@ package io.zachbr.debuggery.reflection.types.handlers.output;
 import io.zachbr.debuggery.reflection.types.handlers.base.OHandler;
 import org.bukkit.command.CommandSender;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class OCommandSender implements OHandler {
 
@@ -33,7 +33,7 @@ public class OCommandSender implements OHandler {
         return sender.getName();
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Class<?> getRelevantClass() {
         return CommandSender.class;

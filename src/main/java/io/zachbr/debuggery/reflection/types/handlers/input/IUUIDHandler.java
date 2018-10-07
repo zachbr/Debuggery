@@ -22,13 +22,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import java.util.UUID;
 
 public class IUUIDHandler implements IHandler {
 
-    @Nonnull
+    @NotNull
     @Override
     public UUID instantiateInstance(String input, Class clazz, @Nullable CommandSender sender) {
         try {
@@ -46,7 +46,7 @@ public class IUUIDHandler implements IHandler {
         }
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Class<?> getRelevantClass() {
         return UUID.class;

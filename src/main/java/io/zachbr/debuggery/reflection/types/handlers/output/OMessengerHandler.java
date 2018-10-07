@@ -21,8 +21,8 @@ import io.zachbr.debuggery.reflection.types.TypeHandler;
 import io.zachbr.debuggery.reflection.types.handlers.base.OHandler;
 import org.bukkit.plugin.messaging.Messenger;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class OMessengerHandler implements OHandler {
 
@@ -40,7 +40,7 @@ public class OMessengerHandler implements OHandler {
         return incomingBanner + incomingChannels + outgoingBanner + outgoingChannels;
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Class<?> getRelevantClass() {
         return Messenger.class;

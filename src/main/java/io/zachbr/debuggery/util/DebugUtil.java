@@ -21,6 +21,7 @@ import io.zachbr.debuggery.Debuggery;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -61,6 +62,7 @@ public class DebugUtil {
      *
      * @return system information
      */
+    @NotNull
     public String[] getSystemInfo() {
         List<String> out = new ArrayList<>();
 
@@ -83,7 +85,7 @@ public class DebugUtil {
      *
      * @param arg what to log
      */
-    public static void debugLn(String arg) {
+    public static void debugLn(@NotNull String arg) {
         if (!isDebugMode()) {
             return;
         }
@@ -106,6 +108,7 @@ public class DebugUtil {
         }
     }
 
+    @NotNull
     public Set<CommandSender> getListeners() {
         return debugListeners;
     }

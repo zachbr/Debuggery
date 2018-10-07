@@ -17,7 +17,7 @@
 
 package io.zachbr.debuggery.reflection.types.handlers.base;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Super interface for methods common to both Input and Output handlers
@@ -29,6 +29,6 @@ public interface Handler {
      *
      * @return relevant class
      */
-    @Nonnull
+    @NotNull
     Class<?> getRelevantClass();
 }

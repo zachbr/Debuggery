@@ -24,8 +24,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class IEntityHandler implements IHandler {
 
@@ -56,13 +56,13 @@ public class IEntityHandler implements IHandler {
         }
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Entity instantiateInstance(String input, Class clazz, @Nullable CommandSender sender) {
         return getEntity(input, sender); // separate method so that other entity related commands can get to it
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Class<?> getRelevantClass() {
         return Entity.class;

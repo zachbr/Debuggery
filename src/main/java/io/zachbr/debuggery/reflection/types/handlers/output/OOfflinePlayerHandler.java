@@ -21,8 +21,8 @@ import io.zachbr.debuggery.reflection.types.handlers.base.OHandler;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class OOfflinePlayerHandler implements OHandler {
 
@@ -38,7 +38,7 @@ public class OOfflinePlayerHandler implements OHandler {
         }
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Class<?> getRelevantClass() {
         return OfflinePlayer.class;

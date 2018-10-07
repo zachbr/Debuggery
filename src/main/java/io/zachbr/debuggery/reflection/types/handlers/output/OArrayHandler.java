@@ -20,8 +20,8 @@ package io.zachbr.debuggery.reflection.types.handlers.output;
 import io.zachbr.debuggery.reflection.types.TypeHandler;
 import io.zachbr.debuggery.reflection.types.handlers.base.OHandler;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import java.lang.reflect.Array;
 
 public class OArrayHandler {
@@ -37,7 +37,7 @@ public class OArrayHandler {
                     return getFormattedArray(object);
                 }
 
-                @Nonnull
+                @NotNull
                 @Override
                 public Class<?> getRelevantClass() {
                     return clazz;

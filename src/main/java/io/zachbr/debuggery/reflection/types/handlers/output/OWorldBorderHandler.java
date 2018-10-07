@@ -20,8 +20,8 @@ package io.zachbr.debuggery.reflection.types.handlers.output;
 import io.zachbr.debuggery.reflection.types.handlers.base.OHandler;
 import org.bukkit.WorldBorder;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class OWorldBorderHandler implements OHandler {
 
@@ -35,7 +35,7 @@ public class OWorldBorderHandler implements OHandler {
                 "dmgAmt=" + border.getDamageAmount() + "]";
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Class<?> getRelevantClass() {
         return WorldBorder.class;

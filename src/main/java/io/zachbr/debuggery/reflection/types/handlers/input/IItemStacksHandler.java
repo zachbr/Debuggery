@@ -21,13 +21,13 @@ import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class IItemStacksHandler implements IHandler {
-    @Nonnull
+    @NotNull
     @Override
     public Object instantiateInstance(String input, Class clazz, @Nullable CommandSender sender) {
         List<ItemStack> stacksOut = new ArrayList<>();
@@ -40,7 +40,7 @@ public class IItemStacksHandler implements IHandler {
         return stacksOut.toArray(new ItemStack[0]);
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Class<?> getRelevantClass() {
         return ItemStack[].class;

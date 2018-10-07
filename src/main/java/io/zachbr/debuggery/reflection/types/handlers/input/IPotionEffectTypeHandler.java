@@ -21,8 +21,8 @@ import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
 import org.bukkit.command.CommandSender;
 import org.bukkit.potion.PotionEffectType;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
@@ -58,13 +58,13 @@ public class IPotionEffectTypeHandler implements IHandler {
         }
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Object instantiateInstance(String input, Class clazz, @Nullable CommandSender sender) throws Exception {
         return getPotionEffectType(input);
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Class<?> getRelevantClass() {
         return PotionEffectType.class;

@@ -19,8 +19,8 @@ package io.zachbr.debuggery.reflection.types.handlers.base;
 
 import org.bukkit.command.CommandSender;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Responsible for instantiating a specific class from input
@@ -39,6 +39,6 @@ public interface IHandler extends Handler {
      * @return instantiated object
      * @throws Exception when an object cannot be instantiated
      */
-    @Nonnull
+    @NotNull
     Object instantiateInstance(String input, Class clazz, @Nullable CommandSender sender) throws Exception;
 }

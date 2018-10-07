@@ -22,13 +22,13 @@ import io.zachbr.debuggery.reflection.types.handlers.base.IPolymorphicHandler;
 import org.apache.commons.lang.NotImplementedException;
 import org.bukkit.command.CommandSender;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import java.util.*;
 
 public class ICollectionHandler implements IPolymorphicHandler {
 
-    @Nonnull
+    @NotNull
     @Override
     public Object instantiateInstance(String input, Class clazz, @Nullable CommandSender sender) throws Exception {
         // type erasure really screws us here, so you have to specify the type of data you want to input
@@ -67,7 +67,7 @@ public class ICollectionHandler implements IPolymorphicHandler {
         return instanceOut;
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Class<?> getRelevantClass() {
         return Collection.class;

@@ -22,12 +22,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class IPotionEffectHandler implements IHandler {
 
-    @Nonnull
+    @NotNull
     @Override
     public Object instantiateInstance(String input, Class clazz, @Nullable CommandSender sender) throws Exception {
         String[] values = input.split(",");
@@ -47,7 +47,7 @@ public class IPotionEffectHandler implements IHandler {
         return new PotionEffect(type, duration, amplifier);
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Class<?> getRelevantClass() {
         return PotionEffect.class;
