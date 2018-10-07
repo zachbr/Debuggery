@@ -19,8 +19,8 @@ targetCompatibility = 11
 repositories {
     mavenCentral()
     maven {
-        name = 'destroystokyo-repo'
-        url = 'https://repo.destroystokyo.com/repository/maven-public/'
+        name = 'papermc-repo'
+        url = 'https://papermc.io/repo/repository/maven-public/'
     }
     maven {
         name = 'sonatype'
