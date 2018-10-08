@@ -29,7 +29,7 @@ public class IBukkitClassesHandler implements IHandler {
 
     @NotNull
     @Override
-    public Class[] instantiateInstance(String input, Class clazz, @Nullable CommandSender sender) throws ClassNotFoundException {
+    public Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) throws ClassNotFoundException {
         List<Class> classList = new ArrayList<>();
         String[] classNames = input.split(",");
 

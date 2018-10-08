@@ -29,7 +29,7 @@ public class IPotionEffectHandler implements IHandler {
 
     @NotNull
     @Override
-    public Object instantiateInstance(String input, Class clazz, @Nullable CommandSender sender) throws Exception {
+    public Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) throws Exception {
         String[] values = input.split(",");
 
         PotionEffectType type = IPotionEffectTypeHandler.getPotionEffectType(values[0]);

@@ -40,7 +40,7 @@ public class IItemStackHandler implements IHandler {
 
     @NotNull
     @Override
-    public ItemStack instantiateInstance(String input, Class clazz, @Nullable CommandSender sender) {
+    public Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
         return getItemStack(input, sender);
     }
 

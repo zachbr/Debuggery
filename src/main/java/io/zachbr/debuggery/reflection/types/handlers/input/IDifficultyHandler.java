@@ -28,7 +28,7 @@ public class IDifficultyHandler implements IHandler {
 
     @NotNull
     @Override
-    public Difficulty instantiateInstance(String input, Class clazz, @Nullable CommandSender sender) {
+    public Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
         try {
             int val = Integer.parseInt(input);
             //noinspection deprecation

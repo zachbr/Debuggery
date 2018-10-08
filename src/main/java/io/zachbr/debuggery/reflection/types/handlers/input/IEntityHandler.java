@@ -58,7 +58,7 @@ public class IEntityHandler implements IHandler {
 
     @NotNull
     @Override
-    public Entity instantiateInstance(String input, Class clazz, @Nullable CommandSender sender) {
+    public Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
         return getEntity(input, sender); // separate method so that other entity related commands can get to it
     }
 

@@ -23,6 +23,7 @@ import org.apache.commons.lang.NotImplementedException;
 import org.bukkit.Difficulty;
 import org.bukkit.WeatherType;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 
@@ -84,9 +85,10 @@ public class TypeHandlerTest {
         // attempt to add a string handler
         // this should clash and fail, returning false
         IHandler iStringHandler = new IHandler() {
+            @NotNull
             @Nonnull
             @Override
-            public Object instantiateInstance(String input, Class clazz, @Nullable CommandSender sender) {
+            public Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
                 throw new NotImplementedException();
             }
 
@@ -119,9 +121,10 @@ public class TypeHandlerTest {
         Class testClassToRegister = ReflTestClass.class;
 
         IHandler iLocalClassHandler = new IHandler() {
+            @NotNull
             @Nonnull
             @Override
-            public Object instantiateInstance(String input, Class clazz, @Nullable CommandSender sender) throws Exception {
+            public Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) throws Exception {
                 throw new NotImplementedException();
             }
 
@@ -163,9 +166,10 @@ public class TypeHandlerTest {
 
         // attempt removing handlers for a class that doesn't exist
         IHandler iNotRegistered = new IHandler() {
+            @NotNull
             @Nonnull
             @Override
-            public Object instantiateInstance(String input, Class clazz, @Nullable CommandSender sender) throws Exception {
+            public Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) throws Exception {
                 throw new NotImplementedException();
             }
 

@@ -33,7 +33,7 @@ public class IPrimitivesHandler {
             IHandler handler = new IHandler() {
                 @NotNull
                 @Override
-                public Object instantiateInstance(String input, Class clazz, @Nullable CommandSender sender) {
+                public Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
                     return getPrimitive(input, clazz);
                 }
 

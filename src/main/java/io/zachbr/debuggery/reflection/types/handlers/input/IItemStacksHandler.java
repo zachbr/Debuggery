@@ -29,7 +29,7 @@ import java.util.List;
 public class IItemStacksHandler implements IHandler {
     @NotNull
     @Override
-    public Object instantiateInstance(String input, Class clazz, @Nullable CommandSender sender) {
+    public Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
         List<ItemStack> stacksOut = new ArrayList<>();
         String[] stacksIn = input.split(",");
 

@@ -27,7 +27,7 @@ public class IStringHandler implements IHandler {
 
     @NotNull
     @Override
-    public String instantiateInstance(String input, Class clazz, @Nullable CommandSender sender) {
+    public Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
         return input;
     }
 
