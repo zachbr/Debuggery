@@ -27,8 +27,6 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.function.Predicate;
@@ -86,13 +84,12 @@ public class TypeHandlerTest {
         // this should clash and fail, returning false
         IHandler iStringHandler = new IHandler() {
             @NotNull
-            @Nonnull
             @Override
-            public Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
+            public Object instantiateInstance(String input, Class<?> clazz, @NotNull CommandSender sender) {
                 throw new NotImplementedException();
             }
 
-            @Nonnull
+            @NotNull
             @Override
             public Class<?> getRelevantClass() {
                 return String.class;
@@ -101,13 +98,13 @@ public class TypeHandlerTest {
 
         // same but with an output handler
         OHandler oCollectionHandler = new OHandler() {
-            @Nullable
+            @NotNull
             @Override
             public String getFormattedOutput(Object object) {
                 throw new NotImplementedException();
             }
 
-            @Nonnull
+            @NotNull
             @Override
             public Class<?> getRelevantClass() {
                 return Collection.class;
@@ -122,13 +119,11 @@ public class TypeHandlerTest {
 
         IHandler iLocalClassHandler = new IHandler() {
             @NotNull
-            @Nonnull
             @Override
-            public Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) throws Exception {
+            public Object instantiateInstance(String input, Class<?> clazz, @NotNull CommandSender sender) {
                 throw new NotImplementedException();
             }
 
-            @Nonnull
             @Override
             public Class<?> getRelevantClass() {
                 return testClassToRegister;
@@ -136,13 +131,13 @@ public class TypeHandlerTest {
         };
 
         OHandler oLocalClassHandler = new OHandler() {
-            @Nullable
+            @NotNull
             @Override
             public String getFormattedOutput(Object object) {
                 throw new NotImplementedException();
             }
 
-            @Nonnull
+            @NotNull
             @Override
             public Class<?> getRelevantClass() {
                 return testClassToRegister;
@@ -167,13 +162,12 @@ public class TypeHandlerTest {
         // attempt removing handlers for a class that doesn't exist
         IHandler iNotRegistered = new IHandler() {
             @NotNull
-            @Nonnull
             @Override
-            public Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) throws Exception {
+            public Object instantiateInstance(String input, Class<?> clazz, @NotNull CommandSender sender) throws Exception {
                 throw new NotImplementedException();
             }
 
-            @Nonnull
+            @NotNull
             @Override
             public Class<?> getRelevantClass() {
                 return CASE_NEVER_WILL_BE_REGISTERED;
@@ -181,13 +175,13 @@ public class TypeHandlerTest {
         };
 
         OHandler oNotRegistered = new OHandler() {
-            @Nullable
+            @NotNull
             @Override
             public String getFormattedOutput(Object object) {
                 throw new NotImplementedException();
             }
 
-            @Nonnull
+            @NotNull
             @Override
             public Class<?> getRelevantClass() {
                 return CASE_NEVER_WILL_BE_REGISTERED;

@@ -30,7 +30,7 @@ public class IUUIDHandler implements IHandler {
 
     @NotNull
     @Override
-    public Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
+    public UUID instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
         try {
             return UUID.fromString(input);
         } catch (IllegalArgumentException ex) {

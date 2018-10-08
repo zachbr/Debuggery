@@ -30,7 +30,7 @@ public class ICollectionHandler implements IPolymorphicHandler {
 
     @NotNull
     @Override
-    public Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) throws Exception {
+    public Collection<?> instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) throws Exception {
         // type erasure really screws us here, so you have to specify the type of data you want to input
         // CLASSTYPE:ELEMENT,ELEMENT,ELEMENT
         // Material:stone,grass,dirt

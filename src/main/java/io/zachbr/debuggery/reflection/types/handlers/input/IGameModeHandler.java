@@ -28,7 +28,7 @@ public class IGameModeHandler implements IHandler {
 
     @NotNull
     @Override
-    public Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
+    public GameMode instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
         try {
             int val = Integer.parseInt(input);
             //noinspection deprecation

@@ -30,7 +30,7 @@ public class IBlockDataHandler implements IPolymorphicHandler {
 
     @NotNull
     @Override
-    public Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
+    public BlockData instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
         // first try from straight material name
         Material material;
         try {

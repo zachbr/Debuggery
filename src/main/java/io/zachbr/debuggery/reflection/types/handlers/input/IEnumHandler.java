@@ -33,7 +33,7 @@ public class IEnumHandler implements IPolymorphicHandler {
     @NotNull
     @Override
     @SuppressWarnings("unchecked")
-    public Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
+    public Enum instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
         return getEnumValue(input, (Class) clazz); // suppress until such a time it can be handled better
     }
 

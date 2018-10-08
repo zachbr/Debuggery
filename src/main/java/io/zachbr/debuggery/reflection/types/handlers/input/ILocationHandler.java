@@ -54,7 +54,7 @@ public class ILocationHandler implements IHandler {
 
     @NotNull
     @Override
-    public Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
+    public Location instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
         return getLocation(input, sender); // separate method so that related commands can get to it
     }
 

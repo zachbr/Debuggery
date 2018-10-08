@@ -29,7 +29,7 @@ public class IMaterialDataHandler implements IHandler {
 
     @NotNull
     @Override
-    public Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
+    public MaterialData instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
         String[] contents = input.split(":", 2);
         Material material = IMaterialHandler.getMaterial(contents[0]);
         byte data = (byte) IPrimitivesHandler.getPrimitive(contents[1], byte.class);

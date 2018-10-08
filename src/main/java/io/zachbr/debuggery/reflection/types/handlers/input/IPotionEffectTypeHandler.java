@@ -60,7 +60,7 @@ public class IPotionEffectTypeHandler implements IHandler {
 
     @NotNull
     @Override
-    public Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) throws Exception {
+    public PotionEffectType instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) throws Exception {
         return getPotionEffectType(input);
     }
 

@@ -38,7 +38,7 @@ public class IMaterialHandler implements IHandler {
 
     @NotNull
     @Override
-    public Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
+    public Material instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
         return getMaterial(input); // separate method so other handlers can access
     }
 

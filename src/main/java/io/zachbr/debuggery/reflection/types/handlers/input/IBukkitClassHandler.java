@@ -53,7 +53,7 @@ public class IBukkitClassHandler implements IHandler {
 
     @NotNull
     @Override
-    public Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) throws ClassNotFoundException {
+    public Class instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) throws ClassNotFoundException {
         return getClass(input); // separate method so that IBukkitClassesHandler can get to it
     }
 
