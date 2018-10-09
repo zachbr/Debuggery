@@ -43,6 +43,36 @@ public class DebugUtil {
     }
 
     /**
+     * Logs a message to the debugging log stream
+     * <p>
+     * Which is currently just the normal one with a prefix
+     *
+     * @param arg what to log
+     */
+    public static void debugLn(@NotNull String arg) {
+        if (!isDebugMode()) {
+            return;
+        }
+
+        final String out = "DEBUG: " + arg;
+
+        if (DUMMY_SERVER) {
+            System.out.println(out);
+        } else {
+            if (instance == null) {
+                throw new NullPointerException("Null instance at runtime!");
+            }
+
+            String colorOut = ChatColor.YELLOW + out;
+
+            instance.plugin.getLogger().info(colorOut);
+            for (CommandSender sender : instance.debugListeners) {
+                sender.sendMessage(colorOut);
+            }
+        }
+    }
+
+    /**
      * Prints system information
      */
     public void printSystemInfo() {
@@ -76,36 +106,6 @@ public class DebugUtil {
                 + "(" + System.getProperty("os.arch") + ")");
 
         return out.toArray(new String[0]);
-    }
-
-    /**
-     * Logs a message to the debugging log stream
-     * <p>
-     * Which is currently just the normal one with a prefix
-     *
-     * @param arg what to log
-     */
-    public static void debugLn(@NotNull String arg) {
-        if (!isDebugMode()) {
-            return;
-        }
-
-        final String out = "DEBUG: " + arg;
-
-        if (DUMMY_SERVER) {
-            System.out.println(out);
-        } else {
-            if (instance == null) {
-                throw new NullPointerException("Null instance at runtime!");
-            }
-
-            String colorOut = ChatColor.YELLOW + out;
-
-            instance.plugin.getLogger().info(colorOut);
-            for (CommandSender sender : instance.debugListeners) {
-                sender.sendMessage(colorOut);
-            }
-        }
     }
 
     @NotNull

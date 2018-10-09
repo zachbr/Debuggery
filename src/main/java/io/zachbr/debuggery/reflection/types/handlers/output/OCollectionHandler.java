@@ -19,9 +19,9 @@ package io.zachbr.debuggery.reflection.types.handlers.output;
 
 import io.zachbr.debuggery.reflection.types.TypeHandler;
 import io.zachbr.debuggery.reflection.types.handlers.base.OHandler;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
 import java.util.Collection;
 
 public class OCollectionHandler implements OHandler {

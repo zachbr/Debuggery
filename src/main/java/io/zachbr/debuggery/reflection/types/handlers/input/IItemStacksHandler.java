@@ -20,9 +20,9 @@ package io.zachbr.debuggery.reflection.types.handlers.input;
 import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 

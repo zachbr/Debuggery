@@ -21,9 +21,9 @@ import io.zachbr.debuggery.reflection.types.TypeHandler;
 import io.zachbr.debuggery.reflection.types.handlers.base.IPolymorphicHandler;
 import org.apache.commons.lang.NotImplementedException;
 import org.bukkit.command.CommandSender;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
 import java.util.*;
 
 public class ICollectionHandler implements IPolymorphicHandler {

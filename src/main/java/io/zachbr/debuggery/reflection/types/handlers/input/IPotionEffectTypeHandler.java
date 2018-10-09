@@ -20,9 +20,9 @@ package io.zachbr.debuggery.reflection.types.handlers.input;
 import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
 import org.bukkit.command.CommandSender;
 import org.bukkit.potion.PotionEffectType;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;

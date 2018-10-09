@@ -20,7 +20,6 @@ package io.zachbr.debuggery.reflection.types.handlers.input;
 import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
 import org.bukkit.Difficulty;
 import org.bukkit.command.CommandSender;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

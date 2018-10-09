@@ -18,8 +18,8 @@
 package io.zachbr.debuggery.reflection;
 
 import org.apache.commons.lang.Validate;
-
 import org.jetbrains.annotations.NotNull;
+
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.*;

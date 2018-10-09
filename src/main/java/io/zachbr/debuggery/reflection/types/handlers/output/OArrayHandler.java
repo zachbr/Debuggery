@@ -19,9 +19,9 @@ package io.zachbr.debuggery.reflection.types.handlers.output;
 
 import io.zachbr.debuggery.reflection.types.TypeHandler;
 import io.zachbr.debuggery.reflection.types.handlers.base.OHandler;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
 import java.lang.reflect.Array;
 
 public class OArrayHandler {
@@ -50,7 +50,7 @@ public class OArrayHandler {
 
     @Nullable
     private String getFormattedArray(Object object) {
-        // Easier than checking every single primitive type
+        // Rather than handle every primitive type, just have java autobox the contents
         if (object.getClass().getComponentType().isPrimitive()) {
             int length = Array.getLength(object);
             Object[] newArray = new Object[length];
@@ -62,20 +62,18 @@ public class OArrayHandler {
             object = newArray;
         }
 
-        StringBuilder returnString = new StringBuilder("{");
-        boolean first = true;
+        TypeHandler typeHandler = TypeHandler.getInstance();
+        StringBuilder out = new StringBuilder("{");
 
-        for (Object entry : (Object[]) object) {
-            final TypeHandler typeHandler = TypeHandler.getInstance();
+        Object[] array = (Object[]) object;
+        for (int i = 0; i < array.length; i++) {
+            out.append(typeHandler.getOutputFor(array[i]));
 
-            if (first) {
-                returnString.append(typeHandler.getOutputFor(entry));
-                first = false;
-            } else {
-                returnString.append(", ").append(typeHandler.getOutputFor(entry));
+            if (i != array.length - 1) {
+                out.append(", ");
             }
         }
 
-        return returnString.append("}").toString();
+        return out.append("}").toString();
     }
 }

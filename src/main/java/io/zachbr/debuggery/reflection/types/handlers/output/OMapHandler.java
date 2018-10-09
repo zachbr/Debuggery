@@ -19,9 +19,10 @@ package io.zachbr.debuggery.reflection.types.handlers.output;
 
 import io.zachbr.debuggery.reflection.types.TypeHandler;
 import io.zachbr.debuggery.reflection.types.handlers.base.OHandler;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Iterator;
 import java.util.Map;
 
 public class OMapHandler implements OHandler {
@@ -30,24 +31,22 @@ public class OMapHandler implements OHandler {
     @Override
     public String getFormattedOutput(Object object) {
         final Map map = (Map) object;
-        if (map.isEmpty()) {
-            return null; // we don't want to display anything if the map is empty
+
+        final TypeHandler typeHandler = TypeHandler.getInstance();
+        StringBuilder out = new StringBuilder().append("{");
+
+        for (Iterator iterator = map.entrySet().iterator(); iterator.hasNext(); ) {
+            Map.Entry entry = (Map.Entry) iterator.next();
+
+            out.append("[").append(typeHandler.getOutputFor(entry.getKey())).append(", ");
+            out.append(typeHandler.getOutputFor(entry.getValue())).append("]");
+
+            if (iterator.hasNext()) {
+                out.append("\n");
+            }
         }
 
-        StringBuilder returnString = new StringBuilder();
-
-        for (Object obj : map.entrySet()) {
-            Map.Entry entry = (Map.Entry) obj;
-            final TypeHandler typeHandler = TypeHandler.getInstance();
-
-            returnString
-                    .append("{")
-                    .append(typeHandler.getOutputFor(entry.getKey())).append(", ")
-                    .append(typeHandler.getOutputFor(entry.getValue()))
-                    .append("}\n");
-        }
-
-        return returnString.toString();
+        return out.append("}").toString();
     }
 
     @NotNull

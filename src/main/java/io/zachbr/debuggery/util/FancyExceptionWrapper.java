@@ -20,8 +20,8 @@ package io.zachbr.debuggery.util;
 import net.md_5.bungee.api.chat.*;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-
 import org.jetbrains.annotations.NotNull;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 

@@ -22,9 +22,9 @@ import io.zachbr.debuggery.util.DebugUtil;
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.commons.lang.Validate;
 import org.bukkit.command.CommandSender;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
 import java.util.*;
 
 /**

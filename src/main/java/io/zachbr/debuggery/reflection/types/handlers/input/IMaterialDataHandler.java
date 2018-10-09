@@ -21,7 +21,6 @@ import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.material.MaterialData;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

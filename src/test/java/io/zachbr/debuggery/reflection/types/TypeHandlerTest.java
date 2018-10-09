@@ -24,6 +24,7 @@ import org.bukkit.Difficulty;
 import org.bukkit.WeatherType;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 
@@ -85,7 +86,7 @@ public class TypeHandlerTest {
         IHandler iStringHandler = new IHandler() {
             @NotNull
             @Override
-            public Object instantiateInstance(String input, Class<?> clazz, @NotNull CommandSender sender) {
+            public Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
                 throw new NotImplementedException();
             }
 
@@ -120,10 +121,11 @@ public class TypeHandlerTest {
         IHandler iLocalClassHandler = new IHandler() {
             @NotNull
             @Override
-            public Object instantiateInstance(String input, Class<?> clazz, @NotNull CommandSender sender) {
+            public Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
                 throw new NotImplementedException();
             }
 
+            @NotNull
             @Override
             public Class<?> getRelevantClass() {
                 return testClassToRegister;
@@ -163,7 +165,7 @@ public class TypeHandlerTest {
         IHandler iNotRegistered = new IHandler() {
             @NotNull
             @Override
-            public Object instantiateInstance(String input, Class<?> clazz, @NotNull CommandSender sender) throws Exception {
+            public Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) throws Exception {
                 throw new NotImplementedException();
             }
 

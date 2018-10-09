@@ -19,7 +19,6 @@ package io.zachbr.debuggery.reflection.types.handlers.output;
 
 import io.zachbr.debuggery.reflection.types.handlers.base.OHandler;
 import org.bukkit.entity.Entity;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
