@@ -62,7 +62,7 @@ compileTestJava {
 
 test {
     testLogging.showStandardStreams = true
-    useJUnit()
+    useJUnitPlatform()
 }
 
 // updateLicenses | checkLicenses
