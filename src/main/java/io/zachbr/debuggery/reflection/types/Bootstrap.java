@@ -77,6 +77,7 @@ class Bootstrap {
         registration.add(new OCollectionHandler());
         registration.add(new OEntityHandler()); // above CommandSender
         registration.add(new OCommandSender());
+        registration.add(new OEulerAngle());
         registration.add(new OHelpMapHandler());
         registration.add(new OInventoryHandler());
         registration.add(new OMapHandler());

@@ -26,6 +26,7 @@ import org.bukkit.help.HelpMap;
 import org.bukkit.help.HelpTopic;
 import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.messaging.Messenger;
+import org.bukkit.util.EulerAngle;
 import org.junit.Test;
 
 import java.util.*;
@@ -203,6 +204,21 @@ public class OutputHandlerTest {
             assertTrue(out.contains(entry.getKey()));
             assertTrue(out.contains(entry.getValue()));
         }
+    }
+
+    @Test
+    public void testEulerAngle() {
+        double x = 3.55;
+        double y = 12.414;
+        double z = 98.41245;
+
+        EulerAngle angle = new EulerAngle(x, y, z);
+        String out = TypeHandler.getInstance().getOutputFor(angle);
+
+        assertNotNull(out);
+        assertTrue(out.contains(String.valueOf(x)));
+        assertTrue(out.contains(String.valueOf(y)));
+        assertTrue(out.contains(String.valueOf(z)));
     }
 
     @Test
