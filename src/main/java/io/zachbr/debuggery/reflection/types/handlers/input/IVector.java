@@ -20,21 +20,21 @@ package io.zachbr.debuggery.reflection.types.handlers.input;
 import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
 import io.zachbr.debuggery.util.StringUtil;
 import org.bukkit.command.CommandSender;
-import org.bukkit.util.EulerAngle;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class IEulerAngle implements IHandler {
+public class IVector implements IHandler {
 
     @Override
     public @NotNull Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
         double[] parsed = StringUtil.parseDoublesFromString(input, 3);
 
-        return new EulerAngle(parsed[0], parsed[1], parsed[2]);
+        return new Vector(parsed[0], parsed[1], parsed[2]);
     }
 
     @Override
     public @NotNull Class<?> getRelevantClass() {
-        return EulerAngle.class;
+        return Vector.class;
     }
 }

@@ -404,4 +404,32 @@ public class InputHandlerTest {
         assertEquals(1.22, angle2.getY(), delta);
         assertEquals(4.12, angle2.getZ(), delta);
     }
+
+    @Test
+    public void testVector() throws InputException {
+        Class[] inputTypes = {org.bukkit.util.Vector.class, org.bukkit.util.Vector.class};
+        String[] input = {"1.22,4.512,4.122", "1,2,3"};
+
+        Object[] output = TypeHandler.getInstance().instantiateTypes(inputTypes, Arrays.asList(input), null);
+
+        assertEquals(inputTypes.length, output.length);
+
+        for (Object object : output) {
+            assertTrue(object instanceof org.bukkit.util.Vector);
+        }
+
+        // test values are well within JVM guarantees
+        final double delta = Double.MIN_VALUE;
+
+        org.bukkit.util.Vector vector1 = (org.bukkit.util.Vector) output[0];
+        org.bukkit.util.Vector vector2 = (org.bukkit.util.Vector) output[1];
+
+        assertEquals(1.22, vector1.getX(), delta);
+        assertEquals(4.512, vector1.getY(), delta);
+        assertEquals(4.122, vector1.getZ(), delta);
+
+        assertEquals(1, vector2.getX(), delta);
+        assertEquals(2, vector2.getY(), delta);
+        assertEquals(3, vector2.getZ(), delta);
+    }
 }
