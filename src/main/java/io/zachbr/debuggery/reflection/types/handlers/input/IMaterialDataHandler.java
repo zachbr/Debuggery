@@ -26,9 +26,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class IMaterialDataHandler implements IHandler {
 
-    @NotNull
     @Override
-    public MaterialData instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
+    public @NotNull MaterialData instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
         String[] contents = input.split(":", 2);
         Material material = IMaterialHandler.getMaterial(contents[0]);
         byte data = (byte) IPrimitivesHandler.getPrimitive(contents[1], byte.class);
@@ -36,9 +35,8 @@ public class IMaterialDataHandler implements IHandler {
         return new MaterialData(material, data);
     }
 
-    @NotNull
     @Override
-    public Class<?> getRelevantClass() {
+    public @NotNull Class<?> getRelevantClass() {
         return MaterialData.class;
     }
 }

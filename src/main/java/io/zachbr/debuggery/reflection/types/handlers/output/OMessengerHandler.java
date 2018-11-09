@@ -25,9 +25,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class OMessengerHandler implements OHandler {
 
-    @Nullable
     @Override
-    public String getFormattedOutput(Object object) {
+    public @Nullable String getFormattedOutput(Object object) {
         final Messenger messenger = (Messenger) object;
         final TypeHandler instance = TypeHandler.getInstance();
 
@@ -39,9 +38,8 @@ public class OMessengerHandler implements OHandler {
         return incomingBanner + incomingChannels + outgoingBanner + outgoingChannels;
     }
 
-    @NotNull
     @Override
-    public Class<?> getRelevantClass() {
+    public @NotNull Class<?> getRelevantClass() {
         return Messenger.class;
     }
 }

@@ -92,8 +92,7 @@ public class DebugUtil {
      *
      * @return system information
      */
-    @NotNull
-    public String[] getSystemInfo() {
+    public @NotNull String[] getSystemInfo() {
         List<String> out = new ArrayList<>();
 
         out.add("Debuggery Ver: " + plugin.getDescription().getVersion());
@@ -108,8 +107,7 @@ public class DebugUtil {
         return out.toArray(new String[0]);
     }
 
-    @NotNull
-    public Set<CommandSender> getListeners() {
+    public @NotNull Set<CommandSender> getListeners() {
         return debugListeners;
     }
 }

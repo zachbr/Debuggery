@@ -31,15 +31,13 @@ public class OArrayHandler {
         Class[] supportedClasses = {Object[].class, byte[].class, short[].class, int[].class, long[].class, float[].class, double[].class, boolean[].class, char[].class};
         for (Class clazz : supportedClasses) {
             OHandler handler = new OHandler() {
-                @Nullable
                 @Override
-                public String getFormattedOutput(Object object) {
+                public @Nullable String getFormattedOutput(Object object) {
                     return getFormattedArray(object);
                 }
 
-                @NotNull
                 @Override
-                public Class<?> getRelevantClass() {
+                public @NotNull Class<?> getRelevantClass() {
                     return clazz;
                 }
             };
@@ -48,8 +46,7 @@ public class OArrayHandler {
         }
     }
 
-    @Nullable
-    private String getFormattedArray(Object object) {
+    private @Nullable String getFormattedArray(Object object) {
         // Rather than handle every primitive type, just have java autobox the contents
         if (object.getClass().getComponentType().isPrimitive()) {
             int length = Array.getLength(object);

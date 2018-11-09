@@ -25,9 +25,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class OInventoryHandler implements OHandler {
 
-    @Nullable
     @Override
-    public String getFormattedOutput(Object object) {
+    public @Nullable String getFormattedOutput(Object object) {
         final Inventory inventory = (Inventory) object;
 
         final String basicInfo = "name=" + inventory.getName() + ", title=" + inventory.getTitle()
@@ -37,9 +36,8 @@ public class OInventoryHandler implements OHandler {
         return basicInfo + TypeHandler.getInstance().getOutputFor(inventory.getContents());
     }
 
-    @NotNull
     @Override
-    public Class<?> getRelevantClass() {
+    public @NotNull Class<?> getRelevantClass() {
         return Inventory.class;
     }
 }

@@ -26,7 +26,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class ILocationHandler implements IHandler {
 
-    static Location getLocation(String input, @Nullable CommandSender sender) {
+    static @NotNull Location getLocation(String input, @Nullable CommandSender sender) {
         if (sender instanceof Player) {
             final Player player = (Player) sender;
             if (input.equalsIgnoreCase("here")) {
@@ -51,15 +51,13 @@ public class ILocationHandler implements IHandler {
         return new Location(world, xyz[0], xyz[1], xyz[2]);
     }
 
-    @NotNull
     @Override
-    public Location instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
+    public @NotNull Location instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
         return getLocation(input, sender); // separate method so that related commands can get to it
     }
 
-    @NotNull
     @Override
-    public Class<?> getRelevantClass() {
+    public @NotNull Class<?> getRelevantClass() {
         return Location.class;
     }
 }

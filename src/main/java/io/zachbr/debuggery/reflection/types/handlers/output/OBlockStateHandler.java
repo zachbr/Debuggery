@@ -24,9 +24,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class OBlockStateHandler implements OHandler {
 
-    @Nullable
     @Override
-    public String getFormattedOutput(Object object) {
+    public @Nullable String getFormattedOutput(Object object) {
         final BlockState blockState = (BlockState) object;
 
         return "[" + blockState.getData() + ", " +
@@ -35,9 +34,8 @@ public class OBlockStateHandler implements OHandler {
                 blockState.getLocation() + "]";
     }
 
-    @NotNull
     @Override
-    public Class<?> getRelevantClass() {
+    public @NotNull Class<?> getRelevantClass() {
         return BlockState.class;
     }
 }

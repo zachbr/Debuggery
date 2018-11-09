@@ -25,9 +25,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class OHelpMapHandler implements OHandler {
 
-    @Nullable
     @Override
-    public String getFormattedOutput(Object object) {
+    public @Nullable String getFormattedOutput(Object object) {
         final HelpMap helpMap = (HelpMap) object;
 
         StringBuilder returnString = new StringBuilder("[");
@@ -44,9 +43,8 @@ public class OHelpMapHandler implements OHandler {
         return returnString.append("]").toString();
     }
 
-    @NotNull
     @Override
-    public Class<?> getRelevantClass() {
+    public @NotNull Class<?> getRelevantClass() {
         return HelpMap.class;
     }
 }

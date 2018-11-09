@@ -24,8 +24,7 @@ import org.jetbrains.annotations.NotNull;
  * that's causing the problem, rather than some API/Implementation contract.
  */
 public class InputException extends Exception {
-    @NotNull
-    private final Throwable wrappedException;
+    private final @NotNull Throwable wrappedException;
 
     InputException(@NotNull Throwable throwable) {
         if (throwable instanceof InputException) {
@@ -37,8 +36,7 @@ public class InputException extends Exception {
     }
 
     @Override
-    @NotNull
-    public Throwable getCause() {
+    public @NotNull Throwable getCause() {
         return wrappedException;
     }
 }

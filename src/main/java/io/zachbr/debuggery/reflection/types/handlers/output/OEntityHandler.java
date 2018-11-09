@@ -24,9 +24,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class OEntityHandler implements OHandler {
 
-    @Nullable
     @Override
-    public String getFormattedOutput(Object object) {
+    public @Nullable String getFormattedOutput(Object object) {
         final Entity entity = (Entity) object;
 
         String out = entity.toString();
@@ -45,9 +44,8 @@ public class OEntityHandler implements OHandler {
         return out;
     }
 
-    @NotNull
     @Override
-    public Class<?> getRelevantClass() {
+    public @NotNull Class<?> getRelevantClass() {
         return Entity.class;
     }
 }

@@ -27,9 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IItemStacksHandler implements IHandler {
-    @NotNull
+
     @Override
-    public ItemStack[] instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
+    public @NotNull ItemStack[] instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
         List<ItemStack> stacksOut = new ArrayList<>();
         String[] stacksIn = input.split(",");
 
@@ -40,9 +40,8 @@ public class IItemStacksHandler implements IHandler {
         return stacksOut.toArray(new ItemStack[0]);
     }
 
-    @NotNull
     @Override
-    public Class<?> getRelevantClass() {
+    public @NotNull Class<?> getRelevantClass() {
         return ItemStack[].class;
     }
 }

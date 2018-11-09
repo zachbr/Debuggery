@@ -27,9 +27,8 @@ import java.util.Map;
 
 public class OMapHandler implements OHandler {
 
-    @Nullable
     @Override
-    public String getFormattedOutput(Object object) {
+    public @Nullable String getFormattedOutput(Object object) {
         final Map map = (Map) object;
 
         final TypeHandler typeHandler = TypeHandler.getInstance();
@@ -49,9 +48,8 @@ public class OMapHandler implements OHandler {
         return out.append("}").toString();
     }
 
-    @NotNull
     @Override
-    public Class<?> getRelevantClass() {
+    public @NotNull Class<?> getRelevantClass() {
         return Map.class;
     }
 }

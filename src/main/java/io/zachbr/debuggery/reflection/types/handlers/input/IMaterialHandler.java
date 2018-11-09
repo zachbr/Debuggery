@@ -25,7 +25,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class IMaterialHandler implements IHandler {
 
-    static Material getMaterial(String input) {
+    static @NotNull Material getMaterial(String input) {
         Material material = Material.matchMaterial(input);
 
         if (material == null) {
@@ -35,15 +35,13 @@ public class IMaterialHandler implements IHandler {
         }
     }
 
-    @NotNull
     @Override
-    public Material instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
+    public @NotNull Material instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
         return getMaterial(input); // separate method so other handlers can access
     }
 
-    @NotNull
     @Override
-    public Class<?> getRelevantClass() {
+    public @NotNull Class<?> getRelevantClass() {
         return Material.class;
     }
 }

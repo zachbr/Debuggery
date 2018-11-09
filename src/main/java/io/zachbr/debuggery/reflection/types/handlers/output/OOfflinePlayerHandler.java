@@ -25,9 +25,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class OOfflinePlayerHandler implements OHandler {
 
-    @Nullable
     @Override
-    public String getFormattedOutput(Object object) {
+    public @Nullable String getFormattedOutput(Object object) {
         final OfflinePlayer player = (OfflinePlayer) object;
 
         if (player instanceof Player) {
@@ -37,9 +36,8 @@ public class OOfflinePlayerHandler implements OHandler {
         }
     }
 
-    @NotNull
     @Override
-    public Class<?> getRelevantClass() {
+    public @NotNull Class<?> getRelevantClass() {
         return OfflinePlayer.class;
     }
 }

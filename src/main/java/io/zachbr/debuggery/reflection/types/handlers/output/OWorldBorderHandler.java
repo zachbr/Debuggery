@@ -24,9 +24,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class OWorldBorderHandler implements OHandler {
 
-    @Nullable
     @Override
-    public String getFormattedOutput(Object object) {
+    public @Nullable String getFormattedOutput(Object object) {
         final WorldBorder border = (WorldBorder) object;
 
         return "[size=" + border.getSize() + " " +
@@ -34,9 +33,8 @@ public class OWorldBorderHandler implements OHandler {
                 "dmgAmt=" + border.getDamageAmount() + "]";
     }
 
-    @NotNull
     @Override
-    public Class<?> getRelevantClass() {
+    public @NotNull Class<?> getRelevantClass() {
         return WorldBorder.class;
     }
 }

@@ -44,8 +44,7 @@ public class ReflectionUtil {
      * @param classIn class to get a method map for
      * @return method map for class
      */
-    @NotNull
-    public static Map<String, Method> getMethodMapFor(@NotNull Class classIn) {
+    public static @NotNull Map<String, Method> getMethodMapFor(@NotNull Class classIn) {
         Validate.notNull(classIn);
         if (globalMethodMap.containsKey(classIn)) {
             return globalMethodMap.get(classIn);
@@ -73,8 +72,7 @@ public class ReflectionUtil {
      * @param method method to check against
      * @return a best-effort list of method params from the given list
      */
-    @NotNull
-    public static List<String> getArgsForMethod(@NotNull List<String> args, @NotNull Method method) {
+    public static @NotNull List<String> getArgsForMethod(@NotNull List<String> args, @NotNull Method method) {
         if (args.size() == 0 && method.getParameterCount() == 0) {
             return Collections.emptyList();
         }
@@ -98,8 +96,7 @@ public class ReflectionUtil {
      * @param clazz class to get associated public methods
      * @return array of public methods
      */
-    @NotNull
-    private static Method[] getAllPublicMethods(Class clazz) {
+    private static @NotNull Method[] getAllPublicMethods(Class clazz) {
         List<Method> methods = new ArrayList<>();
 
         for (Method method : clazz.getMethods()) {
@@ -119,8 +116,7 @@ public class ReflectionUtil {
      * @param clazz which class to get methods for
      * @return a new Map
      */
-    @NotNull
-    private static Map<String, Method> createMethodMapFor(Class clazz) {
+    private static @NotNull Map<String, Method> createMethodMapFor(Class clazz) {
         Map<String, Method> map = new HashMap<>();
 
         for (Method method : getAllPublicMethods(clazz)) {
@@ -143,8 +139,7 @@ public class ReflectionUtil {
      * @param method which method to get a formatted name for
      * @return a formatted name
      */
-    @NotNull
-    public static String getFormattedMethodSignature(Method method) {
+    public static @NotNull String getFormattedMethodSignature(Method method) {
         StringBuilder builder = new StringBuilder();
         builder.append(method.getName());
 
@@ -169,8 +164,7 @@ public class ReflectionUtil {
      * @param method method with missing arguments
      * @return error message
      */
-    @NotNull
-    public static String getArgMismatchString(Method method) {
+    public static @NotNull String getArgMismatchString(Method method) {
         final String methodName = method.getName();
         final Class returnType = method.getReturnType();
         final String returnTypeName = returnType.getSimpleName();

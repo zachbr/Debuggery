@@ -27,9 +27,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class IBlockDataHandler implements IPolymorphicHandler {
 
-    @NotNull
     @Override
-    public BlockData instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
+    public @NotNull BlockData instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
         // first try from straight material name
         Material material;
         try {
@@ -42,9 +41,8 @@ public class IBlockDataHandler implements IPolymorphicHandler {
         return Bukkit.createBlockData(input); // will throw illegalargumentexception
     }
 
-    @NotNull
     @Override
-    public Class<?> getRelevantClass() {
+    public @NotNull Class<?> getRelevantClass() {
         return BlockData.class;
     }
 }

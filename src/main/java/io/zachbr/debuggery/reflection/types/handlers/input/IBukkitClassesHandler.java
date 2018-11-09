@@ -27,9 +27,8 @@ import java.util.List;
 
 public class IBukkitClassesHandler implements IHandler {
 
-    @NotNull
     @Override
-    public Class[] instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) throws ClassNotFoundException {
+    public @NotNull Class[] instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) throws ClassNotFoundException {
         List<Class> classList = new ArrayList<>();
         String[] classNames = input.split(",");
 
@@ -40,9 +39,8 @@ public class IBukkitClassesHandler implements IHandler {
         return classList.toArray(new Class[0]);
     }
 
-    @NotNull
     @Override
-    public Class<?> getRelevantClass() {
+    public @NotNull Class<?> getRelevantClass() {
         return Class[].class;
     }
 }

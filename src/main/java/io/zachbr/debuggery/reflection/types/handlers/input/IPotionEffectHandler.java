@@ -26,9 +26,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class IPotionEffectHandler implements IHandler {
 
-    @NotNull
     @Override
-    public PotionEffect instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) throws Exception {
+    public @NotNull PotionEffect instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) throws Exception {
         String[] values = input.split(",");
 
         PotionEffectType type = IPotionEffectTypeHandler.getPotionEffectType(values[0]);
@@ -46,9 +45,8 @@ public class IPotionEffectHandler implements IHandler {
         return new PotionEffect(type, duration, amplifier);
     }
 
-    @NotNull
     @Override
-    public Class<?> getRelevantClass() {
+    public @NotNull Class<?> getRelevantClass() {
         return PotionEffect.class;
     }
 }

@@ -26,7 +26,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class IItemStackHandler implements IHandler {
 
-    static ItemStack getItemStack(String input, @Nullable CommandSender sender) {
+    static @NotNull ItemStack getItemStack(String input, @Nullable CommandSender sender) {
         if (sender instanceof Player) {
             if (input.equalsIgnoreCase("this")) {
                 return ((Player) sender).getInventory().getItemInMainHand();
@@ -37,15 +37,13 @@ public class IItemStackHandler implements IHandler {
         return new ItemStack(IMaterialHandler.getMaterial(input));
     }
 
-    @NotNull
     @Override
-    public ItemStack instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
+    public @NotNull ItemStack instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
         return getItemStack(input, sender);
     }
 
-    @NotNull
     @Override
-    public Class<?> getRelevantClass() {
+    public @NotNull Class<?> getRelevantClass() {
         return ItemStack.class;
     }
 }

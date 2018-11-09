@@ -19,7 +19,6 @@ package io.zachbr.debuggery.reflection.types.handlers.input;
 
 import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -28,27 +27,21 @@ import java.util.UUID;
 
 public class IUUIDHandler implements IHandler {
 
-    @NotNull
     @Override
-    public UUID instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
+    public @NotNull UUID instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
         try {
             return UUID.fromString(input);
         } catch (IllegalArgumentException ex) {
             if (sender instanceof Player) {
-                Entity entity = IEntityHandler.getEntity(input, sender);
-
-                if (entity != null) {
-                    return entity.getUniqueId();
-                }
+                return IEntityHandler.getEntity(input, sender).getUniqueId();
             }
 
             throw ex; // re-throw if we still couldn't make it work
         }
     }
 
-    @NotNull
     @Override
-    public Class<?> getRelevantClass() {
+    public @NotNull Class<?> getRelevantClass() {
         return UUID.class;
     }
 }

@@ -59,8 +59,7 @@ public class PlatformUtil {
      * @param tolerance How close we want the search to be
      * @return entity player is looking at, or null if we couldn't find one
      */
-    @Nullable
-    public static Entity getEntityPlayerLookingAt(Player player, int range, double tolerance) {
+    public static @Nullable Entity getEntityPlayerLookingAt(Player player, int range, double tolerance) {
         List<Entity> entities = player.getNearbyEntities(range, range, range);
 
         for (Block block : player.getLineOfSight(null, range)) {
@@ -96,8 +95,7 @@ public class PlatformUtil {
      * @param tolerance How close we want the search to be
      * @return entity closest to the location, or null if we couldn't find one
      */
-    @Nullable
-    public static Entity getEntityNearestTo(Location location, int range, double tolerance) {
+    public static @Nullable Entity getEntityNearestTo(Location location, int range, double tolerance) {
         Collection<Entity> entities = location.getWorld().getNearbyEntities(location, range, range, range);
 
         return entities.stream()

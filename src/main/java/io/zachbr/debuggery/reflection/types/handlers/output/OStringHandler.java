@@ -23,15 +23,13 @@ import org.jetbrains.annotations.Nullable;
 
 public class OStringHandler implements OHandler {
 
-    @Nullable
     @Override
-    public String getFormattedOutput(Object object) {
+    public @Nullable String getFormattedOutput(Object object) {
         return (String) object;
     }
 
-    @NotNull
     @Override
-    public Class<?> getRelevantClass() {
+    public @NotNull Class<?> getRelevantClass() {
         return String.class;
     }
 }

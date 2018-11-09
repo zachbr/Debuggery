@@ -29,6 +29,5 @@ public interface Handler {
      *
      * @return relevant class
      */
-    @NotNull
-    Class<?> getRelevantClass();
+    @NotNull Class<?> getRelevantClass();
 }

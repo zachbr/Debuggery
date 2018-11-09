@@ -54,8 +54,7 @@ public class TypeHandler {
      *
      * @return instance of {@link TypeHandler}
      */
-    @NotNull
-    public static TypeHandler getInstance() {
+    public static @NotNull TypeHandler getInstance() {
         if (singletonInstance == null) {
             singletonInstance = new TypeHandler();
         }
@@ -70,8 +69,7 @@ public class TypeHandler {
      * @param object instance to get output for
      * @return String output or null
      */
-    @Nullable
-    public String getOutputFor(@Nullable Object object) {
+    public @Nullable String getOutputFor(@Nullable Object object) {
         // if the object is null, just return null
         // indicating that we shouldn't send any input at all
         if (object == null) {
@@ -96,8 +94,7 @@ public class TypeHandler {
      * @return {@link Object} array of the requested types, instantiated and ready for use
      * @throws InputException when there's an issue instantiating the requested types
      */
-    @NotNull
-    public Object[] instantiateTypes(Class[] classes, List<String> input, @Nullable CommandSender sender) throws InputException {
+    public @NotNull Object[] instantiateTypes(Class[] classes, List<String> input, @Nullable CommandSender sender) throws InputException {
         Validate.notNull(classes);
         Validate.notNull(input);
 
@@ -119,8 +116,7 @@ public class TypeHandler {
      * @return An instance of the requested class or null
      * @throws InputException when there's an issue instantiating the requested type
      */
-    @Nullable
-    private Object instantiateObjectFor(Class clazz, String input, @Nullable CommandSender sender) throws InputException {
+    private @Nullable Object instantiateObjectFor(Class clazz, String input, @Nullable CommandSender sender) throws InputException {
         Validate.notNull(clazz);
         Validate.notNull(input);
 
@@ -325,8 +321,7 @@ public class TypeHandler {
      * @param clazz {@link Class} type to look for a handler for
      * @return Relevant handler or null if none could be found
      */
-    @Nullable
-    private IHandler getIHandlerForClass(Class clazz) {
+    private @Nullable IHandler getIHandlerForClass(Class clazz) {
         Validate.notNull(clazz);
 
         // first check for an explicit input handler to use for this type
@@ -349,8 +344,7 @@ public class TypeHandler {
      * @param clazz {@link Class} type to look for a handler for
      * @return Relevant input handler or null if none could be found
      */
-    @Nullable
-    private IPolymorphicHandler getIPolymorphicHandler(Class clazz) {
+    private @Nullable IPolymorphicHandler getIPolymorphicHandler(Class clazz) {
         Validate.notNull(clazz);
 
         return getGenericPolymorphicForFrom(clazz, polymorphicHandlers, "Input Handlers");
@@ -362,8 +356,7 @@ public class TypeHandler {
      * @param clazz {@link} Class to search with
      * @return relevant output handler or null if none could be found
      */
-    @Nullable
-    private OHandler getOHandlerForClass(Class clazz) {
+    private @Nullable OHandler getOHandlerForClass(Class clazz) {
         Validate.notNull(clazz);
 
         return getGenericPolymorphicForFrom(clazz, outputHandlers, "Output Handlers");
@@ -379,8 +372,7 @@ public class TypeHandler {
      * @param <T>       {@link Handler} type to get
      * @return relevant handler or null
      */
-    @Nullable
-    private <T extends Handler> T getGenericPolymorphicForFrom(Class clazz, Collection<T> toSearch, @Nullable String debugName) {
+    private <T extends Handler> @Nullable T getGenericPolymorphicForFrom(Class clazz, Collection<T> toSearch, @Nullable String debugName) {
         Validate.notNull(clazz);
         Validate.notNull(toSearch);
 
@@ -401,8 +393,7 @@ public class TypeHandler {
      *
      * @return unmodifiable collection
      */
-    @NotNull
-    Collection<IHandler> getAllInputHandlers() {
+    @NotNull Collection<IHandler> getAllInputHandlers() {
         return Collections.unmodifiableCollection(inputHandlers.values());
     }
 
@@ -411,8 +402,7 @@ public class TypeHandler {
      *
      * @return unmodifiable collection
      */
-    @NotNull
-    Collection<OHandler> getAllOutputHandlers() {
+    @NotNull Collection<OHandler> getAllOutputHandlers() {
         return Collections.unmodifiableCollection(outputHandlers);
     }
 }

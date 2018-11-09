@@ -49,7 +49,7 @@ public class IPotionEffectTypeHandler implements IHandler {
         }
     }
 
-    static PotionEffectType getPotionEffectType(String name) throws NoSuchFieldException {
+    static @NotNull PotionEffectType getPotionEffectType(String name) throws NoSuchFieldException {
         PotionEffectType type = TYPES.get(name.toLowerCase());
         if (type == null) {
             throw new NoSuchFieldException("No PotionEffectType with the name: " + name);
@@ -58,15 +58,13 @@ public class IPotionEffectTypeHandler implements IHandler {
         }
     }
 
-    @NotNull
     @Override
-    public PotionEffectType instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) throws Exception {
+    public @NotNull PotionEffectType instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) throws Exception {
         return getPotionEffectType(input);
     }
 
-    @NotNull
     @Override
-    public Class<?> getRelevantClass() {
+    public @NotNull Class<?> getRelevantClass() {
         return PotionEffectType.class;
     }
 }

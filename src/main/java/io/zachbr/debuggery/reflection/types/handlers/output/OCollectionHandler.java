@@ -26,15 +26,13 @@ import java.util.Collection;
 
 public class OCollectionHandler implements OHandler {
 
-    @Nullable
     @Override
-    public String getFormattedOutput(Object object) {
+    public @Nullable String getFormattedOutput(Object object) {
         return TypeHandler.getInstance().getOutputFor(((Collection) object).toArray()); // use array handler
     }
 
-    @NotNull
     @Override
-    public Class<?> getRelevantClass() {
+    public @NotNull Class<?> getRelevantClass() {
         return Collection.class;
     }
 }

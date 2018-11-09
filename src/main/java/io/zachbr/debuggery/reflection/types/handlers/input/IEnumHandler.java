@@ -24,21 +24,18 @@ import org.jetbrains.annotations.Nullable;
 
 public class IEnumHandler implements IPolymorphicHandler {
 
-    @NotNull
-    static <T extends Enum<T>> T getEnumValue(String input, Class<T> clazz) {
+    static <T extends Enum<T>> @NotNull T getEnumValue(String input, Class<T> clazz) {
         return Enum.valueOf(clazz, input.toUpperCase());
     }
 
-    @NotNull
     @Override
     @SuppressWarnings("unchecked")
-    public Enum instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
+    public @NotNull Enum instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
         return getEnumValue(input, (Class) clazz); // suppress until such a time it can be handled better
     }
 
-    @NotNull
     @Override
-    public Class<?> getRelevantClass() {
+    public @NotNull Class<?> getRelevantClass() {
         return Enum.class;
     }
 }

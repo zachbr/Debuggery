@@ -24,15 +24,13 @@ import org.jetbrains.annotations.Nullable;
 
 public class IStringHandler implements IHandler {
 
-    @NotNull
     @Override
-    public String instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
+    public @NotNull String instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
         return input;
     }
 
-    @NotNull
     @Override
-    public Class<?> getRelevantClass() {
+    public @NotNull Class<?> getRelevantClass() {
         return String.class;
     }
 }

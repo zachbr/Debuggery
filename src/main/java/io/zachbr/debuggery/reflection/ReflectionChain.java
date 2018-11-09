@@ -35,8 +35,7 @@ import java.util.*;
 public class ReflectionChain {
     private final List<String> input;
     private final Object initialInstance;
-    @Nullable
-    private final CommandSender owner;
+    private final @Nullable CommandSender owner;
     private Object endingInstance;
 
     public ReflectionChain(@NotNull String[] args, @NotNull Object initialInstance, @Nullable CommandSender owner) {
@@ -100,8 +99,7 @@ public class ReflectionChain {
      *
      * @return ending object instance or null
      */
-    @Nullable
-    public Object getEndingInstance() {
+    public @Nullable Object getEndingInstance() {
         return this.endingInstance;
     }
 
@@ -115,8 +113,7 @@ public class ReflectionChain {
      * @throws InvocationTargetException see {@link Method#invoke(Object, Object...)}
      * @throws IllegalAccessException    see {@link Method#invoke(Object, Object...)}
      */
-    @Nullable
-    private Object reflect(@NotNull Object instance, @NotNull Method method, @NotNull Object[] args) throws InvocationTargetException, IllegalAccessException {
+    private @Nullable Object reflect(@NotNull Object instance, @NotNull Method method, @NotNull Object[] args) throws InvocationTargetException, IllegalAccessException {
         final int paramCount = method.getParameterCount();
 
         if (args.length != paramCount) {

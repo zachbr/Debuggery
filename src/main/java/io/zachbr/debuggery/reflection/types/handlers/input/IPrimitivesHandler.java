@@ -47,7 +47,7 @@ public class IPrimitivesHandler {
         }
     }
 
-    static Object getPrimitive(String input, Class clazz) {
+    static @NotNull Object getPrimitive(String input, Class clazz) {
         if (input == null) {
             throw new NullPointerException("Cannot get any value from null input!");
         }

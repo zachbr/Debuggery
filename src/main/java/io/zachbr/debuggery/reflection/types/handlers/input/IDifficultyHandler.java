@@ -25,9 +25,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class IDifficultyHandler implements IHandler {
 
-    @NotNull
     @Override
-    public Difficulty instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
+    public @NotNull Difficulty instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
         try {
             int val = Integer.parseInt(input);
             //noinspection deprecation
@@ -38,9 +37,8 @@ public class IDifficultyHandler implements IHandler {
         return IEnumHandler.getEnumValue(input, Difficulty.class);
     }
 
-    @NotNull
     @Override
-    public Class<?> getRelevantClass() {
+    public @NotNull Class<?> getRelevantClass() {
         return Difficulty.class;
     }
 }

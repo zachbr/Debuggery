@@ -24,8 +24,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class IBukkitClassHandler implements IHandler {
 
-    @NotNull
-    static Class getClass(String input) throws ClassNotFoundException {
+    static @NotNull Class getClass(String input) throws ClassNotFoundException {
         // This is only used for entities right now, so we can save some drama and just search those packages
         // todo above assumption no longer true, figure out what to do here
         final String[] searchPackages = {"org.bukkit", "org.bukkit.entity", "org.bukkit.entity.minecart"};
@@ -50,15 +49,13 @@ public class IBukkitClassHandler implements IHandler {
         throw new ClassNotFoundException(normalized + " not present in Bukkit entity namespace");
     }
 
-    @NotNull
     @Override
-    public Class instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) throws ClassNotFoundException {
+    public @NotNull Class instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) throws ClassNotFoundException {
         return getClass(input); // separate method so that IBukkitClassesHandler can get to it
     }
 
-    @NotNull
     @Override
-    public Class<?> getRelevantClass() {
+    public @NotNull Class<?> getRelevantClass() {
         return Class.class; // This is only used for entities right now, so we can save some drama and just search those packages
     }
 }

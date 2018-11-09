@@ -122,8 +122,7 @@ public abstract class CommandReflection extends CommandBase {
      * @param object Object to get String output for
      * @return textual description of Object
      */
-    @Nullable
-    protected String getOutputStringFor(@Nullable Object object) {
+    protected @Nullable String getOutputStringFor(@Nullable Object object) {
         return TypeHandler.getInstance().getOutputFor(object);
     }
 

@@ -24,17 +24,15 @@ import org.jetbrains.annotations.Nullable;
 
 public class OCommandSender implements OHandler {
 
-    @Nullable
     @Override
-    public String getFormattedOutput(Object object) {
+    public @Nullable String getFormattedOutput(Object object) {
         final CommandSender sender = (CommandSender) object;
 
         return sender.getName();
     }
 
-    @NotNull
     @Override
-    public Class<?> getRelevantClass() {
+    public @NotNull Class<?> getRelevantClass() {
         return CommandSender.class;
     }
 }

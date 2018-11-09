@@ -38,6 +38,5 @@ public interface IHandler extends Handler {
      * @return instantiated object
      * @throws Exception when an object cannot be instantiated
      */
-    @NotNull
-    Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) throws Exception;
+    @NotNull Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) throws Exception;
 }

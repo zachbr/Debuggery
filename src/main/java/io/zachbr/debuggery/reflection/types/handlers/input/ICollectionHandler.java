@@ -28,9 +28,8 @@ import java.util.*;
 
 public class ICollectionHandler implements IPolymorphicHandler {
 
-    @NotNull
     @Override
-    public Collection<?> instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) throws Exception {
+    public @NotNull Collection<?> instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) throws Exception {
         // type erasure really screws us here, so you have to specify the type of data you want to input
         // CLASSTYPE:ELEMENT,ELEMENT,ELEMENT
         // Material:stone,grass,dirt
@@ -67,9 +66,8 @@ public class ICollectionHandler implements IPolymorphicHandler {
         return instanceOut;
     }
 
-    @NotNull
     @Override
-    public Class<?> getRelevantClass() {
+    public @NotNull Class<?> getRelevantClass() {
         return Collection.class;
     }
 }

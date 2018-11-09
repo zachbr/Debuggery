@@ -28,7 +28,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class IEntityHandler implements IHandler {
 
-    static Entity getEntity(String input, @Nullable CommandSender sender) {
+    static @NotNull Entity getEntity(String input, @Nullable CommandSender sender) {
         Entity target;
 
         // player specific commands to make things easier for them
@@ -55,15 +55,13 @@ public class IEntityHandler implements IHandler {
         }
     }
 
-    @NotNull
     @Override
-    public Entity instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
+    public @NotNull Entity instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
         return getEntity(input, sender); // separate method so that other entity related commands can get to it
     }
 
-    @NotNull
     @Override
-    public Class<?> getRelevantClass() {
+    public @NotNull Class<?> getRelevantClass() {
         return Entity.class;
     }
 }
