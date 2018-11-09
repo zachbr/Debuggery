@@ -50,7 +50,7 @@ class Bootstrap {
         registration.add(new IBukkitClassesHandler());
         registration.add(new IDifficultyHandler());
         registration.add(new IEntityHandler());
-        registration.add(new IEulerAngle());
+        registration.add(new IEulerAngleHandler());
         registration.add(new IGameModeHandler());
         registration.add(new IItemStackHandler());
         registration.add(new IItemStacksHandler());
@@ -61,7 +61,7 @@ class Bootstrap {
         registration.add(new IPotionEffectTypeHandler());
         registration.add(new IStringHandler());
         registration.add(new IUUIDHandler());
-        registration.add(new IVector());
+        registration.add(new IVectorHandler());
         // register polymorphics last
         registration.add(new IBlockDataHandler());
         registration.add(new ICollectionHandler());
@@ -78,7 +78,7 @@ class Bootstrap {
         registration.add(new OCollectionHandler());
         registration.add(new OEntityHandler()); // above CommandSender
         registration.add(new OCommandSender());
-        registration.add(new OEulerAngle());
+        registration.add(new OEulerAngleHandler());
         registration.add(new OHelpMapHandler());
         registration.add(new OInventoryHandler());
         registration.add(new OMapHandler());

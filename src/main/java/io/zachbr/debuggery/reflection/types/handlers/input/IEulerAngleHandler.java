@@ -24,7 +24,7 @@ import org.bukkit.util.EulerAngle;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class IEulerAngle implements IHandler {
+public class IEulerAngleHandler implements IHandler {
 
     @Override
     public @NotNull Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {

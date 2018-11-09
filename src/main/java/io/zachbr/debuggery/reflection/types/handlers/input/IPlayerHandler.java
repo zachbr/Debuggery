@@ -26,7 +26,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
-public class IPlayer implements IHandler {
+public class IPlayerHandler implements IHandler {
 
     @Override
     public @NotNull Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) throws Exception {

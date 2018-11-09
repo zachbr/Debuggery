@@ -15,23 +15,26 @@
  * along with Debuggery.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package io.zachbr.debuggery.reflection.types.handlers.output;
+package io.zachbr.debuggery.reflection.types.handlers.input;
 
-import io.zachbr.debuggery.reflection.types.handlers.base.OHandler;
-import org.bukkit.util.EulerAngle;
+import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
+import io.zachbr.debuggery.util.StringUtil;
+import org.bukkit.command.CommandSender;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class OEulerAngle implements OHandler {
+public class IVectorHandler implements IHandler {
 
     @Override
-    public @Nullable String getFormattedOutput(Object object) {
-        EulerAngle eulerAngle = (EulerAngle) object;
-        return "{" + eulerAngle.getX() + ", " + eulerAngle.getY() + ", " + eulerAngle.getZ() + "}";
+    public @NotNull Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
+        double[] parsed = StringUtil.parseDoublesFromString(input, 3);
+
+        return new Vector(parsed[0], parsed[1], parsed[2]);
     }
 
     @Override
     public @NotNull Class<?> getRelevantClass() {
-        return EulerAngle.class;
+        return Vector.class;
     }
 }
