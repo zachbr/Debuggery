@@ -57,6 +57,8 @@ class Bootstrap {
         registration.add(new ILocationHandler());
         registration.add(new IMaterialDataHandler());
         registration.add(new IMaterialHandler());
+        registration.add(new IPermissionHandler());
+        registration.add(new IPlayerHandler());
         registration.add(new IPotionEffectHandler());
         registration.add(new IPotionEffectTypeHandler());
         registration.add(new IStringHandler());
