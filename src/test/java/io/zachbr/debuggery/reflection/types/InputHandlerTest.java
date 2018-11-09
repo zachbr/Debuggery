@@ -24,6 +24,7 @@ import org.bukkit.material.MaterialData;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.EulerAngle;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 
@@ -374,5 +375,33 @@ public class InputHandlerTest {
         assertSame(PotionEffectType.INVISIBILITY, effect2.getType());
         assertEquals(150, effect2.getDuration());
         assertEquals(2, effect2.getAmplifier());
+    }
+
+    @Test
+    public void testEulerAngle() throws InputException {
+        Class[] inputTypes = {EulerAngle.class, EulerAngle.class};
+        String[] input = {"1,2,3", "3.45,1.22,4.12"};
+
+        Object[] output = TypeHandler.getInstance().instantiateTypes(inputTypes, Arrays.asList(input), null);
+
+        assertEquals(inputTypes.length, output.length);
+
+        for (Object object : output) {
+            assertTrue(object instanceof EulerAngle);
+        }
+
+        // test values are well within JVM guarantees
+        final double delta = Double.MIN_VALUE;
+
+        EulerAngle angle1 = (EulerAngle) output[0];
+        EulerAngle angle2 = (EulerAngle) output[1];
+
+        assertEquals(1, angle1.getX(), delta);
+        assertEquals(2, angle1.getY(), delta);
+        assertEquals(3, angle1.getZ(), delta);
+
+        assertEquals(3.45, angle2.getX(), delta);
+        assertEquals(1.22, angle2.getY(), delta);
+        assertEquals(4.12, angle2.getZ(), delta);
     }
 }

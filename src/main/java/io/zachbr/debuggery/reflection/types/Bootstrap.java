@@ -50,6 +50,7 @@ class Bootstrap {
         registration.add(new IBukkitClassesHandler());
         registration.add(new IDifficultyHandler());
         registration.add(new IEntityHandler());
+        registration.add(new IEulerAngle());
         registration.add(new IGameModeHandler());
         registration.add(new IItemStackHandler());
         registration.add(new IItemStacksHandler());
