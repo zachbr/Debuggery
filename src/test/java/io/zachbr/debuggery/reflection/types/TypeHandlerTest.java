@@ -25,15 +25,15 @@ import org.bukkit.WeatherType;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TypeHandlerTest {
     private static final Class CASE_NEVER_WILL_BE_REGISTERED = Assertions.class;
@@ -198,18 +198,18 @@ public class TypeHandlerTest {
         //
 
         // addition
-        assertFalse("String Handler addition did not clash!", stringInputAddSuccess);
-        assertFalse("Collection handler addition did not clash!", collectionOutputAddSuccess);
-        assertTrue("Unable to register new input local class!", localClassInputAddSuccess);
-        assertTrue("Unable to register new output local class!", localClassOutputAddSuccess);
+        assertFalse(stringInputAddSuccess, "String Handler addition did not clash!");
+        assertFalse(collectionOutputAddSuccess, "Collection handler addition did not clash!");
+        assertTrue(localClassInputAddSuccess, "Unable to register new input local class!");
+        assertTrue(localClassOutputAddSuccess, "Unable to register new output local class!");
 
         // removal
-        assertTrue("Unable to remove input local class by instance!", iLocalClassRemoveByInstanceSuccess);
-        assertTrue("Unable to remove output local class by instance!", oLocalClassRemoveByInstanceSucesss);
-        assertTrue("Unable to remove input string handler by class type!", iStringRemoveByClassSuccess);
-        assertTrue("Unable to remove output collection handler by class type!", oCollectionRemoveByClassSuccess);
-        assertFalse("Attempting to remove an unregistered IHandler didnt return false!", removedUnregisteredIHandler);
-        assertFalse("Attempting to remvoe an unregistered OHandler didnt return false!", removedUnregisteredOHandler);
+        assertTrue(iLocalClassRemoveByInstanceSuccess, "Unable to remove input local class by instance!");
+        assertTrue(oLocalClassRemoveByInstanceSucesss, "Unable to remove output local class by instance!");
+        assertTrue(iStringRemoveByClassSuccess, "Unable to remove input string handler by class type!");
+        assertTrue(oCollectionRemoveByClassSuccess, "Unable to remove output collection handler by class type!");
+        assertFalse(removedUnregisteredIHandler, "Attempting to remove an unregistered IHandler didnt return false!");
+        assertFalse(removedUnregisteredOHandler, "Attempting to remvoe an unregistered OHandler didnt return false!");
 
         //
         // Cleanup

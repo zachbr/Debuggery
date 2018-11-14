@@ -22,8 +22,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.*;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.*;
 
 public class TestInventory implements Inventory {
@@ -195,7 +195,7 @@ public class TestInventory implements Inventory {
         throw new UnsupportedOperationException();
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public ListIterator<ItemStack> iterator() {
         throw new UnsupportedOperationException();

@@ -18,16 +18,13 @@
 package io.zachbr.debuggery.reflection;
 
 import com.google.common.collect.Lists;
-import org.bukkit.World;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.*;
+import java.util.List;
 import java.util.function.BiConsumer;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ReflectionUtilTest {
 

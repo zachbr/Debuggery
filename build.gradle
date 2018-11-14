@@ -34,7 +34,11 @@ tasks.withType(JavaCompile) {
 }
 
 dependencies {
-    compile 'com.destroystokyo.paper:paper-api:1.13.2-R0.1-SNAPSHOT'
+    compile ('com.destroystokyo.paper:paper-api:1.13.2-R0.1-SNAPSHOT') {
+        exclude group: 'junit' // provides conflicting APIs for our test implementations
+        exclude group: 'com.google.code.findbugs' // provides conflicting nullability annotations
+    }
+
     compile 'org.jetbrains:annotations:16.0.2'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
@@ -63,11 +67,7 @@ compileTestJava {
 
 test {
     testLogging.showStandardStreams = true
-    
-    // This should be useJUnitPlatform() because we use JUnit 5, but using it doesn't run any tests
-    // and I just don't care enough to spend all my time screwing with gradle and junit to figure out why it's stupid.
-    // I just want it to run the damn tests
-    useJUnit()
+    useJUnitPlatform()
 }
 
 // updateLicenses | checkLicenses

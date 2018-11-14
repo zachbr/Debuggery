@@ -19,13 +19,13 @@ package io.zachbr.debuggery.reflection;
 
 import io.zachbr.debuggery.reflection.types.InputException;
 import io.zachbr.debuggery.reflection.types.TypeHandler;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.function.Predicate;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ReflectionChainTest {
     private static final Predicate<String> CONTAINS_1234 = s -> s.contains("1") && s.contains("2") && s.contains("3") && s.contains("4");

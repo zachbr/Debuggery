@@ -27,11 +27,11 @@ import org.bukkit.help.HelpTopic;
 import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.messaging.Messenger;
 import org.bukkit.util.EulerAngle;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class OutputHandlerTest {
 
