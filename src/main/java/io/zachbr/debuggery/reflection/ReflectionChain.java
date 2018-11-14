@@ -53,7 +53,7 @@ public class ReflectionChain {
      * @throws IllegalAccessException    see {@link Method#invoke(Object, Object...)}
      */
     public Object chain() throws InputException, InvocationTargetException, IllegalAccessException {
-        Map<String, Method> reflectionMap;
+        MethodMap reflectionMap;
         Object result = initialInstance;
 
         Method currentMethod;
@@ -68,9 +68,9 @@ public class ReflectionChain {
             }
 
             Validate.notNull(result);
-            reflectionMap = ReflectionUtil.getMethodMapFor(result.getClass());
+            reflectionMap = GlobalMethodMap.getInstance().getMethodMapFor(result.getClass());
 
-            currentMethod = reflectionMap.get(currentArg);
+            currentMethod = reflectionMap.getById(currentArg);
             if (currentMethod == null) {
                 result = ChatColor.RED + "Unknown or unavailable method";
                 break;

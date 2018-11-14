@@ -32,38 +32,6 @@ import static org.junit.Assert.assertTrue;
 public class ReflectionUtilTest {
 
     @Test
-    public void createMethodMapFor() {
-        final Class TESTER = World.class;
-
-        Set<String> reflUtil = ReflectionUtil.getMethodMapFor(TESTER).keySet();
-        HashMap<Method, Boolean> reflection = new HashMap<>();
-
-        Arrays.stream(TESTER.getMethods())
-                .filter(m -> Modifier.isPublic(m.getModifiers()))
-                .forEach(m -> reflection.put(m, false));
-
-        for (String formattedName : reflUtil) {
-            for (Method method : reflection.keySet()) {
-                if (formattedName.contains(method.getName())) {
-                    reflection.put(method, true);
-                }
-            }
-        }
-
-        boolean pass = true;
-
-        for (Map.Entry<Method, Boolean> entry : reflection.entrySet()) {
-            if (!entry.getValue()) {
-                System.out.println(entry.getKey().getName() + " MISSING!");
-                pass = false;
-            }
-        }
-
-        // Verify our method map contains all methods for a class
-        assertTrue(pass);
-    }
-
-    @Test
     public void ensureArgsForMethodAccurate() throws NoSuchMethodException {
         // Given a method with only one param, pick out that param without the others
         List<String> inputStr = Lists.newArrayList("1", "nextMethod", "param", "param2");
@@ -89,6 +57,22 @@ public class ReflectionUtilTest {
         out = ReflectionUtil.getArgsForMethod(inputStr, noParams);
 
         assertEquals(0, out.size());
+    }
+
+    @Test
+    public void ensureNoWhitespaceInMethodIds() throws NoSuchMethodException {
+        Method method = ReflTestClass.class.getMethod("getSomeNumbers");
+        String id = ReflectionUtil.getMethodId(method);
+
+        long whitespaceCount = id.chars()
+                .filter(Character::isWhitespace)
+                .count();
+
+        if (whitespaceCount != 0) {
+            System.out.println("Illegal whitespace chars found in id: " + id);
+        }
+
+        assertEquals(0, whitespaceCount);
     }
 
     @Test

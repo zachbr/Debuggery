@@ -19,7 +19,7 @@ package io.zachbr.debuggery;
 
 import io.zachbr.debuggery.commands.*;
 import io.zachbr.debuggery.commands.base.CommandBase;
-import io.zachbr.debuggery.reflection.ReflectionUtil;
+import io.zachbr.debuggery.reflection.GlobalMethodMap;
 import io.zachbr.debuggery.reflection.types.TypeHandler;
 import io.zachbr.debuggery.util.DebugUtil;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -40,7 +40,7 @@ public class Debuggery extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        ReflectionUtil.clearMethodMapCache();
+        GlobalMethodMap.getInstance().clearCache();
     }
 
     private void registerCommands() {

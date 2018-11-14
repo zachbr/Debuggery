@@ -34,7 +34,7 @@ public class ReflectionChainTest {
     public void simpleReflectTest() throws NoSuchMethodException, IllegalAccessException, InputException, InvocationTargetException {
         // First something simple
         Method method = ReflTestClass.class.getMethod("getNumbersPlusParam", int.class);
-        String methodName = ReflectionUtil.getFormattedMethodSignature(method).replaceAll(" ", "");
+        String methodName = ReflectionUtil.getMethodId(method);
 
         ReflTestClass instance = new ReflTestClass(1, 2, 3);
         String[] input = new String[]{methodName, "4"};
@@ -59,10 +59,10 @@ public class ReflectionChainTest {
     public void chainReflectTest() throws NoSuchMethodException, IllegalAccessException, InputException, InvocationTargetException {
         // Now test calling a method on an returned instance
         Method subClassGet = ReflTestClass.class.getMethod("getSubClass");
-        String subClassGetterName = ReflectionUtil.getFormattedMethodSignature(subClassGet).replaceAll(" ", "");
+        String subClassGetterName = ReflectionUtil.getMethodId(subClassGet);
 
         Method subClassGetNum = ReflTestClass.ReflSubClass.class.getMethod("get1234", int.class);
-        String subClassGetNumName = ReflectionUtil.getFormattedMethodSignature(subClassGetNum).replaceAll(" ", "");
+        String subClassGetNumName = ReflectionUtil.getMethodId(subClassGetNum);
 
         ReflTestClass instance = new ReflTestClass(1, 2, 3);
         String[] input = new String[]{subClassGetterName, subClassGetNumName, "5"};
@@ -94,7 +94,7 @@ public class ReflectionChainTest {
     @Test
     public void noSuchMethodTest() throws NoSuchMethodException, IllegalAccessException, InputException, InvocationTargetException {
         Method subClassGet = ReflTestClass.class.getMethod("getSubClass");
-        String subClassGetterName = ReflectionUtil.getFormattedMethodSignature(subClassGet).replaceAll(" ", "");
+        String subClassGetterName = ReflectionUtil.getMethodId(subClassGet);
 
         String methodThatDoesNotExist = "getPotatoes()";
 
@@ -112,7 +112,7 @@ public class ReflectionChainTest {
     @Test
     public void chainOnNullTest() throws NoSuchMethodException, IllegalAccessException, InputException, InvocationTargetException {
         Method alwaysReturnsNull = ReflTestClass.class.getMethod("alwaysReturnsNull");
-        String nullMethodName = ReflectionUtil.getFormattedMethodSignature(alwaysReturnsNull).replaceAll(" ", "");
+        String nullMethodName = ReflectionUtil.getMethodId(alwaysReturnsNull);
 
         ReflTestClass instance = new ReflTestClass(1, 2, 3);
         String[] input = new String[]{nullMethodName, "get(int)", "5"};

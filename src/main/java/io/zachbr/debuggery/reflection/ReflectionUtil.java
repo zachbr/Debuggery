@@ -17,16 +17,13 @@
 
 package io.zachbr.debuggery.reflection;
 
-import org.apache.commons.lang.Validate;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.*;
 import java.util.function.Predicate;
 
 public class ReflectionUtil {
-    private static final Map<Class, Map<String, Method>> globalMethodMap = new HashMap<>();
 
     /**
      * Tests if a given string starts with a vowel
@@ -35,32 +32,6 @@ public class ReflectionUtil {
         s = s.toLowerCase();
         return s.startsWith("a") || s.startsWith("e") || s.startsWith("i") || s.startsWith("o") || s.startsWith("u");
     };
-
-    /**
-     * Gets a method map for the specified class
-     * <p>
-     * Will check the local cache before generating a new one.
-     *
-     * @param classIn class to get a method map for
-     * @return method map for class
-     */
-    public static @NotNull Map<String, Method> getMethodMapFor(@NotNull Class classIn) {
-        Validate.notNull(classIn);
-        if (globalMethodMap.containsKey(classIn)) {
-            return globalMethodMap.get(classIn);
-        } else {
-            Map<String, Method> methodMap = createMethodMapFor(classIn);
-            globalMethodMap.put(classIn, methodMap);
-            return methodMap;
-        }
-    }
-
-    /**
-     * Clears the global method map
-     */
-    public static void clearMethodMapCache() {
-        globalMethodMap.clear();
-    }
 
     /**
      * Attempts to parse a string for method parameters
@@ -88,43 +59,6 @@ public class ReflectionUtil {
         }
 
         return argsOut;
-    }
-
-    /**
-     * Gets all public methods associated with a class
-     *
-     * @param clazz class to get associated public methods
-     * @return array of public methods
-     */
-    private static @NotNull Method[] getAllPublicMethods(Class clazz) {
-        List<Method> methods = new ArrayList<>();
-
-        for (Method method : clazz.getMethods()) {
-            if (Modifier.isPublic(method.getModifiers())) {
-                methods.add(method);
-            }
-        }
-
-        return methods.toArray(new Method[0]);
-    }
-
-    /**
-     * Generates a map containing method names and the methods themselves
-     * <p>
-     * Used for reflection based command handling
-     *
-     * @param clazz which class to get methods for
-     * @return a new Map
-     */
-    private static @NotNull Map<String, Method> createMethodMapFor(Class clazz) {
-        Map<String, Method> map = new HashMap<>();
-
-        for (Method method : getAllPublicMethods(clazz)) {
-            String identifier = getFormattedMethodSignature(method).replaceAll(" ", "");
-            map.put(identifier, method);
-        }
-
-        return map;
     }
 
     /**
@@ -156,6 +90,10 @@ public class ReflectionUtil {
         builder.append(")");
 
         return builder.toString();
+    }
+
+    public static @NotNull String getMethodId(Method method) {
+        return getFormattedMethodSignature(method).replaceAll(" ", "");
     }
 
     /**

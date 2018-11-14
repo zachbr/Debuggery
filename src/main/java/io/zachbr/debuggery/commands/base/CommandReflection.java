@@ -17,8 +17,7 @@
 
 package io.zachbr.debuggery.commands.base;
 
-import io.zachbr.debuggery.reflection.ReflectionChain;
-import io.zachbr.debuggery.reflection.ReflectionUtil;
+import io.zachbr.debuggery.reflection.*;
 import io.zachbr.debuggery.reflection.types.InputException;
 import io.zachbr.debuggery.reflection.types.TypeHandler;
 import io.zachbr.debuggery.util.FancyExceptionWrapper;
@@ -37,7 +36,7 @@ import java.util.*;
  * Base class for all commands that use reflection to dig into Bukkit's API
  */
 public abstract class CommandReflection extends CommandBase {
-    private Map<String, Method> availableMethods;
+    private MethodMap availableMethods;
     private Class classType;
 
     protected CommandReflection(String name, String permission, boolean requiresPlayer, Class clazz) {
@@ -73,7 +72,7 @@ public abstract class CommandReflection extends CommandBase {
         Validate.isTrue(classType.isInstance(instance), "Instance is of type: " + classType.getSimpleName() + "but was expecting: " + classType.getSimpleName());
         final String inputMethod = args[0];
 
-        if (!availableMethods.containsKey(inputMethod)) {
+        if (!availableMethods.containsId(inputMethod)) {
             sender.sendMessage(ChatColor.RED + "Unknown or unavailable method");
             return true;
         }
@@ -111,7 +110,7 @@ public abstract class CommandReflection extends CommandBase {
      */
     protected void updateReflectionClass(Class typeIn) {
         if (this.classType != typeIn) {
-            availableMethods = ReflectionUtil.getMethodMapFor(typeIn);
+            availableMethods = GlobalMethodMap.getInstance().getMethodMapFor(typeIn);
             this.classType = typeIn;
         }
     }
@@ -129,7 +128,7 @@ public abstract class CommandReflection extends CommandBase {
     @Override
     public List<String> tabCompleteLogic(CommandSender sender, Command command, String alias, String[] args) {
         List<String> arguments = Arrays.asList(args);
-        Map<String, Method> reflectionMap = this.availableMethods;
+        MethodMap reflectionMap = this.availableMethods;
         Method lastMethod = null;
         Class returnType = this.classType;
 
@@ -144,10 +143,10 @@ public abstract class CommandReflection extends CommandBase {
                 continue;
             }
 
-            reflectionMap = ReflectionUtil.getMethodMapFor(returnType);
+            reflectionMap = GlobalMethodMap.getInstance().getMethodMapFor(returnType);
 
-            if (reflectionMap.get(currentArg) != null) {
-                lastMethod = reflectionMap.get(currentArg);
+            if (reflectionMap.getById(currentArg) != null) {
+                lastMethod = reflectionMap.getById(currentArg);
                 List<String> stringMethodArgs = ReflectionUtil.getArgsForMethod(arguments.subList(i + 1, arguments.size()), lastMethod);
                 argsToSkip = stringMethodArgs.size();
 
@@ -155,6 +154,6 @@ public abstract class CommandReflection extends CommandBase {
             }
         }
 
-        return reflectionMap == null ? Collections.emptyList() : getCompletionsMatching(args, reflectionMap.keySet());
+        return reflectionMap == null ? Collections.emptyList() : getCompletionsMatching(args, reflectionMap.getAllIds());
     }
 }
