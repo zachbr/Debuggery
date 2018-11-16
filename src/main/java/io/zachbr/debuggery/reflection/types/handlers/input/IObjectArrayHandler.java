@@ -17,31 +17,34 @@
 
 package io.zachbr.debuggery.reflection.types.handlers.input;
 
-import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
+import io.zachbr.debuggery.reflection.types.TypeHandler;
+import io.zachbr.debuggery.reflection.types.handlers.base.IPolymorphicHandler;
 import org.bukkit.command.CommandSender;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.reflect.Array;
+import java.util.*;
 
-public class IItemStacksHandler implements IHandler {
+public class IObjectArrayHandler implements IPolymorphicHandler {
 
     @Override
-    public @NotNull ItemStack[] instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
-        List<ItemStack> stacksOut = new ArrayList<>();
-        String[] stacksIn = input.split(",");
+    public @NotNull Object[] instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) throws Exception {
+        String[] elementsIn = input.split(",");
+        Class<?> arrayType = clazz.getComponentType();
 
-        for (String stack : stacksIn) {
-            stacksOut.add(IItemStackHandler.getItemStack(stack, sender));
-        }
+        Class[] neededTypes = new Class[elementsIn.length];
+        Arrays.fill(neededTypes, arrayType);
 
-        return stacksOut.toArray(new ItemStack[0]);
+        Object[] untyped = TypeHandler.getInstance().instantiateTypes(neededTypes, Arrays.asList(elementsIn), sender);
+        Object[] typedArray = (Object[]) Array.newInstance(arrayType, elementsIn.length);
+        System.arraycopy(untyped, 0, typedArray, 0, untyped.length);
+
+        return typedArray;
     }
 
     @Override
     public @NotNull Class<?> getRelevantClass() {
-        return ItemStack[].class;
+        return Object[].class;
     }
 }

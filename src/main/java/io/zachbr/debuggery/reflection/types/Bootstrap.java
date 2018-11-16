@@ -44,6 +44,7 @@ class Bootstrap {
         //
 
         new IPrimitivesHandler(typeHandler); // Special cased for multi-registration
+        new IPrimitiveArrayHandler(typeHandler); // multi-registration
 
         // order can matter here
         registration.add(new IBukkitClassHandler());
@@ -53,10 +54,10 @@ class Bootstrap {
         registration.add(new IEulerAngleHandler());
         registration.add(new IGameModeHandler());
         registration.add(new IItemStackHandler());
-        registration.add(new IItemStacksHandler());
         registration.add(new ILocationHandler());
         registration.add(new IMaterialDataHandler());
         registration.add(new IMaterialHandler());
+        registration.add(new INamespacedKeyHandler());
         registration.add(new IPermissionHandler());
         registration.add(new IPlayerHandler());
         registration.add(new IPotionEffectHandler());
@@ -68,6 +69,7 @@ class Bootstrap {
         registration.add(new IBlockDataHandler());
         registration.add(new ICollectionHandler());
         registration.add(new IEnumHandler());
+        registration.add(new IObjectArrayHandler());
 
         //
         // Output Handlers

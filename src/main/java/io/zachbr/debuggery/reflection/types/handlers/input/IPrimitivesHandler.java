@@ -30,15 +30,13 @@ public class IPrimitivesHandler {
         Class[] supportedClasses = {byte.class, short.class, int.class, long.class, float.class, double.class, boolean.class, char.class};
         for (Class clazz : supportedClasses) {
             IHandler handler = new IHandler() {
-                @NotNull
                 @Override
-                public Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
+                public @NotNull Object instantiateInstance(String input, Class<?> clazz, @Nullable CommandSender sender) {
                     return getPrimitive(input, clazz);
                 }
 
-                @NotNull
                 @Override
-                public Class<?> getRelevantClass() {
+                public @NotNull Class<?> getRelevantClass() {
                     return clazz;
                 }
             };
