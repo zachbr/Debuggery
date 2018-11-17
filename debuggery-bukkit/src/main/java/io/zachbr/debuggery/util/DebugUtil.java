@@ -17,7 +17,7 @@
 
 package io.zachbr.debuggery.util;
 
-import io.zachbr.debuggery.Debuggery;
+import io.zachbr.debuggery.DebuggeryBukkit;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -30,10 +30,10 @@ public class DebugUtil {
     private static final boolean DUMMY_SERVER = Bukkit.getServer() == null;
     private static DebugUtil instance;
 
-    private final Debuggery plugin;
+    private final DebuggeryBukkit plugin;
     private final Set<CommandSender> debugListeners = new HashSet<>();
 
-    public DebugUtil(Debuggery instance) {
+    public DebugUtil(DebuggeryBukkit instance) {
         this.plugin = instance;
         DebugUtil.instance = this;
     }
@@ -54,18 +54,16 @@ public class DebugUtil {
             return;
         }
 
-        final String out = "DEBUG: " + arg;
-
         if (DUMMY_SERVER) {
-            System.out.println(out);
+            System.out.println("DEBUG: " + arg);
         } else {
             if (instance == null) {
                 throw new NullPointerException("Null instance at runtime!");
             }
 
-            String colorOut = ChatColor.YELLOW + out;
+            String colorOut = ChatColor.YELLOW + arg;
 
-            instance.plugin.getLogger().info(colorOut);
+            instance.plugin.getLogger().debug(colorOut);
             for (CommandSender sender : instance.debugListeners) {
                 sender.sendMessage(colorOut);
             }
@@ -95,7 +93,7 @@ public class DebugUtil {
     public @NotNull String[] getSystemInfo() {
         List<String> out = new ArrayList<>();
 
-        out.add("Debuggery Ver: " + plugin.getDescription().getVersion());
+        out.add("DebuggeryBukkit Ver: " + plugin.getJavaPlugin().getDescription().getVersion());
         out.add("Server Impl: " + Bukkit.getServer().getName());
         out.add("Server Ver: " + Bukkit.getServer().getVersion());
         out.add("Impl API Ver: " + Bukkit.getServer().getBukkitVersion());

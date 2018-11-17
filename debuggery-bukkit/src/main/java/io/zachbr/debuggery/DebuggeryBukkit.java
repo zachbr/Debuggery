@@ -26,20 +26,25 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
 
-public class Debuggery extends JavaPlugin {
+public class DebuggeryBukkit extends DebuggeryBase {
+    private final DebuggeryJavaPlugin javaPlugin;
     private final Map<String, CommandBase> commands = new HashMap<>();
     private final DebugUtil debugUtil = new DebugUtil(this);
 
-    @Override
-    public void onEnable() {
+    DebuggeryBukkit(Logger loggerImpl, DebuggeryJavaPlugin plugin) {
+        super(loggerImpl);
+        this.javaPlugin = plugin;
+    }
+
+    void onEnable() {
         debugUtil.printSystemInfo();
+        System.out.println(DebuggeryBase.class.getCanonicalName());
 
         TypeHandler.getInstance(); // init type handler at startup
         this.registerCommands();
     }
 
-    @Override
-    public void onDisable() {
+    void onDisable() {
         GlobalMethodMap.getInstance().clearCache();
     }
 
@@ -54,7 +59,7 @@ public class Debuggery extends JavaPlugin {
         this.registerCommand(new ServerCommand());
         this.registerCommand(new WorldCommand());
 
-        commands.values().forEach(c -> this.getCommand(c.getName()).setExecutor(c));
+        commands.values().forEach(c -> this.getJavaPlugin().getCommand(c.getName()).setExecutor(c));
     }
 
     private void registerCommand(final CommandBase command) {
@@ -67,5 +72,9 @@ public class Debuggery extends JavaPlugin {
 
     public DebugUtil getDebugUtil() {
         return this.debugUtil;
+    }
+
+    public JavaPlugin getJavaPlugin() {
+        return javaPlugin;
     }
 }

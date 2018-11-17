@@ -1,90 +1,97 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-}
-
-plugins {
-    id 'java'
-    id 'jacoco'
-    id 'net.minecrell.licenser' version "0.4.1"
-}
-
-group = pluginGroup
-version = pluginVersion
-
-sourceCompatibility = 11
-targetCompatibility = 11
-
-repositories {
-    mavenCentral()
-    mavenLocal()
-    maven {
-        name = 'papermc-repo'
-        url = 'https://papermc.io/repo/repository/maven-public/'
-    }
-    maven {
-        name = 'sonatype'
-        url = 'https://oss.sonatype.org/content/groups/public/'
-    }
-}
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-}
-
-dependencies {
-    compile ('com.destroystokyo.paper:paper-api:1.13.2-R0.1-SNAPSHOT') {
-        exclude group: 'junit' // provides conflicting APIs for our test implementations
-        exclude group: 'com.google.code.findbugs' // provides conflicting nullability annotations
-    }
-
-    compile 'org.jetbrains:annotations:16.0.2'
-
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
-}
-
 import org.apache.tools.ant.filters.ReplaceTokens
 
-processResources {
-    from(sourceSets.main.resources.srcDirs) {
-        filter ReplaceTokens, tokens: [version: version]
+buildscript {
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.2'
+        classpath 'gradle.plugin.net.minecrell:licenser:0.4.1'
     }
 }
 
-jar {
-    from "LICENSE.md"
-    archivesBaseName = pluginName
-}
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'jacoco'
+    apply plugin: 'com.github.johnrengelman.shadow'
+    apply plugin: 'net.minecrell.licenser'
 
-compileTestJava {
-    // Gradle/JUnit/Somebody's ASM lib isn't updated for JEP-181 and it breaks things
-    // hopefully less things than this will inevitably break in the future
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
-}
-
-test {
-    testLogging.showStandardStreams = true
-    useJUnitPlatform()
-}
-
-// updateLicenses | checkLicenses
-license {
-    ext.name = 'Debuggery'
-    header = project.file('HEADER.txt')
-}
-
-jacoco {
-    toolVersion = "0.8.2"
-}
-
-jacocoTestReport {
-    reports {
-        xml.enabled = true
-        html.enabled = false
+    repositories {
+        mavenCentral()
+        mavenLocal()
+        maven {
+            name = 'sonatype'
+            url = 'https://oss.sonatype.org/content/groups/public/'
+        }
     }
-}
 
-check.dependsOn jacocoTestReport
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+
+    dependencies {
+        compile 'org.jetbrains:annotations:16.0.2'
+
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+    }
+
+    group = project.pluginGroup
+    version = project.pluginVersion
+
+    sourceCompatibility = 11
+    targetCompatibility = 11
+
+    processResources {
+        from(sourceSets.main.resources.srcDirs) {
+            filter ReplaceTokens, tokens: [version: version]
+        }
+    }
+
+    jar.enabled = false
+    build.dependsOn(shadowJar)
+
+    shadowJar {
+        dependencies {
+            include(dependency(':debuggery-common'))
+        }
+
+        classifier = null
+        preserveFileTimestamps = false
+        from rootProject.file("LICENSE.md")
+    }
+
+    compileTestJava {
+        // Gradle/JUnit/Somebody's ASM lib isn't updated for JEP-181 and it breaks things
+        // hopefully less things than this will inevitably break in the future
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+
+    test {
+        testLogging.showStandardStreams = true
+        useJUnitPlatform()
+    }
+
+    // updateLicenses | checkLicenses
+    license {
+        ext.name = 'Debuggery'
+        header = rootProject.file('HEADER.txt')
+    }
+
+    jacoco {
+        toolVersion = "0.8.2"
+    }
+
+    jacocoTestReport {
+        reports {
+            xml.enabled = true
+            html.enabled = false
+        }
+    }
+
+    check.dependsOn jacocoTestReport
+}

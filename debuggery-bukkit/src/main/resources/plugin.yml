@@ -16,7 +16,7 @@
 #
 
 name: Debuggery
-main: io.zachbr.debuggery.Debuggery
+main: io.zachbr.debuggery.DebuggeryJavaPlugin
 version: @version@
 api-version: 1.13
 author: Z750

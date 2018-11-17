@@ -17,7 +17,7 @@
 
 package io.zachbr.debuggery.commands;
 
-import io.zachbr.debuggery.Debuggery;
+import io.zachbr.debuggery.DebuggeryBukkit;
 import io.zachbr.debuggery.commands.base.CommandBase;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -27,9 +27,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class DebuggeryCommand extends CommandBase {
-    private final Debuggery debuggery;
+    private final DebuggeryBukkit debuggery;
 
-    public DebuggeryCommand(Debuggery debuggery) {
+    public DebuggeryCommand(DebuggeryBukkit debuggery) {
         super("debuggery", "debuggery.debuggery", false, false);
         this.debuggery = debuggery;
     }
@@ -37,10 +37,10 @@ public class DebuggeryCommand extends CommandBase {
     @Override
     protected boolean commandLogic(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0) {
-            sender.sendMessage(ChatColor.GOLD + "=== Debuggery v" + debuggery.getDescription().getVersion() + " ===");
+            sender.sendMessage(ChatColor.GOLD + "=== Debuggery v" + debuggery.getJavaPlugin().getDescription().getVersion() + " ===");
             sender.sendMessage("Debuggery is designed to expose API values at runtime.");
             sender.sendMessage("To see what commands are available and any help associated with them, use tab completion on this command.");
-            sender.sendMessage("Source code can be found here: " + ChatColor.BLUE + debuggery.getDescription().getWebsite());
+            sender.sendMessage("Source code can be found here: " + ChatColor.BLUE + debuggery.getJavaPlugin().getDescription().getWebsite());
             return true;
         }
 

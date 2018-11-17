@@ -17,7 +17,7 @@
 
 package io.zachbr.debuggery.commands;
 
-import io.zachbr.debuggery.Debuggery;
+import io.zachbr.debuggery.DebuggeryBukkit;
 import io.zachbr.debuggery.commands.base.CommandBase;
 import io.zachbr.debuggery.util.DebugUtil;
 import org.bukkit.Bukkit;
@@ -30,10 +30,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class DebugCommand extends CommandBase {
-    private final Debuggery plugin;
+    private final DebuggeryBukkit plugin;
     private final Set<CommandSender> debugListeners;
 
-    public DebugCommand(Debuggery debuggery) {
+    public DebugCommand(DebuggeryBukkit debuggery) {
         super("ddebug", "debuggery.debug", false, false);
 
         this.plugin = debuggery;
