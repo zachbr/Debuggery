@@ -51,7 +51,6 @@ subprojects {
         }
     }
 
-    jar.enabled = false
     build.dependsOn(shadowJar)
 
     shadowJar {

@@ -17,11 +17,10 @@
 
 package io.zachbr.debuggery.reflection;
 
-import com.google.common.collect.Lists;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
-import java.util.List;
+import java.util.*;
 import java.util.function.BiConsumer;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,7 +30,7 @@ public class ReflectionUtilTest {
     @Test
     public void ensureArgsForMethodAccurate() throws NoSuchMethodException {
         // Given a method with only one param, pick out that param without the others
-        List<String> inputStr = Lists.newArrayList("1", "nextMethod", "param", "param2");
+        List<String> inputStr = Arrays.asList("1", "nextMethod", "param", "param2");
         Method testClass1234 = ReflTestClass.ReflSubClass.class.getMethod("get1234", int.class);
         List<String> out = ReflectionUtil.getArgsForMethod(inputStr, testClass1234);
 
@@ -39,7 +38,7 @@ public class ReflectionUtilTest {
         assertEquals("1", out.get(0));
 
         // Given a method that requires multiple params, but not provided enough, ensure all are passed through
-        inputStr = Lists.newArrayList("1", "2", "3");
+        inputStr = Arrays.asList("1", "2", "3");
         Method lotsOfParams = ReflTestClass.class.getMethod("methodWithLotsOfParams", int.class, int.class, int.class, int.class, int.class, int.class, int.class);
         out = ReflectionUtil.getArgsForMethod(inputStr, lotsOfParams);
 
@@ -49,7 +48,7 @@ public class ReflectionUtilTest {
         }
 
         // if no params are required, and no input is given, ensure we always get an empty list
-        inputStr = Lists.newArrayList();
+        inputStr = new ArrayList<>();
         Method noParams = ReflTestClass.class.getMethod("getSomeNumbers");
         out = ReflectionUtil.getArgsForMethod(inputStr, noParams);
 

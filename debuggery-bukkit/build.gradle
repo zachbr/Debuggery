@@ -11,5 +11,7 @@ dependencies {
         exclude group: 'junit' // provides conflicting APIs for our test implementations
         exclude group: 'com.google.code.findbugs' // provides conflicting nullability annotations
     }
+
+    testCompile project (path: ":debuggery-common", configuration: 'testArtifacts')
 }
 

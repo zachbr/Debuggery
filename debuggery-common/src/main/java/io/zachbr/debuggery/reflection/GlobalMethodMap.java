@@ -17,8 +17,6 @@
 
 package io.zachbr.debuggery.reflection;
 
-import io.zachbr.debuggery.reflection.types.TypeHandler;
-import org.apache.commons.lang.Validate;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -31,9 +29,9 @@ public class GlobalMethodMap {
     }
 
     /**
-     * Gets an instance of the {@link TypeHandler} for use
+     * Gets an instance of the {@link GlobalMethodMap} for use
      *
-     * @return instance of {@link TypeHandler}
+     * @return instance of {@link GlobalMethodMap}
      */
     public static @NotNull GlobalMethodMap getInstance() {
         if (singletonInstance == null) {
@@ -52,7 +50,7 @@ public class GlobalMethodMap {
      * @return method map for class
      */
     public @NotNull MethodMap getMethodMapFor(@NotNull Class<?> classIn) {
-        Validate.notNull(classIn);
+        Objects.requireNonNull(classIn);
 
         var methodMap = cachedMethodMaps.get(classIn);
         if (methodMap == null) {
