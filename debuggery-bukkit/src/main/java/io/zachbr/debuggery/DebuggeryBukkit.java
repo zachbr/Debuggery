@@ -19,8 +19,8 @@ package io.zachbr.debuggery;
 
 import io.zachbr.debuggery.commands.*;
 import io.zachbr.debuggery.commands.base.CommandBase;
-import io.zachbr.debuggery.reflection.GlobalMethodMap;
 import io.zachbr.debuggery.reflection.types.TypeHandler;
+import io.zachbr.debuggery.reflection.types.handlers.bukkit.BootstrapBukkitHandlers;
 import io.zachbr.debuggery.util.DebugUtil;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -31,33 +31,32 @@ public class DebuggeryBukkit extends DebuggeryBase {
     private final Map<String, CommandBase> commands = new HashMap<>();
     private final DebugUtil debugUtil = new DebugUtil(this);
 
-    DebuggeryBukkit(Logger loggerImpl, DebuggeryJavaPlugin plugin) {
-        super(loggerImpl);
+    DebuggeryBukkit(DebuggeryJavaPlugin plugin, Logger logger) {
+        super(logger);
         this.javaPlugin = plugin;
     }
 
     void onEnable() {
         debugUtil.printSystemInfo();
-        System.out.println(DebuggeryBase.class.getCanonicalName());
+        BootstrapBukkitHandlers.init(getTypeHandler(), getLogger());
 
-        TypeHandler.getInstance(); // init type handler at startup
         this.registerCommands();
     }
 
     void onDisable() {
-        GlobalMethodMap.getInstance().clearCache();
+        this.getMethodMapProvider().clearCache();
     }
 
     private void registerCommands() {
-        this.registerCommand(new BlockCommand());
-        this.registerCommand(new ChunkCommand());
+        this.registerCommand(new BlockCommand(this));
+        this.registerCommand(new ChunkCommand(this));
         this.registerCommand(new DebugCommand(this));
         this.registerCommand(new DebuggeryCommand(this));
-        this.registerCommand(new EntityCommand());
-        this.registerCommand(new ItemCommand());
-        this.registerCommand(new PlayerCommand());
-        this.registerCommand(new ServerCommand());
-        this.registerCommand(new WorldCommand());
+        this.registerCommand(new EntityCommand(this));
+        this.registerCommand(new ItemCommand(this));
+        this.registerCommand(new PlayerCommand(this));
+        this.registerCommand(new ServerCommand(this));
+        this.registerCommand(new WorldCommand(this));
 
         commands.values().forEach(c -> this.getJavaPlugin().getCommand(c.getName()).setExecutor(c));
     }

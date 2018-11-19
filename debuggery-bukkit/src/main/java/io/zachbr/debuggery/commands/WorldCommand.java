@@ -17,6 +17,7 @@
 
 package io.zachbr.debuggery.commands;
 
+import io.zachbr.debuggery.DebuggeryBukkit;
 import io.zachbr.debuggery.commands.base.CommandReflection;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -25,8 +26,8 @@ import org.bukkit.entity.Player;
 
 public class WorldCommand extends CommandReflection {
 
-    public WorldCommand() {
-        super("dworld", "debuggery.world", true, World.class);
+    public WorldCommand(DebuggeryBukkit debuggery) {
+        super("dworld", "debuggery.world", true, World.class, debuggery);
     }
 
     @Override

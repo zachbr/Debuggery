@@ -24,14 +24,21 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.*;
 
-/**
+/**∂
  * Class to allow querying a java class for methods based on their names
  */
 public class MethodMap {
+    public static final MethodMap EMPTY = new MethodMap();
     private final Map<String, Method> backingMap = new HashMap<>();
     private final Class<?> mappedClass;
 
-    MethodMap(Class<?> clazz) {
+    private MethodMap() {
+        mappedClass = this.getClass();
+    }
+
+    MethodMap(@NotNull Class<?> clazz) {
+        Objects.requireNonNull(clazz);
+
         this.mappedClass = clazz;
         for (Method method : clazz.getMethods()) {
             if (!Modifier.isPublic(method.getModifiers())) {
@@ -79,6 +86,15 @@ public class MethodMap {
      */
     public @NotNull Set<String> getAllIds() {
         return new HashSet<>(backingMap.keySet());
+    }
+
+    /**
+     * Gets the class this map corresponds to
+     *
+     * @return corresponding class
+     */
+    public @NotNull Class<?> getMappedClass() {
+        return this.mappedClass;
     }
 
     @Override

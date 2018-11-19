@@ -17,6 +17,7 @@
 
 package io.zachbr.debuggery.commands;
 
+import io.zachbr.debuggery.DebuggeryBukkit;
 import io.zachbr.debuggery.commands.base.CommandReflection;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
@@ -25,8 +26,8 @@ import org.bukkit.entity.Player;
 
 public class BlockCommand extends CommandReflection {
 
-    public BlockCommand() {
-        super("dblock", "debuggery.block", true, Block.class);
+    public BlockCommand(DebuggeryBukkit debuggery) {
+        super("dblock", "debuggery.block", true, Block.class, debuggery);
     }
 
     @Override

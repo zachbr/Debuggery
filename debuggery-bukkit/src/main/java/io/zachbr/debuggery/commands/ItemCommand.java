@@ -17,6 +17,7 @@
 
 package io.zachbr.debuggery.commands;
 
+import io.zachbr.debuggery.DebuggeryBukkit;
 import io.zachbr.debuggery.commands.base.CommandReflection;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -25,8 +26,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class ItemCommand extends CommandReflection {
 
-    public ItemCommand() {
-        super("ditem", "debuggery.item", true, ItemStack.class);
+    public ItemCommand(DebuggeryBukkit debuggery) {
+        super("ditem", "debuggery.item", true, ItemStack.class, debuggery);
     }
 
     @Override

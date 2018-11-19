@@ -17,6 +17,7 @@
 
 package io.zachbr.debuggery.commands;
 
+import io.zachbr.debuggery.DebuggeryBukkit;
 import io.zachbr.debuggery.commands.base.CommandReflection;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
@@ -25,8 +26,8 @@ import org.bukkit.command.CommandSender;
 
 public class ServerCommand extends CommandReflection {
 
-    public ServerCommand() {
-        super("dserver", "debuggery.server", false, Server.class);
+    public ServerCommand(DebuggeryBukkit debuggery) {
+        super("dserver", "debuggery.server", false, Server.class, debuggery);
     }
 
     @Override

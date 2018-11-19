@@ -17,6 +17,7 @@
 
 package io.zachbr.debuggery.commands;
 
+import io.zachbr.debuggery.DebuggeryBukkit;
 import io.zachbr.debuggery.commands.base.CommandReflection;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -24,8 +25,8 @@ import org.bukkit.entity.Player;
 
 public class PlayerCommand extends CommandReflection {
 
-    public PlayerCommand() {
-        super("dplayer", "debuggery.player", true, Player.class);
+    public PlayerCommand(DebuggeryBukkit debuggery) {
+        super("dplayer", "debuggery.player", true, Player.class, debuggery);
     }
 
     @Override

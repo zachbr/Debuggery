@@ -17,6 +17,7 @@
 
 package io.zachbr.debuggery.commands;
 
+import io.zachbr.debuggery.DebuggeryBukkit;
 import io.zachbr.debuggery.commands.base.CommandReflection;
 import org.bukkit.Chunk;
 import org.bukkit.command.Command;
@@ -25,8 +26,8 @@ import org.bukkit.entity.Player;
 
 public class ChunkCommand extends CommandReflection {
 
-    public ChunkCommand() {
-        super("dchunk", "debuggery.chunk", true, Chunk.class);
+    public ChunkCommand(DebuggeryBukkit debuggery) {
+        super("dchunk", "debuggery.chunk", true, Chunk.class, debuggery);
     }
 
     @Override

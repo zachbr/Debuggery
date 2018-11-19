@@ -28,14 +28,12 @@ import java.util.*;
 public class DebugUtil {
     private static final boolean DEBUG_MODE = Boolean.getBoolean("debuggery.debug");
     private static final boolean DUMMY_SERVER = Bukkit.getServer() == null;
-    private static DebugUtil instance;
 
     private final DebuggeryBukkit plugin;
     private final Set<CommandSender> debugListeners = new HashSet<>();
 
     public DebugUtil(DebuggeryBukkit instance) {
         this.plugin = instance;
-        DebugUtil.instance = this;
     }
 
     public static boolean isDebugMode() {
@@ -49,7 +47,7 @@ public class DebugUtil {
      *
      * @param arg what to log
      */
-    public static void debugLn(@NotNull String arg) {
+    public void debugLn(@NotNull String arg) {
         if (!isDebugMode()) {
             return;
         }
@@ -57,14 +55,10 @@ public class DebugUtil {
         if (DUMMY_SERVER) {
             System.out.println("DEBUG: " + arg);
         } else {
-            if (instance == null) {
-                throw new NullPointerException("Null instance at runtime!");
-            }
-
             String colorOut = ChatColor.YELLOW + arg;
 
-            instance.plugin.getLogger().debug(colorOut);
-            for (CommandSender sender : instance.debugListeners) {
+            plugin.getLogger().debug(colorOut);
+            for (CommandSender sender : debugListeners) {
                 sender.sendMessage(colorOut);
             }
         }

@@ -104,4 +104,25 @@ public class MethodMapTest {
         assertTrue(toString.contains(TESTER.getName()));
         assertTrue(toString.contains(String.valueOf(map.getAllMethods().size())));
     }
+
+    @Test
+    public void ensureMappedClassMatchesActual() {
+        Class[] testers = {TESTER, Object.class};
+        MethodMap[] maps = new MethodMap[testers.length];
+
+        for (int i = 0; i < testers.length; i++) {
+            maps[i] = new MethodMap(testers[i]);
+        }
+
+        boolean allMatch = true;
+        for (int i = 0; i < testers.length; i++) {
+            MethodMap tested = maps[i];
+            if (tested.getMappedClass() != testers[i]) {
+                System.out.println(tested.toString() + " method map mapped class does not match expected: " + testers[i]);
+                allMatch = false;
+            }
+        }
+
+        assertTrue(allMatch);
+    }
 }

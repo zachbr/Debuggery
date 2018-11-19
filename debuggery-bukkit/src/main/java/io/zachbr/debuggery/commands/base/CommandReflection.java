@@ -17,9 +17,9 @@
 
 package io.zachbr.debuggery.commands.base;
 
+import io.zachbr.debuggery.DebuggeryBukkit;
 import io.zachbr.debuggery.reflection.*;
 import io.zachbr.debuggery.reflection.types.InputException;
-import io.zachbr.debuggery.reflection.types.TypeHandler;
 import io.zachbr.debuggery.util.FancyExceptionWrapper;
 import io.zachbr.debuggery.util.PlatformUtil;
 import org.apache.commons.lang.Validate;
@@ -36,11 +36,14 @@ import java.util.*;
  * Base class for all commands that use reflection to dig into Bukkit's API
  */
 public abstract class CommandReflection extends CommandBase {
-    private MethodMap availableMethods;
-    private Class classType;
+    private final DebuggeryBukkit debuggery;
+    private final MethodMapProvider mapCache;
+    private MethodMap availableMethods = MethodMap.EMPTY;
 
-    protected CommandReflection(String name, String permission, boolean requiresPlayer, Class clazz) {
+    protected CommandReflection(String name, String permission, boolean requiresPlayer, Class clazz, DebuggeryBukkit plugin) {
         super(name, permission, requiresPlayer);
+        this.debuggery = plugin;
+        this.mapCache = plugin.getMethodMapProvider();
         updateReflectionClass(clazz);
     }
 
@@ -69,7 +72,8 @@ public abstract class CommandReflection extends CommandBase {
 
         // more than 0 args, start chains
 
-        Validate.isTrue(classType.isInstance(instance), "Instance is of type: " + classType.getSimpleName() + "but was expecting: " + classType.getSimpleName());
+        Class activeClass = availableMethods.getMappedClass();
+        Validate.isTrue(activeClass.isInstance(instance), "Instance is of type: " + instance.getClass().getSimpleName() + "but was expecting: " + activeClass.getSimpleName());
         final String inputMethod = args[0];
 
         if (!availableMethods.containsId(inputMethod)) {
@@ -77,10 +81,10 @@ public abstract class CommandReflection extends CommandBase {
             return true;
         }
 
-        Object lastLink;
+        ReflectionChain.Result chainResult;
 
         try {
-            lastLink = new ReflectionChain(args, instance, sender).chain();
+            chainResult = debuggery.performReflectiveChain(args, instance);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | InputException ex) {
             final String errorMessage = ex instanceof InputException ? "Exception deducing proper types from your input!" : "Exception invoking method - See console for more details!";
             final Throwable cause = ex.getCause() == null ? ex : ex.getCause();
@@ -95,9 +99,24 @@ public abstract class CommandReflection extends CommandBase {
             return true;
         }
 
-        String output = getOutputStringFor(lastLink);
-        if (output != null) {
-            sender.sendMessage(output);
+        String responseToSender = null;
+        switch (chainResult.getType()) {
+            case SUCCESS:
+                responseToSender = getOutputStringFor(chainResult.getEndingInstance());
+                break;
+            case NULL_REFERENCE:
+            case UNKNOWN_REFERENCE:
+                if (chainResult.getReason() != null) {
+                    responseToSender = ChatColor.RED + chainResult.getReason();
+                }
+
+                break;
+            default:
+                throw new IllegalStateException("Unhandled switch case for " + chainResult.getType());
+        }
+
+        if (responseToSender != null) {
+            sender.sendMessage(responseToSender);
         }
 
         return true;
@@ -109,9 +128,8 @@ public abstract class CommandReflection extends CommandBase {
      * @param typeIn class type to cache a reflection map for
      */
     protected void updateReflectionClass(Class typeIn) {
-        if (this.classType != typeIn) {
-            availableMethods = GlobalMethodMap.getInstance().getMethodMapFor(typeIn);
-            this.classType = typeIn;
+        if (availableMethods.getMappedClass() != typeIn) {
+            availableMethods = mapCache.getMethodMapFor(typeIn);
         }
     }
 
@@ -122,7 +140,7 @@ public abstract class CommandReflection extends CommandBase {
      * @return textual description of Object
      */
     protected @Nullable String getOutputStringFor(@Nullable Object object) {
-        return TypeHandler.getInstance().getOutputFor(object);
+        return debuggery.getTypeHandler().getOutputFor(object);
     }
 
     @Override
@@ -130,7 +148,7 @@ public abstract class CommandReflection extends CommandBase {
         List<String> arguments = Arrays.asList(args);
         MethodMap reflectionMap = this.availableMethods;
         Method lastMethod = null;
-        Class returnType = this.classType;
+        Class returnType = this.availableMethods.getMappedClass();
 
         int argsToSkip = 0;
 
@@ -143,7 +161,7 @@ public abstract class CommandReflection extends CommandBase {
                 continue;
             }
 
-            reflectionMap = GlobalMethodMap.getInstance().getMethodMapFor(returnType);
+            reflectionMap = mapCache.getMethodMapFor(returnType);
 
             if (reflectionMap.getById(currentArg) != null) {
                 lastMethod = reflectionMap.getById(currentArg);

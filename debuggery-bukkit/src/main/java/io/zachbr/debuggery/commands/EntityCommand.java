@@ -17,6 +17,7 @@
 
 package io.zachbr.debuggery.commands;
 
+import io.zachbr.debuggery.DebuggeryBukkit;
 import io.zachbr.debuggery.commands.base.CommandReflection;
 import io.zachbr.debuggery.util.PlatformUtil;
 import org.bukkit.ChatColor;
@@ -26,8 +27,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 public class EntityCommand extends CommandReflection {
-    public EntityCommand() {
-        super("dentity", "debuggery.entity", true, Entity.class);
+    public EntityCommand(DebuggeryBukkit debuggery) {
+        super("dentity", "debuggery.entity", true, Entity.class, debuggery);
     }
 
     @Override
