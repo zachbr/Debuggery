@@ -17,9 +17,8 @@
 
 package io.zachbr.debuggery.commands;
 
-import io.zachbr.debuggery.DebuggeryBukkit;
+import io.zachbr.debuggery.*;
 import io.zachbr.debuggery.commands.base.CommandBase;
-import io.zachbr.debuggery.util.DebugUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.*;
@@ -37,13 +36,13 @@ public class DebugCommand extends CommandBase {
         super("ddebug", "debuggery.debug", false, false);
 
         this.plugin = debuggery;
-        this.debugListeners = debuggery.getDebugUtil().getListeners();
+        this.debugListeners = ((BukkitLogger) debuggery.getLogger()).getDebugListeners();
     }
 
     @Override
     protected boolean commandLogic(CommandSender sender, Command command, String label, String[] args) {
         // no debug mode, no debug command
-        if (!DebugUtil.isDebugMode()) {
+        if (!DebuggeryBukkit.isDebugMode()) {
             sender.sendMessage(ChatColor.RED + "Debuggery Debug Mode is not enabled!");
             sender.sendMessage(ChatColor.YELLOW + "Enable it with the -Ddebuggery.debug=true system property");
             return true;
@@ -125,8 +124,8 @@ public class DebugCommand extends CommandBase {
      * @param sender what to send to
      */
     private void sendSystemInfo(CommandSender sender) {
-        for (String line : plugin.getDebugUtil().getSystemInfo()) {
-            sender.sendMessage(ChatColor.YELLOW + line);
+        for (String line : plugin.getSystemInfo()) {
+            sender.sendMessage(ChatColor.GOLD + line);
         }
     }
 

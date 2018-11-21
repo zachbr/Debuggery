@@ -19,9 +19,8 @@ package io.zachbr.debuggery;
 
 import io.zachbr.debuggery.commands.*;
 import io.zachbr.debuggery.commands.base.CommandBase;
-import io.zachbr.debuggery.reflection.types.TypeHandler;
 import io.zachbr.debuggery.reflection.types.handlers.bukkit.BootstrapBukkitHandlers;
-import io.zachbr.debuggery.util.DebugUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
@@ -29,7 +28,6 @@ import java.util.*;
 public class DebuggeryBukkit extends DebuggeryBase {
     private final DebuggeryJavaPlugin javaPlugin;
     private final Map<String, CommandBase> commands = new HashMap<>();
-    private final DebugUtil debugUtil = new DebugUtil(this);
 
     DebuggeryBukkit(DebuggeryJavaPlugin plugin, Logger logger) {
         super(logger);
@@ -37,7 +35,7 @@ public class DebuggeryBukkit extends DebuggeryBase {
     }
 
     void onEnable() {
-        debugUtil.printSystemInfo();
+        printSystemInfo();
         BootstrapBukkitHandlers.init(getTypeHandler(), getLogger());
 
         this.registerCommands();
@@ -69,11 +67,21 @@ public class DebuggeryBukkit extends DebuggeryBase {
         return Collections.unmodifiableMap(commands);
     }
 
-    public DebugUtil getDebugUtil() {
-        return this.debugUtil;
-    }
-
     public JavaPlugin getJavaPlugin() {
         return javaPlugin;
+    }
+
+    @Override
+    String getPluginVersion() {
+        return javaPlugin.getDescription().getVersion();
+    }
+
+    @Override
+    String getPlatformName() {
+        return Bukkit.getName();
+    }
+
+    String getPlatformVersion() {
+        return Bukkit.getBukkitVersion();
     }
 }

@@ -17,8 +17,15 @@
 
 package io.zachbr.debuggery;
 
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
+
+import java.util.HashSet;
+import java.util.Set;
+
 public class BukkitLogger implements Logger {
     private final java.util.logging.Logger pluginLogger;
+    private final Set<CommandSender> debugListeners = new HashSet<>();
 
     BukkitLogger(java.util.logging.Logger logger) {
         this.pluginLogger = logger;
@@ -41,6 +48,18 @@ public class BukkitLogger implements Logger {
 
     @Override
     public void debug(String str) {
-        pluginLogger.info("[DEBUG] " + str);
+        if (!DebuggeryBukkit.isDebugMode()) {
+            return;
+        }
+
+        final String colorOut = ChatColor.GOLD + "[DEBUG] " + str;
+        pluginLogger.info(colorOut);
+        for (CommandSender sender : debugListeners) {
+            sender.sendMessage(colorOut);
+        }
+    }
+
+    public Set<CommandSender> getDebugListeners() {
+        return this.debugListeners;
     }
 }
