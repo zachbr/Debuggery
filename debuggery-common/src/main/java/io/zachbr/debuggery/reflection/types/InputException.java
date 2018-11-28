@@ -19,24 +19,50 @@ package io.zachbr.debuggery.reflection.types;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 /**
  * Wrapper so that we can properly inform the user when it's their input
  * that's causing the problem, rather than some API/Implementation contract.
  */
 public class InputException extends Exception {
-    private final @NotNull Throwable wrappedException;
 
-    InputException(@NotNull Throwable throwable) {
+    /**
+     * See {@link #of(Throwable)}
+     *
+     * @param throwable what to wrap
+     */
+    private InputException(@NotNull Throwable throwable) {
+        super(throwable);
         if (throwable instanceof InputException) {
-            // Ensure we do not re-wrap ourselves here
-            throwable = ((InputException) throwable).getCause();
+            throw new IllegalArgumentException("An input exception cannot re-wrap itself. Stop doing bad things!");
+        }
+    }
+
+    /**
+     * Creates a new InputException wrapping the given {@link Throwable}
+     *
+     * @param throwable instance to wrap
+     * @return new InputException wrapping the given throwable
+     */
+    static InputException of(@NotNull Throwable throwable) {
+        Objects.requireNonNull(throwable);
+
+        Throwable toWrap = throwable;
+        if (throwable instanceof InputException) {
+            toWrap = throwable.getCause();
         }
 
-        this.wrappedException = throwable;
+        return new InputException(toWrap);
     }
 
     @Override
-    public @NotNull Throwable getCause() {
-        return wrappedException;
+    public @NotNull String getMessage() {
+        return getCause().getMessage();
+    }
+
+    @Override
+    public @NotNull String getLocalizedMessage() {
+        return getCause().getLocalizedMessage();
     }
 }

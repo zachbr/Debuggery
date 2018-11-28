@@ -19,6 +19,7 @@ package io.zachbr.debuggery.commands.base;
 
 import io.zachbr.debuggery.DebuggeryBukkit;
 import io.zachbr.debuggery.reflection.*;
+import io.zachbr.debuggery.reflection.chain.ReflectionResult;
 import io.zachbr.debuggery.reflection.types.InputException;
 import io.zachbr.debuggery.util.FancyExceptionWrapper;
 import io.zachbr.debuggery.util.PlatformUtil;
@@ -28,7 +29,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 
@@ -81,45 +81,52 @@ public abstract class CommandReflection extends CommandBase {
             return true;
         }
 
-        ReflectionChain.Result chainResult;
-
-        try {
-            chainResult = debuggery.performReflectiveChain(args, instance);
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | InputException ex) {
-            final String errorMessage = ex instanceof InputException ? "Exception deducing proper types from your input!" : "Exception invoking method - See console for more details!";
-            final Throwable cause = ex.getCause() == null ? ex : ex.getCause();
-
-            if (PlatformUtil.canUseFancyChatExceptions()) {
-                FancyExceptionWrapper.sendFancyChatException(sender, errorMessage, cause);
-            } else {
-                sender.sendMessage(ChatColor.RED + errorMessage);
-            }
-
-            cause.printStackTrace();
-            return true;
-        }
-
-        String responseToSender = null;
+        ReflectionResult chainResult = debuggery.runReflectionChain(args, instance);
         switch (chainResult.getType()) {
             case SUCCESS:
-                responseToSender = getOutputStringFor(chainResult.getEndingInstance());
+                notifySenderOfSuccess(sender, chainResult);
+                break;
+            case INPUT_ERROR:
+            case UNHANDLED_EXCEPTION:
+                notifySenderOfException(sender, chainResult);
                 break;
             case NULL_REFERENCE:
             case UNKNOWN_REFERENCE:
-                if (chainResult.getReason() != null) {
-                    responseToSender = ChatColor.RED + chainResult.getReason();
-                }
-
+                notifySenderOfReferenceIssue(sender, chainResult);
                 break;
             default:
-                throw new IllegalStateException("Unhandled switch case for " + chainResult.getType());
-        }
-
-        if (responseToSender != null) {
-            sender.sendMessage(responseToSender);
+                throw new IllegalArgumentException("Unhandled switch case for result of type: " + chainResult.getType());
         }
 
         return true;
+    }
+
+    private void notifySenderOfException(CommandSender sender, ReflectionResult chainResult) {
+        Throwable ex = chainResult.getException();
+        Objects.requireNonNull(ex);
+
+        String errorMessage = ex instanceof InputException ? "Exception deducing proper types from your input!" : "Exception invoking method - See console for more details!";
+        Throwable cause = ex.getCause() == null ? ex : ex.getCause();
+
+        if (PlatformUtil.canUseFancyChatExceptions()) {
+            FancyExceptionWrapper.sendFancyChatException(sender, errorMessage, cause);
+        } else {
+            sender.sendMessage(ChatColor.RED + errorMessage);
+        }
+
+        cause.printStackTrace();
+    }
+
+    private void notifySenderOfReferenceIssue(CommandSender sender, ReflectionResult chainResult) {
+        Objects.requireNonNull(chainResult.getReason());
+        sender.sendMessage(ChatColor.RED + chainResult.getReason());
+    }
+
+    private void notifySenderOfSuccess(CommandSender sender, ReflectionResult chainResult) {
+        String output = getOutputStringFor(chainResult.getEndingInstance());
+        if (output != null) {
+            sender.sendMessage(output);
+        }
     }
 
     /**

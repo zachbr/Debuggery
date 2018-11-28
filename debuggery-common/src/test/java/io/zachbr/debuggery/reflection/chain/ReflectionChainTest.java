@@ -15,9 +15,12 @@
  * along with Debuggery.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package io.zachbr.debuggery.reflection;
+package io.zachbr.debuggery.reflection.chain;
 
 import io.zachbr.debuggery.TestLoggerImpl;
+import io.zachbr.debuggery.reflection.*;
+import io.zachbr.debuggery.reflection.chain.ReflectionChain;
+import io.zachbr.debuggery.reflection.chain.ReflectionResult;
 import io.zachbr.debuggery.reflection.types.InputException;
 import io.zachbr.debuggery.reflection.types.TypeHandler;
 import org.junit.jupiter.api.Test;
@@ -43,7 +46,7 @@ public class ReflectionChainTest {
         String[] input = new String[]{methodName, "4"};
 
         ReflectionChain chain = new ReflectionChain(mapProvider, typeHandler, input, instance);
-        ReflectionChain.Result chainResult = chain.chain();
+        ReflectionResult chainResult = chain.runChain();
 
         assertNotNull(chainResult.getEndingInstance());
         String result = typeHandler.getOutputFor(chainResult.getEndingInstance());
@@ -73,7 +76,7 @@ public class ReflectionChainTest {
         String[] input = new String[]{subClassGetterName, subClassGetNumName, "5"};
 
         ReflectionChain chain = new ReflectionChain(mapProvider, typeHandler, input, instance);
-        ReflectionChain.Result chainResult = chain.chain();
+        ReflectionResult chainResult = chain.runChain();
 
         assertNotNull(chainResult.getEndingInstance());
         String result = typeHandler.getOutputFor(chainResult.getEndingInstance());
@@ -109,18 +112,18 @@ public class ReflectionChainTest {
         String[] input = new String[]{subClassGetterName, methodThatDoesNotExist, "5"};
 
         ReflectionChain chain = new ReflectionChain(mapProvider, typeHandler, input, instance);
-        ReflectionChain.Result chainResult = chain.chain();
+        ReflectionResult chainResult = chain.runChain();
 
         assertNotNull(chainResult);
         String reason = chainResult.getReason();
 
         assertNotNull(reason);
-        assertSame(ReflectionChain.Result.Type.UNKNOWN_REFERENCE, chainResult.getType());
+        assertSame(ReflectionResult.Type.UNKNOWN_REFERENCE, chainResult.getType());
         assertTrue(reason.toLowerCase().contains("unknown"));
     }
 
     @Test
-    public void chainOnNullTest() throws NoSuchMethodException, IllegalAccessException, InputException, InvocationTargetException {
+    public void chainOnNullTest() throws NoSuchMethodException {
         Method alwaysReturnsNull = ReflTestClass.class.getMethod("alwaysReturnsNull");
         String nullMethodName = ReflectionUtil.getMethodId(alwaysReturnsNull);
 
@@ -128,13 +131,13 @@ public class ReflectionChainTest {
         String[] input = new String[]{nullMethodName, "get(int)", "5"};
 
         ReflectionChain chain = new ReflectionChain(mapProvider, typeHandler, input, instance);
-        ReflectionChain.Result chainResult = chain.chain();
+        ReflectionResult chainResult = chain.runChain();
 
         assertNotNull(chainResult);
         String reason = chainResult.getReason();
 
         assertNotNull(reason);
-        assertSame(ReflectionChain.Result.Type.NULL_REFERENCE, chainResult.getType());
+        assertSame(ReflectionResult.Type.NULL_REFERENCE, chainResult.getType());
 
         String out = (String) reason;
         // make sure it always includes something about null and the responsible method

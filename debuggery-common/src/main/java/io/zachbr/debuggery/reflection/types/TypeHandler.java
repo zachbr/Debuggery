@@ -115,10 +115,10 @@ public final class TypeHandler {
                 out = handler.instantiateInstance(input, clazz);
             } catch (Exception ex) {
                 // re-wrap exception and toss up the stack
-                throw new InputException(ex);
+                throw InputException.of(ex);
             }
         } else {
-            throw new InputException(new HandlerNotImplementedException(clazz));
+            throw InputException.of(new HandlerNotImplementedException(clazz));
         }
 
         return out;
@@ -155,11 +155,11 @@ public final class TypeHandler {
         // do NOT factor polymorphic handlers into this lookup, allow them to be overriden with specific implementations
         final IHandler existingHandler = getIHandlerForClass(handlerRelevantClass, false);
         if (existingHandler != null) {
-            logger.debug("-- Cannot register " + handler + ", conflicts with " + existingHandler);
+            logger.debug("!! Cannot register " + handler + ", conflicts with " + existingHandler);
             return false;
         } else {
             inputHandlers.put(handlerRelevantClass, handler);
-            logger.debug("-- Added handler " + handler + " to Input Handlers");
+            logger.debug("Added handler " + handler + " to Input Handlers");
 
             // if this handler is polymorphic, add it to that collection as well
             // we MUST keep these in sync with one another
@@ -182,11 +182,11 @@ public final class TypeHandler {
         // first, make sure this handler isn't already registered
         OHandler existingHandler = getOHandlerForClass(handler.getRelevantClass());
         if (existingHandler != null) {
-            logger.debug("-- Cannot register " + handler + ", conflicts with " + existingHandler);
+            logger.debug("!! Cannot register " + handler + ", conflicts with " + existingHandler);
             return false;
         } else {
             outputHandlers.add(handler);
-            logger.debug("-- Added handler " + handler + " to Output Handlers");
+            logger.debug("Added handler " + handler + " to Output Handlers");
 
             return true;
         }

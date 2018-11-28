@@ -17,18 +17,18 @@
 
 package io.zachbr.debuggery;
 
-import io.zachbr.debuggery.reflection.MethodMapProvider;
-import io.zachbr.debuggery.reflection.ReflectionChain;
-import io.zachbr.debuggery.reflection.types.InputException;
+import io.zachbr.debuggery.reflection.*;
+import io.zachbr.debuggery.reflection.chain.ReflectionChainFactory;
+import io.zachbr.debuggery.reflection.chain.ReflectionResult;
 import io.zachbr.debuggery.reflection.types.TypeHandler;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 abstract class DebuggeryBase {
     private static final boolean DEBUG_MODE = Boolean.getBoolean("debuggery.debug");
     private final MethodMapProvider methodMapProvider;
+    private final ReflectionChainFactory chainFactory;
     private final TypeHandler typeHandler;
     private final Logger logger;
 
@@ -36,6 +36,7 @@ abstract class DebuggeryBase {
         this.logger = logger;
         this.methodMapProvider = new MethodMapProvider();
         this.typeHandler = new TypeHandler(getLogger());
+        this.chainFactory = new ReflectionChainFactory(typeHandler, methodMapProvider);
     }
 
     public final Logger getLogger() {
@@ -85,14 +86,11 @@ abstract class DebuggeryBase {
         return this.typeHandler;
     }
 
-    // todo - better solutions elsewhere
-    public ReflectionChain.Result performReflectiveChain(String[] inputArgs, Object initialInstance)
-            throws IllegalAccessException,InputException, InvocationTargetException {
+    // todo - better solutions elsewhere?
+    public ReflectionResult runReflectionChain(String[] inputArgs, Object initialInstance) {
         Objects.requireNonNull(inputArgs);
         Objects.requireNonNull(initialInstance);
 
-        ReflectionChain chain = new ReflectionChain(methodMapProvider, typeHandler, inputArgs, initialInstance);
-        chain.chain();
-        return chain.getResult();
+        return chainFactory.runChain(inputArgs, initialInstance);
     }
 }

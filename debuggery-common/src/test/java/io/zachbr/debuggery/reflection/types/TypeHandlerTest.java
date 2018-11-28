@@ -261,13 +261,13 @@ public class TypeHandlerTest {
         // We only ever want to wrap the base cause
 
         Exception trueException = new IllegalArgumentException("hiya is not a valid argument!");
-        InputException baseException = new InputException(trueException);
-        InputException level2 = new InputException(baseException);
+        InputException baseException = InputException.of(trueException);
+        InputException level2 = InputException.of(baseException);
 
         assertSame(trueException, level2.getCause());
 
-        InputException level3 = new InputException(level2);
-        InputException level4 = new InputException(level3);
+        InputException level3 = InputException.of(level2);
+        InputException level4 = InputException.of(level3);
 
         assertSame(trueException, level4.getCause());
     }

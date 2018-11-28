@@ -26,7 +26,7 @@ public class ReflTestClass {
     private int numbers;
     private ReflSubClass subClass;
 
-    ReflTestClass(int num, int num1, int num2) {
+    public ReflTestClass(int num, int num1, int num2) {
         some = num;
         random = num1;
         numbers = num2;
@@ -52,8 +52,7 @@ public class ReflTestClass {
     public void methodWithLotsOfParams(int i, int j, int k, int l, int m, int n, int o) {
     }
 
-    static class ReflSubClass {
-
+    public static class ReflSubClass {
         public int[] get1234(int num) {
             return new int[]{1, 2, 3, 4, num};
         }
