@@ -21,15 +21,13 @@ import io.zachbr.debuggery.DebuggeryBukkit;
 import io.zachbr.debuggery.reflection.*;
 import io.zachbr.debuggery.reflection.chain.ReflectionResult;
 import io.zachbr.debuggery.reflection.types.InputException;
-import io.zachbr.debuggery.util.FancyExceptionWrapper;
-import io.zachbr.debuggery.util.PlatformUtil;
+import io.zachbr.debuggery.util.*;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Method;
 import java.util.*;
 
 /**
@@ -154,31 +152,7 @@ public abstract class CommandReflection extends CommandBase {
     public List<String> tabCompleteLogic(CommandSender sender, Command command, String alias, String[] args) {
         List<String> arguments = Arrays.asList(args);
         MethodMap reflectionMap = this.availableMethods;
-        Method lastMethod = null;
-        Class returnType = this.availableMethods.getMappedClass();
 
-        int argsToSkip = 0;
-
-        for (int i = 0; i < arguments.size(); i++) {
-            String currentArg = arguments.get(i);
-            if (argsToSkip > 0) {
-                argsToSkip--;
-                reflectionMap = null;
-
-                continue;
-            }
-
-            reflectionMap = mapCache.getMethodMapFor(returnType);
-
-            if (reflectionMap.getById(currentArg) != null) {
-                lastMethod = reflectionMap.getById(currentArg);
-                List<String> stringMethodArgs = ReflectionUtil.getArgsForMethod(arguments.subList(i + 1, arguments.size()), lastMethod);
-                argsToSkip = stringMethodArgs.size();
-
-                returnType = lastMethod.getReturnType();
-            }
-        }
-
-        return reflectionMap == null ? Collections.emptyList() : getCompletionsMatching(args, reflectionMap.getAllIds());
+        return CommandUtil.getReflectiveCompletions(arguments, reflectionMap, mapCache);
     }
 }

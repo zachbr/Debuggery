@@ -19,6 +19,7 @@ package io.zachbr.debuggery.commands;
 
 import io.zachbr.debuggery.DebuggeryBukkit;
 import io.zachbr.debuggery.commands.base.CommandBase;
+import io.zachbr.debuggery.util.CommandUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -78,6 +79,6 @@ public class DebuggeryCommand extends CommandBase {
                 .map(CommandBase::getName)
                 .collect(Collectors.toList());
 
-        return getCompletionsMatching(args, commands);
+        return CommandUtil.getCompletionsMatching(args, commands);
     }
 }

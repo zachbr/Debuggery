@@ -48,39 +48,6 @@ public abstract class CommandBase implements CommandExecutor, TabCompleter {
     }
 
     /**
-     * Gets all possible word completions based on the input
-     *
-     * @param input       Everything sent so far
-     * @param completions Possible completions
-     * @return List of possible completions based on the input
-     */
-    protected static List<String> getCompletionsMatching(String[] input, Collection<String> completions) {
-        String latestArg = input[input.length - 1];
-        List<String> matches = Lists.newArrayList();
-
-        if (!completions.isEmpty()) {
-            for (String possibleCompletion : completions) {
-                if (doesStringStartWith(latestArg.toLowerCase(), possibleCompletion.toLowerCase())) {
-                    matches.add(possibleCompletion);
-                }
-            }
-        }
-
-        return matches;
-    }
-
-    /**
-     * Checks that the input matches the potential output
-     *
-     * @param original Input string
-     * @param region   Output to check against
-     * @return does input match potential output
-     */
-    private static boolean doesStringStartWith(String original, String region) {
-        return region.regionMatches(0, original, 0, original.length());
-    }
-
-    /**
      * This is the normal Bukkit command function, intercepted here so that we don't have to deal the same
      * repetitive garbage over and over.
      */
