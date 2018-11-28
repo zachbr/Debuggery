@@ -82,7 +82,10 @@ class ReflectionChain {
                 currentInstance = reflect(currentInstance, currentMethod, methodParameters);
             } catch (Throwable ex) {
                 ReflectionResult.Type type = ex instanceof InputException ? ReflectionResult.Type.INPUT_ERROR : ReflectionResult.Type.UNHANDLED_EXCEPTION;
-                result = new ReflectionResult(type, null, ex.getLocalizedMessage(), ex);
+                Throwable cause = ex.getCause() != null ? ex.getCause() : ex;
+                String reason = cause.getLocalizedMessage() != null ? cause.getLocalizedMessage() : cause.toString();
+
+                result = new ReflectionResult(type, null, reason, cause);
                 break;
             }
 
