@@ -17,6 +17,7 @@
 
 package io.zachbr.debuggery.reflection.chain;
 
+import io.zachbr.debuggery.Logger;
 import io.zachbr.debuggery.reflection.MethodMapProvider;
 import io.zachbr.debuggery.reflection.types.TypeHandler;
 import io.zachbr.debuggery.reflection.types.handlers.base.platform.PlatformSender;
@@ -25,19 +26,21 @@ import java.util.Objects;
 
 // todo - is this going to stick around?
 public class ReflectionChainFactory {
-    private final TypeHandler typeHandler;
-    private final MethodMapProvider methodMapProvider;
+    final TypeHandler typeHandler;
+    final MethodMapProvider methodMapProvider;
+    final Logger logger;
 
-    public ReflectionChainFactory(TypeHandler handler, MethodMapProvider provider) {
+    public ReflectionChainFactory(TypeHandler handler, MethodMapProvider provider, Logger logger) {
         this.typeHandler = handler;
         this.methodMapProvider = provider;
+        this.logger = logger;
     }
 
     public ReflectionResult runChain(String[] args, Object initialInstance, PlatformSender sender) {
         Objects.requireNonNull(args);
         Objects.requireNonNull(initialInstance);
 
-        ReflectionChain chain = new ReflectionChain(this.methodMapProvider, this.typeHandler, args, initialInstance, sender);
+        ReflectionChain chain = new ReflectionChain(this, args, initialInstance, sender);
         chain.runChain();
 
         return chain.getResult();

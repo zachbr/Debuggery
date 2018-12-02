@@ -140,6 +140,10 @@ public class ReflectionResult {
         /**
          * The reflective operation encountered an issue parsing a user's input
          */
-        INPUT_ERROR
+        INPUT_ERROR,
+        /**
+         * The number of arguments given do not match the requested method requirements
+         */
+        ARG_MISMATCH
     }
 }

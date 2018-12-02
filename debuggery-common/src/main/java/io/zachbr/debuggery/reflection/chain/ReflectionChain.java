@@ -17,6 +17,8 @@
 
 package io.zachbr.debuggery.reflection.chain;
 
+import io.zachbr.debuggery.DebuggeryBase;
+import io.zachbr.debuggery.Logger;
 import io.zachbr.debuggery.reflection.*;
 import io.zachbr.debuggery.reflection.types.InputException;
 import io.zachbr.debuggery.reflection.types.TypeHandler;
@@ -34,15 +36,19 @@ import java.util.*;
 class ReflectionChain {
     private final MethodMapProvider methodMapProvider;
     private final TypeHandler typeHandler;
+    private final Logger logger;
+
     private final List<String> input;
     private final Object initialInstance;
     private final @Nullable PlatformSender sender;
     private ReflectionResult result;
 
-    ReflectionChain(MethodMapProvider mapProvider, TypeHandler handler, @NotNull String[] args,
+    ReflectionChain(ReflectionChainFactory factory, @NotNull String[] args,
                     @NotNull Object initialInstance, @Nullable PlatformSender sender) {
-        this.methodMapProvider = mapProvider;
-        this.typeHandler = handler;
+        this.methodMapProvider = factory.methodMapProvider;
+        this.typeHandler = factory.typeHandler;
+        this.logger = factory.logger;
+
         this.input = Arrays.asList(args);
         this.initialInstance = initialInstance;
         this.sender = sender;
@@ -58,6 +64,7 @@ class ReflectionChain {
         Object currentInstance = initialInstance;
         ReflectionResult result = null;
 
+        Object priorInstance;
         Method currentMethod;
         Object[] methodParameters;
         int argsToSkip = 0;
@@ -82,6 +89,15 @@ class ReflectionChain {
             List<String> stringMethodArgs = ReflectionUtil.getArgsForMethod(this.input.subList(i + 1, input.size()), currentMethod);
             argsToSkip = stringMethodArgs.size();
 
+            // break early if there's an issue with the method arg count
+            if (stringMethodArgs.size() != currentMethod.getParameterCount()) {
+                result = new ReflectionResult(ReflectionResult.Type.ARG_MISMATCH, null,
+                        ReflectionUtil.getArgMismatchString(currentMethod), null);
+                break;
+            }
+
+            priorInstance = currentInstance;
+
             try {
                 methodParameters = typeHandler.instantiateTypes(currentMethod.getParameterTypes(), stringMethodArgs, sender);
                 currentInstance = reflect(currentInstance, currentMethod, methodParameters);
@@ -94,9 +110,20 @@ class ReflectionChain {
                 break;
             }
 
+            if (DebuggeryBase.isDebugMode()) {
+                List<String> remainingArgs = input.subList(i, input.size());
+                logDebug(i, reflectionMap, priorInstance, currentInstance, currentMethod, argsToSkip, methodParameters, remainingArgs);
+            }
+
             if (currentMethod.getReturnType() != Void.TYPE && currentInstance == null) {
                 result = new ReflectionResult(ReflectionResult.Type.NULL_REFERENCE, null,
                         ReflectionUtil.getFormattedMethodSignature(currentMethod) + " returned null!");
+                break;
+            }
+
+            if (currentMethod.getReturnType() == Void.TYPE && currentInstance == null && i < input.size()) {
+                result = new ReflectionResult(ReflectionResult.Type.ARG_MISMATCH, null,
+                        "You provided extra args after a void return type!\n" + ReflectionUtil.getArgMismatchString(currentMethod));
                 break;
             }
         }
@@ -136,17 +163,25 @@ class ReflectionChain {
      * @throws IllegalAccessException    see {@link Method#invoke(Object, Object...)}
      */
     private @Nullable Object reflect(@NotNull Object instance, @NotNull Method method, @NotNull Object[] args) throws InvocationTargetException, IllegalAccessException {
-        final int paramCount = method.getParameterCount();
-
-        if (args.length != paramCount) {
-            return ReflectionUtil.getArgMismatchString(method);
+        if (args.length != method.getParameterCount()) {
+            throw new IllegalArgumentException("Given argument count: " + args.length + " does not match required parameter count: " + method.getParameterCount());
         }
 
-        if (!method.canAccess(instance)) {
-            method.setAccessible(true);
-        }
-
+        method.trySetAccessible();
         return method.invoke(instance, args);
     }
 
+    private void logDebug(int i, MethodMap activeMap, Object priorInstance, Object currentInstance,
+                          Method currentMethod, int argsToSkip, Object[] methodParams, List<String> remainingArgs) {
+        logger.debug("========= CHAIN LOOP START  =========");
+        logger.debug("index: " + i);
+        logger.debug("MethodMap: " + activeMap);
+        logger.debug("Prior-Instance: " + priorInstance);
+        logger.debug("Method: " + currentMethod);
+        logger.debug("Method Params: " + Arrays.toString(methodParams));
+        logger.debug("Post-Instance: " + currentInstance);
+        logger.debug("Skip Args: " + argsToSkip);
+        logger.debug("Remaining Args: " + remainingArgs.toString());
+        logger.debug("========= CHAIN LOOP END =========");
+    }
 }

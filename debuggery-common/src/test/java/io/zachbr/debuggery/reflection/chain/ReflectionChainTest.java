@@ -33,6 +33,7 @@ public class ReflectionChainTest {
     private static final Predicate<String> CONTAINS_1234 = s -> s.contains("1") && s.contains("2") && s.contains("3") && s.contains("4");
     private final TypeHandler typeHandler = new TypeHandler(new TestLoggerImpl());
     private final MethodMapProvider mapProvider = new MethodMapProvider();
+    private final ReflectionChainFactory chainFactory = new ReflectionChainFactory(typeHandler, mapProvider, new TestLoggerImpl());
 
     @Test
     public void simpleReflectTest() throws NoSuchMethodException, IllegalAccessException, InputException, InvocationTargetException {
@@ -43,8 +44,7 @@ public class ReflectionChainTest {
         ReflTestClass instance = new ReflTestClass(1, 2, 3);
         String[] input = new String[]{methodName, "4"};
 
-        ReflectionChain chain = new ReflectionChain(mapProvider, typeHandler, input, instance, null);
-        ReflectionResult chainResult = chain.runChain();
+        ReflectionResult chainResult = chainFactory.runChain(input, instance, null);
 
         assertNotNull(chainResult.getEndingInstance());
         String result = typeHandler.getOutputFor(chainResult.getEndingInstance());
@@ -73,8 +73,7 @@ public class ReflectionChainTest {
         ReflTestClass instance = new ReflTestClass(1, 2, 3);
         String[] input = new String[]{subClassGetterName, subClassGetNumName, "5"};
 
-        ReflectionChain chain = new ReflectionChain(mapProvider, typeHandler, input, instance, null);
-        ReflectionResult chainResult = chain.runChain();
+        ReflectionResult chainResult = chainFactory.runChain(input, instance, null);
 
         assertNotNull(chainResult.getEndingInstance());
         String result = typeHandler.getOutputFor(chainResult.getEndingInstance());
@@ -94,9 +93,6 @@ public class ReflectionChainTest {
         // Verify the output contains the expected data we put in, ignoring random formatting details
         assertTrue(CONTAINS_1234.test(result));
         assertTrue(result.contains("5"));
-
-        // Verify we can get the ending instance and that it matches our earlier result
-        assertSame(chainResult, chain.getResult());
     }
 
     @Test
@@ -109,8 +105,7 @@ public class ReflectionChainTest {
         ReflTestClass instance = new ReflTestClass(1, 2, 3);
         String[] input = new String[]{subClassGetterName, methodThatDoesNotExist, "5"};
 
-        ReflectionChain chain = new ReflectionChain(mapProvider, typeHandler, input, instance, null);
-        ReflectionResult chainResult = chain.runChain();
+        ReflectionResult chainResult = chainFactory.runChain(input, instance, null);
 
         assertNotNull(chainResult);
         String reason = chainResult.getReason();
@@ -128,8 +123,7 @@ public class ReflectionChainTest {
         ReflTestClass instance = new ReflTestClass(1, 2, 3);
         String[] input = new String[]{nullMethodName, "get(int)", "5"};
 
-        ReflectionChain chain = new ReflectionChain(mapProvider, typeHandler, input, instance, null);
-        ReflectionResult chainResult = chain.runChain();
+        ReflectionResult chainResult = chainFactory.runChain(input, instance, null);
 
         assertNotNull(chainResult);
         String reason = chainResult.getReason();

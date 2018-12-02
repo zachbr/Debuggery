@@ -27,7 +27,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-abstract class DebuggeryBase {
+public abstract class DebuggeryBase {
     private static final boolean DEBUG_MODE = Boolean.getBoolean("debuggery.debug");
     private final MethodMapProvider methodMapProvider;
     private final ReflectionChainFactory chainFactory;
@@ -40,7 +40,7 @@ abstract class DebuggeryBase {
         this.platformType = type;
         this.methodMapProvider = new MethodMapProvider();
         this.typeHandler = new TypeHandler(getLogger());
-        this.chainFactory = new ReflectionChainFactory(typeHandler, methodMapProvider);
+        this.chainFactory = new ReflectionChainFactory(typeHandler, methodMapProvider, getLogger());
     }
 
     public final Logger getLogger() {

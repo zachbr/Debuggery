@@ -93,7 +93,8 @@ public abstract class CommandReflection extends CommandBase {
                 break;
             case NULL_REFERENCE:
             case UNKNOWN_REFERENCE:
-                notifySenderOfReferenceIssue(sender, chainResult);
+            case ARG_MISMATCH:
+                notifySenderOfResultReason(sender, chainResult);
                 break;
             default:
                 throw new IllegalArgumentException("Unhandled switch case for result of type: " + chainResult.getType());
@@ -118,7 +119,7 @@ public abstract class CommandReflection extends CommandBase {
         cause.printStackTrace();
     }
 
-    private void notifySenderOfReferenceIssue(CommandSender sender, ReflectionResult chainResult) {
+    private void notifySenderOfResultReason(CommandSender sender, ReflectionResult chainResult) {
         Objects.requireNonNull(chainResult.getReason());
         sender.sendMessage(ChatColor.RED + chainResult.getReason());
     }
