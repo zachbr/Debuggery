@@ -55,11 +55,9 @@ class ReflectionChain {
     }
 
     /**
-     * Performs the reflection operation
-     *
-     * @return result, containing final instance and any additional data
+     * Performs a series of reflective operations as specified at creation
      */
-    @NotNull ReflectionResult runChain() {
+    void runChain() {
         MethodMap reflectionMap;
         Object currentInstance = initialInstance;
         ReflectionResult result = null;
@@ -121,7 +119,7 @@ class ReflectionChain {
                 break;
             }
 
-            if (currentMethod.getReturnType() == Void.TYPE && currentInstance == null && i < input.size()) {
+            if (currentMethod.getReturnType() == Void.TYPE && currentInstance == null && i + argsToSkip < input.size() - 1) {
                 result = new ReflectionResult(ReflectionResult.Type.ARG_MISMATCH, null,
                         "You provided extra args after a void return type!\n" + ReflectionUtil.getArgMismatchString(currentMethod));
                 break;
@@ -135,7 +133,7 @@ class ReflectionChain {
         }
 
         Objects.requireNonNull(result);
-        return this.result = result;
+        this.result = result;
     }
 
     /**
@@ -171,15 +169,15 @@ class ReflectionChain {
         return method.invoke(instance, args);
     }
 
-    private void logDebug(int i, MethodMap activeMap, Object priorInstance, Object currentInstance,
+    private void logDebug(int index, MethodMap currentMap, Object priorInstance, Object postInstance,
                           Method currentMethod, int argsToSkip, Object[] methodParams, List<String> remainingArgs) {
         logger.debug("========= CHAIN LOOP START  =========");
-        logger.debug("index: " + i);
-        logger.debug("MethodMap: " + activeMap);
+        logger.debug("index: " + index);
+        logger.debug("MethodMap: " + currentMap);
         logger.debug("Prior-Instance: " + priorInstance);
         logger.debug("Method: " + currentMethod);
         logger.debug("Method Params: " + Arrays.toString(methodParams));
-        logger.debug("Post-Instance: " + currentInstance);
+        logger.debug("Post-Instance: " + postInstance);
         logger.debug("Skip Args: " + argsToSkip);
         logger.debug("Remaining Args: " + remainingArgs.toString());
         logger.debug("========= CHAIN LOOP END =========");
