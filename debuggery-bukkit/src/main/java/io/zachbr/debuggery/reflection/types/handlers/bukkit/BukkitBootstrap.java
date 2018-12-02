@@ -76,6 +76,7 @@ public class BukkitBootstrap {
         bukkitHandlers.add(new OInventoryHandler(this.typeHandler));
         bukkitHandlers.add(new OMessengerHandler(this.typeHandler));
         bukkitHandlers.add(new OOfflinePlayerHandler());
+        bukkitHandlers.add(new OPermissionAttachmentInfoHandler());
         bukkitHandlers.add(new OWorldBorderHandler());
 
         //

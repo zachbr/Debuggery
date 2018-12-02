@@ -382,7 +382,7 @@ public final class TypeHandler {
      *
      * @return unmodifiable collection
      */
-    @NotNull Collection<IHandler> getAllInputHandlers() {
+    public @NotNull Collection<IHandler> getAllInputHandlers() {
         return Collections.unmodifiableCollection(inputHandlers.values());
     }
 
@@ -391,7 +391,7 @@ public final class TypeHandler {
      *
      * @return unmodifiable collection
      */
-    @NotNull Collection<OHandler> getAllOutputHandlers() {
+    public @NotNull Collection<OHandler> getAllOutputHandlers() {
         return Collections.unmodifiableCollection(outputHandlers);
     }
 }
