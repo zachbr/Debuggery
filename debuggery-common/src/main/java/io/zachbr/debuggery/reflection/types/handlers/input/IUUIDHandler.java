@@ -18,24 +18,19 @@
 package io.zachbr.debuggery.reflection.types.handlers.input;
 
 import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
+import io.zachbr.debuggery.reflection.types.handlers.base.platform.PlatformSender;
+import io.zachbr.debuggery.reflection.types.handlers.base.platform.PlatformSpecific;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
-public class IUUIDHandler implements IHandler {
+public class IUUIDHandler extends PlatformSpecific<UUID> implements IHandler {
 
-    // TODO - needs platform extensions feature that I haven't designed yet
     @Override
-    public @NotNull UUID instantiateInstance(String input, Class<?> clazz) {
-        try {
-            return UUID.fromString(input);
-        } catch (IllegalArgumentException ex) {
-//            if (sender instanceof Player) {
-//                return IEntityHandler.getEntity(input, sender).getUniqueId();
-//            }
-
-            throw ex; // re-throw if we still couldn't make it work
-        }
+    public @NotNull UUID instantiateInstance(String input, Class<?> clazz, @Nullable PlatformSender<?> sender) {
+        UUID uuid = fromExtensions(input, clazz, sender);
+        return uuid != null ? uuid : UUID.fromString(input);
     }
 
     @Override

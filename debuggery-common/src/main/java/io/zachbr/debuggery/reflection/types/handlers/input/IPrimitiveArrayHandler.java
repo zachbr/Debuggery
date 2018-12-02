@@ -19,7 +19,9 @@ package io.zachbr.debuggery.reflection.types.handlers.input;
 
 import io.zachbr.debuggery.reflection.types.handlers.base.Handler;
 import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
+import io.zachbr.debuggery.reflection.types.handlers.base.platform.PlatformSender;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Array;
 import java.util.List;
@@ -33,7 +35,7 @@ public class IPrimitiveArrayHandler {
         for (Class clazz : supportedClasses) {
             IHandler handler = new IHandler() {
                 @Override
-                public @NotNull Object instantiateInstance(String input, Class<?> clazz) {
+                public @NotNull Object instantiateInstance(String input, Class<?> clazz, @Nullable PlatformSender<?> sender) {
                     String[] elements = input.split(",");
                     Class<?> arrayType = clazz.getComponentType();
                     Object typedArray = Array.newInstance(arrayType, elements.length);

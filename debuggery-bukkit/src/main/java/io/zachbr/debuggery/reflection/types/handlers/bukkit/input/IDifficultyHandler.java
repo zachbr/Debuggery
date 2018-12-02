@@ -18,6 +18,7 @@
 package io.zachbr.debuggery.reflection.types.handlers.bukkit.input;
 
 import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
+import io.zachbr.debuggery.reflection.types.handlers.base.platform.PlatformSender;
 import io.zachbr.debuggery.reflection.types.handlers.input.IEnumHandler;
 import org.bukkit.Difficulty;
 import org.jetbrains.annotations.NotNull;
@@ -25,7 +26,7 @@ import org.jetbrains.annotations.NotNull;
 public class IDifficultyHandler implements IHandler {
 
     @Override
-    public @NotNull Difficulty instantiateInstance(String input, Class<?> clazz) {
+    public @NotNull Difficulty instantiateInstance(String input, Class<?> clazz, PlatformSender<?> sender) {
         try {
             int val = Integer.parseInt(input);
             //noinspection deprecation

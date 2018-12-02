@@ -19,7 +19,9 @@ package io.zachbr.debuggery.reflection.types.handlers.input;
 
 import io.zachbr.debuggery.reflection.types.TypeHandler;
 import io.zachbr.debuggery.reflection.types.handlers.base.IPolymorphicHandler;
+import io.zachbr.debuggery.reflection.types.handlers.base.platform.PlatformSender;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -32,7 +34,7 @@ public class IObjectArrayHandler implements IPolymorphicHandler {
     }
 
     @Override
-    public @NotNull Object[] instantiateInstance(String input, Class<?> clazz) throws Exception {
+    public @NotNull Object[] instantiateInstance(String input, Class<?> clazz, @Nullable PlatformSender<?> sender) throws Exception {
         String[] elementsIn = input.split(",");
         Class<?> arrayType = clazz.getComponentType();
 

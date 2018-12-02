@@ -18,9 +18,11 @@
 package io.zachbr.debuggery.commands.base;
 
 import io.zachbr.debuggery.DebuggeryBukkit;
-import io.zachbr.debuggery.reflection.*;
+import io.zachbr.debuggery.reflection.MethodMap;
+import io.zachbr.debuggery.reflection.MethodMapProvider;
 import io.zachbr.debuggery.reflection.chain.ReflectionResult;
 import io.zachbr.debuggery.reflection.types.InputException;
+import io.zachbr.debuggery.reflection.types.handlers.base.platform.PlatformSender;
 import io.zachbr.debuggery.util.*;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
@@ -79,7 +81,8 @@ public abstract class CommandReflection extends CommandBase {
             return true;
         }
 
-        ReflectionResult chainResult = debuggery.runReflectionChain(args, instance);
+        PlatformSender<?> platformSender = new PlatformSender<>(PlatformType.BUKKIT, sender);
+        ReflectionResult chainResult = debuggery.runReflectionChain(args, instance, platformSender);
         switch (chainResult.getType()) {
             case SUCCESS:
                 notifySenderOfSuccess(sender, chainResult);

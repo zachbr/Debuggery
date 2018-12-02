@@ -18,15 +18,17 @@
 package io.zachbr.debuggery.reflection.types.handlers.bukkit.input;
 
 import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
+import io.zachbr.debuggery.reflection.types.handlers.base.platform.PlatformSender;
 import io.zachbr.debuggery.reflection.types.handlers.input.IPrimitivesHandler;
 import org.bukkit.Material;
 import org.bukkit.material.MaterialData;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class IMaterialDataHandler implements IHandler {
 
     @Override
-    public @NotNull MaterialData instantiateInstance(String input, Class<?> clazz) {
+    public @NotNull MaterialData instantiateInstance(String input, Class<?> clazz, @Nullable PlatformSender<?> sender) {
         String[] contents = input.split(":", 2);
         Material material = IMaterialHandler.getMaterial(contents[0]);
         byte data = (byte) IPrimitivesHandler.getPrimitive(contents[1], byte.class);

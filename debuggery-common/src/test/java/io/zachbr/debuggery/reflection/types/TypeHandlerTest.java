@@ -20,9 +20,11 @@ package io.zachbr.debuggery.reflection.types;
 import io.zachbr.debuggery.Logger;
 import io.zachbr.debuggery.TestLoggerImpl;
 import io.zachbr.debuggery.reflection.ReflTestClass;
-import io.zachbr.debuggery.reflection.types.implementations.AnEnum;
 import io.zachbr.debuggery.reflection.types.handlers.base.*;
+import io.zachbr.debuggery.reflection.types.handlers.base.platform.PlatformSender;
+import io.zachbr.debuggery.reflection.types.implementations.AnEnum;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -86,7 +88,7 @@ public class TypeHandlerTest {
         IHandler iStringHandler = new IHandler() {
             @NotNull
             @Override
-            public Object instantiateInstance(String input, Class<?> clazz) {
+            public Object instantiateInstance(String input, Class<?> clazz, @Nullable PlatformSender<?> sender) {
                 throw new HandlerNotImplementedException(clazz);
             }
 
@@ -121,7 +123,7 @@ public class TypeHandlerTest {
         IHandler iLocalClassHandler = new IHandler() {
             @NotNull
             @Override
-            public Object instantiateInstance(String input, Class<?> clazz) {
+            public Object instantiateInstance(String input, Class<?> clazz, @Nullable PlatformSender<?> sender) {
                 throw new HandlerNotImplementedException(clazz);
             }
 
@@ -165,7 +167,7 @@ public class TypeHandlerTest {
         IHandler iNotRegistered = new IHandler() {
             @NotNull
             @Override
-            public Object instantiateInstance(String input, Class<?> clazz) throws Exception {
+            public Object instantiateInstance(String input, Class<?> clazz, @Nullable PlatformSender<?> sender) {
                 throw new HandlerNotImplementedException(clazz);
             }
 

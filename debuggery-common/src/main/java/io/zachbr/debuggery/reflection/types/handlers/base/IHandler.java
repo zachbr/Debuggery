@@ -17,7 +17,9 @@
 
 package io.zachbr.debuggery.reflection.types.handlers.base;
 
+import io.zachbr.debuggery.reflection.types.handlers.base.platform.PlatformSender;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Responsible for instantiating a specific class from input
@@ -35,5 +37,5 @@ public interface IHandler extends Handler {
      * @return instantiated object
      * @throws Exception when an object cannot be instantiated
      */
-    @NotNull Object instantiateInstance(String input, Class<?> clazz) throws Exception;
+    @NotNull Object instantiateInstance(String input, Class<?> clazz, @Nullable PlatformSender<?> sender) throws Exception;
 }

@@ -19,8 +19,6 @@ package io.zachbr.debuggery.reflection.chain;
 
 import io.zachbr.debuggery.TestLoggerImpl;
 import io.zachbr.debuggery.reflection.*;
-import io.zachbr.debuggery.reflection.chain.ReflectionChain;
-import io.zachbr.debuggery.reflection.chain.ReflectionResult;
 import io.zachbr.debuggery.reflection.types.InputException;
 import io.zachbr.debuggery.reflection.types.TypeHandler;
 import org.junit.jupiter.api.Test;
@@ -45,7 +43,7 @@ public class ReflectionChainTest {
         ReflTestClass instance = new ReflTestClass(1, 2, 3);
         String[] input = new String[]{methodName, "4"};
 
-        ReflectionChain chain = new ReflectionChain(mapProvider, typeHandler, input, instance);
+        ReflectionChain chain = new ReflectionChain(mapProvider, typeHandler, input, instance, null);
         ReflectionResult chainResult = chain.runChain();
 
         assertNotNull(chainResult.getEndingInstance());
@@ -75,7 +73,7 @@ public class ReflectionChainTest {
         ReflTestClass instance = new ReflTestClass(1, 2, 3);
         String[] input = new String[]{subClassGetterName, subClassGetNumName, "5"};
 
-        ReflectionChain chain = new ReflectionChain(mapProvider, typeHandler, input, instance);
+        ReflectionChain chain = new ReflectionChain(mapProvider, typeHandler, input, instance, null);
         ReflectionResult chainResult = chain.runChain();
 
         assertNotNull(chainResult.getEndingInstance());
@@ -111,7 +109,7 @@ public class ReflectionChainTest {
         ReflTestClass instance = new ReflTestClass(1, 2, 3);
         String[] input = new String[]{subClassGetterName, methodThatDoesNotExist, "5"};
 
-        ReflectionChain chain = new ReflectionChain(mapProvider, typeHandler, input, instance);
+        ReflectionChain chain = new ReflectionChain(mapProvider, typeHandler, input, instance, null);
         ReflectionResult chainResult = chain.runChain();
 
         assertNotNull(chainResult);
@@ -130,7 +128,7 @@ public class ReflectionChainTest {
         ReflTestClass instance = new ReflTestClass(1, 2, 3);
         String[] input = new String[]{nullMethodName, "get(int)", "5"};
 
-        ReflectionChain chain = new ReflectionChain(mapProvider, typeHandler, input, instance);
+        ReflectionChain chain = new ReflectionChain(mapProvider, typeHandler, input, instance, null);
         ReflectionResult chainResult = chain.runChain();
 
         assertNotNull(chainResult);

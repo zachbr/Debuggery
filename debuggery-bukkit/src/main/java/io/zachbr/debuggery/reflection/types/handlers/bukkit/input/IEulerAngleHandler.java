@@ -18,6 +18,7 @@
 package io.zachbr.debuggery.reflection.types.handlers.bukkit.input;
 
 import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
+import io.zachbr.debuggery.reflection.types.handlers.base.platform.PlatformSender;
 import io.zachbr.debuggery.util.StringUtil;
 import org.bukkit.util.EulerAngle;
 import org.jetbrains.annotations.NotNull;
@@ -25,7 +26,7 @@ import org.jetbrains.annotations.NotNull;
 public class IEulerAngleHandler implements IHandler {
 
     @Override
-    public @NotNull Object instantiateInstance(String input, Class<?> clazz) {
+    public @NotNull Object instantiateInstance(String input, Class<?> clazz, PlatformSender<?> sender) {
         double[] parsed = StringUtil.parseDoublesFromString(input, 3);
 
         return new EulerAngle(parsed[0], parsed[1], parsed[2]);

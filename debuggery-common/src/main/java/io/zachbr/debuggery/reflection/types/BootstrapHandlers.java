@@ -50,7 +50,7 @@ class BootstrapHandlers {
         registration.add(new IStringHandler());
         registration.add(new IUUIDHandler());
         // register polymorphics last
-        registration.add(new ICollectionHandler());
+        registration.add(new ICollectionHandler(typeHandler));
         registration.add(new IEnumHandler());
         registration.add(new IObjectArrayHandler(typeHandler));
 

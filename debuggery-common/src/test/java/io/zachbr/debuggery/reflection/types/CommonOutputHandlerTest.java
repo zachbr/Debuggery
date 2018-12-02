@@ -25,7 +25,6 @@ import org.junit.jupiter.api.Test;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CommonOutputHandlerTest {
     private final Logger logger = new TestLoggerImpl();

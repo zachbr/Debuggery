@@ -17,7 +17,8 @@
 
 package io.zachbr.debuggery.commands;
 
-import io.zachbr.debuggery.*;
+import io.zachbr.debuggery.BukkitLogger;
+import io.zachbr.debuggery.DebuggeryBukkit;
 import io.zachbr.debuggery.commands.base.CommandBase;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

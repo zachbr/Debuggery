@@ -18,8 +18,10 @@
 package io.zachbr.debuggery.reflection.types.handlers.bukkit.input;
 
 import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
+import io.zachbr.debuggery.reflection.types.handlers.base.platform.PlatformSender;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -57,7 +59,7 @@ public class IPotionEffectTypeHandler implements IHandler {
     }
 
     @Override
-    public @NotNull PotionEffectType instantiateInstance(String input, Class<?> clazz) throws Exception {
+    public @NotNull PotionEffectType instantiateInstance(String input, Class<?> clazz, @Nullable PlatformSender<?> sender) throws Exception {
         return getPotionEffectType(input);
     }
 

@@ -15,22 +15,8 @@
  * along with Debuggery.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package io.zachbr.debuggery.reflection.types.handlers.input;
+package io.zachbr.debuggery.util;
 
-import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
-import io.zachbr.debuggery.reflection.types.handlers.base.platform.PlatformSender;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-public class IStringHandler implements IHandler {
-
-    @Override
-    public @NotNull String instantiateInstance(String input, Class<?> clazz, @Nullable PlatformSender<?> sender) {
-        return input;
-    }
-
-    @Override
-    public @NotNull Class<?> getRelevantClass() {
-        return String.class;
-    }
+public enum PlatformType {
+    BUKKIT
 }

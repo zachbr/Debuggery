@@ -18,13 +18,15 @@
 package io.zachbr.debuggery.reflection.types.handlers.bukkit.input;
 
 import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
+import io.zachbr.debuggery.reflection.types.handlers.base.platform.PlatformSender;
 import org.bukkit.NamespacedKey;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class INamespacedKeyHandler implements IHandler {
 
     @Override
-    public @NotNull NamespacedKey instantiateInstance(String input, Class<?> clazz) {
+    public @NotNull NamespacedKey instantiateInstance(String input, Class<?> clazz, @Nullable PlatformSender<?> sender) {
         String namespace = "minecraft";
         String key = null;
 

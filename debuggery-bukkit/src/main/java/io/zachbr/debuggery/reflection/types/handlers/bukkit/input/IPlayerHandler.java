@@ -18,17 +18,18 @@
 package io.zachbr.debuggery.reflection.types.handlers.bukkit.input;
 
 import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
+import io.zachbr.debuggery.reflection.types.handlers.base.platform.PlatformSender;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
 public class IPlayerHandler implements IHandler {
 
-    // TODO - needs platform extensions feature that I haven't designed yet
     @Override
-    public @NotNull Object instantiateInstance(String input, Class<?> clazz) throws Exception {
+    public @NotNull Object instantiateInstance(String input, Class<?> clazz, @Nullable PlatformSender<?> sender) throws Exception {
         Player target = null;
 
         // try to get a player matching by name
@@ -37,12 +38,12 @@ public class IPlayerHandler implements IHandler {
             target = byName;
         }
 
-//        // shortcut getting themselves if possible
-//        if (target == null && sender instanceof Player) {
-//            if (input.equals("me")) {
-//                target = (Player) sender;
-//            }
-//        }
+        // shortcut getting themselves if possible
+        if (target == null && sender != null && sender.getRawSender() instanceof Player) {
+            if (input.equals("me")) {
+                target = (Player) sender;
+            }
+        }
 
         // in case they're insane and input an entire UUID, who are we to say no
         if (target == null) {

@@ -20,7 +20,9 @@ package io.zachbr.debuggery.reflection.chain;
 import io.zachbr.debuggery.reflection.*;
 import io.zachbr.debuggery.reflection.types.InputException;
 import io.zachbr.debuggery.reflection.types.TypeHandler;
-import org.jetbrains.annotations.*;
+import io.zachbr.debuggery.reflection.types.handlers.base.platform.PlatformSender;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -34,13 +36,16 @@ class ReflectionChain {
     private final TypeHandler typeHandler;
     private final List<String> input;
     private final Object initialInstance;
+    private final @Nullable PlatformSender sender;
     private ReflectionResult result;
 
-    ReflectionChain(MethodMapProvider mapProvider, TypeHandler handler, @NotNull String[] args, @NotNull Object initialInstance) {
+    ReflectionChain(MethodMapProvider mapProvider, TypeHandler handler, @NotNull String[] args,
+                    @NotNull Object initialInstance, @Nullable PlatformSender sender) {
         this.methodMapProvider = mapProvider;
         this.typeHandler = handler;
         this.input = Arrays.asList(args);
         this.initialInstance = initialInstance;
+        this.sender = sender;
     }
 
     /**
@@ -78,7 +83,7 @@ class ReflectionChain {
             argsToSkip = stringMethodArgs.size();
 
             try {
-                methodParameters = typeHandler.instantiateTypes(currentMethod.getParameterTypes(), stringMethodArgs);
+                methodParameters = typeHandler.instantiateTypes(currentMethod.getParameterTypes(), stringMethodArgs, sender);
                 currentInstance = reflect(currentInstance, currentMethod, methodParameters);
             } catch (Throwable ex) {
                 ReflectionResult.Type type = ex instanceof InputException ? ReflectionResult.Type.INPUT_ERROR : ReflectionResult.Type.UNHANDLED_EXCEPTION;

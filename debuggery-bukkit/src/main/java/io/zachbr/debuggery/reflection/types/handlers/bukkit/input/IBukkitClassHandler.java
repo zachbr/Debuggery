@@ -18,7 +18,9 @@
 package io.zachbr.debuggery.reflection.types.handlers.bukkit.input;
 
 import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
+import io.zachbr.debuggery.reflection.types.handlers.base.platform.PlatformSender;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class IBukkitClassHandler implements IHandler {
 
@@ -48,7 +50,7 @@ public class IBukkitClassHandler implements IHandler {
     }
 
     @Override
-    public @NotNull Class instantiateInstance(String input, Class<?> clazz) throws ClassNotFoundException {
+    public @NotNull Class instantiateInstance(String input, Class<?> clazz, @Nullable PlatformSender<?> sender) throws ClassNotFoundException {
         return getClass(input); // separate method so that IBukkitClassesHandler can get to it
     }
 

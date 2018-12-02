@@ -18,21 +18,23 @@
 package io.zachbr.debuggery.reflection.types.handlers.bukkit.input;
 
 import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
+import io.zachbr.debuggery.reflection.types.handlers.base.platform.PlatformSender;
 import org.bukkit.*;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class ILocationHandler implements IHandler {
 
-    // TODO - needs platform extensions feature that I haven't designed yet
-    static @NotNull Location getLocation(String input) {
-//        if (sender instanceof Player) {
-//            final Player player = (Player) sender;
-//            if (input.equalsIgnoreCase("here")) {
-//                return player.getLocation();
-//            } else if (input.equalsIgnoreCase("there")) {
-//                return player.getTargetBlock(null, 50).getLocation();
-//            }
-//        }
+    static @NotNull Location getLocation(String input, @Nullable PlatformSender<?> sender) {
+        if (sender != null && sender.getRawSender() instanceof Player) {
+            final Player player = (Player) sender.getRawSender();
+            if (input.equalsIgnoreCase("here")) {
+                return player.getLocation();
+            } else if (input.equalsIgnoreCase("there")) {
+                return player.getTargetBlock(null, 50).getLocation();
+            }
+        }
 
         String[] contents = input.split(",", 4);
         double[] xyz = new double[3];
@@ -50,8 +52,8 @@ public class ILocationHandler implements IHandler {
     }
 
     @Override
-    public @NotNull Location instantiateInstance(String input, Class<?> clazz) {
-        return getLocation(input); // separate method so that related commands can get to it
+    public @NotNull Location instantiateInstance(String input, Class<?> clazz, @Nullable PlatformSender<?> sender) {
+        return getLocation(input, sender); // separate method so that related commands can get to it
     }
 
     @Override

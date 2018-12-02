@@ -18,14 +18,16 @@
 package io.zachbr.debuggery.reflection.types.handlers.bukkit.input;
 
 import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
+import io.zachbr.debuggery.reflection.types.handlers.base.platform.PlatformSender;
 import io.zachbr.debuggery.reflection.types.handlers.input.IEnumHandler;
 import org.bukkit.GameMode;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class IGameModeHandler implements IHandler {
 
     @Override
-    public @NotNull GameMode instantiateInstance(String input, Class<?> clazz) {
+    public @NotNull GameMode instantiateInstance(String input, Class<?> clazz, @Nullable PlatformSender<?> sender) {
         try {
             int val = Integer.parseInt(input);
             //noinspection deprecation

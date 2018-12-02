@@ -18,7 +18,9 @@
 package io.zachbr.debuggery.reflection.types.handlers.input;
 
 import io.zachbr.debuggery.reflection.types.handlers.base.IPolymorphicHandler;
+import io.zachbr.debuggery.reflection.types.handlers.base.platform.PlatformSender;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class IEnumHandler implements IPolymorphicHandler {
 
@@ -28,7 +30,7 @@ public class IEnumHandler implements IPolymorphicHandler {
 
     @Override
     @SuppressWarnings("unchecked")
-    public @NotNull Enum instantiateInstance(String input, Class<?> clazz) {
+    public @NotNull Enum instantiateInstance(String input, Class<?> clazz, @Nullable PlatformSender<?> sender) {
         return getEnumValue(input, (Class) clazz); // suppress until such a time it can be handled better
     }
 

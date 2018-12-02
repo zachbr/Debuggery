@@ -21,10 +21,10 @@ import io.zachbr.debuggery.TestLoggerImpl;
 import io.zachbr.debuggery.reflection.types.implementations.AnEnum;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
+import java.util.*;
+import java.util.function.BiFunction;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertSame;
 
 public class CommonInputHandlerTest {
     private final TypeHandler typeHandler = new TypeHandler(new TestLoggerImpl());
@@ -116,5 +116,61 @@ public class CommonInputHandlerTest {
         assertSame(AnEnum.VAL_5, output[3]);
     }
 
+    @Test
+    public void testCollection() throws InputException {
+        Class[] inputTypes = {List.class, Set.class, Collection.class, Queue.class, Vector.class};
+        String[] input = {"java.lang.String:Grass,Stone,Dirt", "java.lang.String:Wither,Zombie,Creeper", "java.lang.String:Nether,Ender",
+                "java.lang.String:Redwood,RED_MUSHROOM,dark_oak", "java.lang.String:Creative,Survival,Adventure"};
 
+        Object[] output = typeHandler.instantiateTypes(inputTypes, Arrays.asList(input), null);
+
+        // verify we got the types we requested
+        assertTrue(output[0] instanceof List);
+        assertTrue(output[1] instanceof Set);
+        assertTrue(output[2] instanceof Collection);
+        assertTrue(output[3] instanceof Queue);
+        assertTrue(output[4] instanceof Vector);
+
+        BiFunction<Collection, Object[], Boolean> testAllPresent = (collection, testers) -> {
+            boolean passes = true;
+            for (Object tester : testers) {
+                if (!collection.contains(tester)) {
+                    System.out.println("CANNOT FIND REQUESTED TYPE: " + tester);
+                    passes = false;
+                }
+            }
+
+            return passes;
+        };
+
+        // verify list contents
+        List list = (List) output[0];
+        String[] expectedMats = {"Grass", "Stone", "Dirt"};
+        assertSame(expectedMats.length, list.size());
+        assertTrue(testAllPresent.apply(list, expectedMats));
+
+        // verify set contents
+        Set set = (Set) output[1];
+        String[] expectedSkulls = { "Wither", "Zombie", "Creeper"};
+        assertSame(expectedSkulls.length, set.size());
+        assertTrue(testAllPresent.apply(set, expectedSkulls));
+
+        // verify collection contents
+        Collection collection = (Collection) output[2];
+        String[] expectedPortTypes = {"Nether", "Ender"};
+        assertSame(expectedPortTypes.length, collection.size());
+        assertTrue(testAllPresent.apply(collection, expectedPortTypes));
+
+        // verify queue contents
+        Queue queue = (Queue) output[3];
+        String[] expectedClasses = {"Redwood", "RED_MUSHROOM", "dark_oak"};
+        assertSame(expectedClasses.length, queue.size());
+        assertTrue(testAllPresent.apply(queue, expectedClasses));
+
+        // verify vector contents
+        Vector vector = (Vector) output[4];
+        String[] expectedGameModes = {"Creative", "Survival", "Adventure"};
+        assertSame(expectedGameModes.length, vector.size());
+        assertTrue(testAllPresent.apply(vector, expectedGameModes));
+    }
 }

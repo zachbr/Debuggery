@@ -20,15 +20,22 @@ package io.zachbr.debuggery.reflection.types.handlers.bukkit;
 import io.zachbr.debuggery.Logger;
 import io.zachbr.debuggery.reflection.types.TypeHandler;
 import io.zachbr.debuggery.reflection.types.handlers.base.Handler;
+import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
+import io.zachbr.debuggery.reflection.types.handlers.base.platform.*;
 import io.zachbr.debuggery.reflection.types.handlers.bukkit.input.*;
 import io.zachbr.debuggery.reflection.types.handlers.bukkit.output.*;
+import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-public class BootstrapBukkitHandlers {
+public class BukkitBootstrap {
+    private final TypeHandler typeHandler;
+    private final Logger logger;
 
-    public static void init(TypeHandler typeHandler, Logger logger) {
+    public BukkitBootstrap(TypeHandler typeHandler, Logger logger) {
+        this.typeHandler = typeHandler;
+        this.logger = logger;
+
         logger.debug("Begin Bukkit TypeHandler bootstrap");
         List<Handler> bukkitHandlers = new ArrayList<>();
 
@@ -65,17 +72,47 @@ public class BootstrapBukkitHandlers {
         bukkitHandlers.add(new OCommandSender());
         bukkitHandlers.add(new OEulerAngleHandler());
         bukkitHandlers.add(new OHelpMapHandler());
-        bukkitHandlers.add(new OInventoryHandler(typeHandler));
-        bukkitHandlers.add(new OMessengerHandler(typeHandler));
+        bukkitHandlers.add(new OInventoryHandler(this.typeHandler));
+        bukkitHandlers.add(new OMessengerHandler(this.typeHandler));
         bukkitHandlers.add(new OOfflinePlayerHandler());
         bukkitHandlers.add(new OWorldBorderHandler());
 
+        //
+        // Register
+        //
+
         for (Handler handler : bukkitHandlers) {
-            if (!typeHandler.registerHandler(handler)) {
+            if (!this.typeHandler.registerHandler(handler)) {
                 throw new IllegalArgumentException("Unable to register " + handler);
             }
         }
 
+        //
+        // Platform Extensions to common classes
+        //
+
+        addExtensionFor(UUID.class, (args, clazz, sender) -> {
+            if (sender.getRawSender() instanceof Player) {
+                return ((Player) sender.getRawSender()).getUniqueId();
+            } else {
+                return null;
+            }
+        });
+
         logger.debug("End Bukkit TypeHandler bootstrap");
+    }
+
+    private <T> void addExtensionFor(Class<T> clazz, PlatformExtension<T> extension) {
+        IHandler handler = typeHandler.getIHandlerForClass(clazz);
+        if (handler == null) {
+            throw new IllegalArgumentException("Cannot get input handler for type: " + clazz.getCanonicalName());
+        }
+
+        if (!(handler instanceof PlatformSpecific<?>)) {
+            throw new IllegalArgumentException("Handler for " + clazz.getCanonicalName() + " is not platform specific!");
+        }
+
+        PlatformSpecific<T> psHandler = (PlatformSpecific<T>) handler;
+        psHandler.add(extension);
     }
 }

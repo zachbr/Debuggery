@@ -18,42 +18,47 @@
 package io.zachbr.debuggery.reflection.types.handlers.bukkit.input;
 
 import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
+import io.zachbr.debuggery.reflection.types.handlers.base.platform.PlatformSender;
+import io.zachbr.debuggery.util.PlatformUtil;
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class IEntityHandler implements IHandler {
 
-    // TODO - Needs platform extensions feature that I haven't designed yet
-    static @NotNull Entity getEntity(String input) {
-//        Entity target;
-//
-//        // player specific commands to make things easier for them
-//        if (sender instanceof Player) {
-//            if (input.equalsIgnoreCase("that")) {
-//                target = PlatformUtil.getEntityPlayerLookingAt((Player) sender, 25, 1.5D);
-//
-//                if (target != null) {
-//                    return target;
-//                }
-//            } else if (input.equalsIgnoreCase("me")) {
-//                return ((Player) sender);
-//            }
-//        }
-//
-//        // otherwise fall back to just getting the closest entity to the given location
-//        Location loc = ILocationHandler.getLocation(input, sender);
-//        Entity nearest = PlatformUtil.getEntityNearestTo(loc, 25, 1.5D);
-//
-//        if (nearest != null) {
-//            return nearest;
-//        } else {
-            throw new NullPointerException("Cannot find any entities near you!");
-//        }
+    static @NotNull Entity getEntity(String input, @Nullable PlatformSender<?> sender) {
+        Entity target;
+
+        // player specific commands to make things easier for them
+        if (sender != null && sender.getRawSender() instanceof Player) {
+            Player player = (Player) sender.getRawSender();
+            if (input.equalsIgnoreCase("that")) {
+                target = PlatformUtil.getEntityPlayerLookingAt(player, 25, 1.5D);
+
+                if (target != null) {
+                    return target;
+                }
+            } else if (input.equalsIgnoreCase("me")) {
+                return (player);
+            }
+        }
+
+        // otherwise fall back to just getting the closest entity to the given location
+        Location loc = ILocationHandler.getLocation(input, sender);
+        Entity nearest = PlatformUtil.getEntityNearestTo(loc, 25, 1.5D);
+
+        if (nearest != null) {
+            return nearest;
+        } else {
+          throw new NullPointerException("Cannot find any entities near you!");
+        }
     }
 
     @Override
-    public @NotNull Entity instantiateInstance(String input, Class<?> clazz) {
-        return getEntity(input); // separate method so that other entity related commands can get to it
+    public @NotNull Entity instantiateInstance(String input, Class<?> clazz, @Nullable PlatformSender<?> sender) {
+        return getEntity(input, sender); // separate method so that other entity related commands can get to it
     }
 
     @Override

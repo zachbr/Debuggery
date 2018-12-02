@@ -19,6 +19,7 @@ package io.zachbr.debuggery.reflection.types;
 
 import io.zachbr.debuggery.Logger;
 import io.zachbr.debuggery.reflection.types.handlers.base.*;
+import io.zachbr.debuggery.reflection.types.handlers.base.platform.PlatformSender;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -77,13 +78,26 @@ public final class TypeHandler {
      * @throws InputException when there's an issue instantiating the requested types
      */
     public @NotNull Object[] instantiateTypes(Class[] classes, List<String> input) throws InputException {
+        return instantiateTypes(classes, input, null);
+    }
+
+    /**
+     * Creates new instances of the requested class types using the provided input
+     *
+     * @param classes {@link Class} types to be instantiated
+     * @param input   The input to be used in the instantiation of the new instances
+     * @param sender  The sender instance to be passed along to input handlers
+     * @return {@link Object} array of the requested types, instantiated and ready for use
+     * @throws InputException when there's an issue instantiating the requested types
+     */
+    public @NotNull Object[] instantiateTypes(Class[] classes, List<String> input, @Nullable PlatformSender sender) throws InputException {
         Objects.requireNonNull(classes);
         Objects.requireNonNull(input);
 
         List<Object> outputObjects = new ArrayList<>();
 
         for (int i = 0; i < input.size(); i++) {
-            outputObjects.add(instantiateObjectFor(classes[i], input.get(i)));
+            outputObjects.add(instantiateObjectFor(classes[i], input.get(i), sender));
         }
 
         return outputObjects.toArray();
@@ -97,7 +111,7 @@ public final class TypeHandler {
      * @return An instance of the requested class or null
      * @throws InputException when there's an issue instantiating the requested type
      */
-    private @Nullable Object instantiateObjectFor(Class clazz, String input) throws InputException {
+    private @Nullable Object instantiateObjectFor(Class clazz, String input, @Nullable PlatformSender sender) throws InputException {
         Objects.requireNonNull(clazz);
         Objects.requireNonNull(input);
 
@@ -112,7 +126,7 @@ public final class TypeHandler {
         IHandler handler = getIHandlerForClass(clazz);
         if (handler != null) {
             try {
-                out = handler.instantiateInstance(input, clazz);
+                out = handler.instantiateInstance(input, clazz, sender);
             } catch (Exception ex) {
                 // re-wrap exception and toss up the stack
                 throw InputException.of(ex);
@@ -303,7 +317,7 @@ public final class TypeHandler {
      * @param clazz {@link Class} type to look for a handler for
      * @return Relevant handler or null if none could be found
      */
-    private @Nullable IHandler getIHandlerForClass(Class clazz) {
+    public @Nullable IHandler getIHandlerForClass(Class clazz) {
         return getIHandlerForClass(clazz, true);
     }
 

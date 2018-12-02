@@ -23,7 +23,8 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.BiConsumer;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ReflectionUtilTest {
 

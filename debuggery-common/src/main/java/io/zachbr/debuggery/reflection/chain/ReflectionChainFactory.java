@@ -19,6 +19,7 @@ package io.zachbr.debuggery.reflection.chain;
 
 import io.zachbr.debuggery.reflection.MethodMapProvider;
 import io.zachbr.debuggery.reflection.types.TypeHandler;
+import io.zachbr.debuggery.reflection.types.handlers.base.platform.PlatformSender;
 
 import java.util.Objects;
 
@@ -32,11 +33,11 @@ public class ReflectionChainFactory {
         this.methodMapProvider = provider;
     }
 
-    public ReflectionResult runChain(String[] args, Object initialInstance) {
+    public ReflectionResult runChain(String[] args, Object initialInstance, PlatformSender sender) {
         Objects.requireNonNull(args);
         Objects.requireNonNull(initialInstance);
 
-        ReflectionChain chain = new ReflectionChain(this.methodMapProvider, this.typeHandler, args, initialInstance);
+        ReflectionChain chain = new ReflectionChain(this.methodMapProvider, this.typeHandler, args, initialInstance, sender);
         chain.runChain();
 
         return chain.getResult();

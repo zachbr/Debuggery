@@ -18,8 +18,10 @@
 package io.zachbr.debuggery.reflection.types.handlers.bukkit.input;
 
 import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
+import io.zachbr.debuggery.reflection.types.handlers.base.platform.PlatformSender;
 import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class IMaterialHandler implements IHandler {
 
@@ -34,7 +36,7 @@ public class IMaterialHandler implements IHandler {
     }
 
     @Override
-    public @NotNull Material instantiateInstance(String input, Class<?> clazz) {
+    public @NotNull Material instantiateInstance(String input, Class<?> clazz, @Nullable PlatformSender<?> sender) {
         return getMaterial(input);
     }
 

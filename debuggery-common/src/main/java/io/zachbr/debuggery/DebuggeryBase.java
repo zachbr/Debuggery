@@ -17,10 +17,12 @@
 
 package io.zachbr.debuggery;
 
-import io.zachbr.debuggery.reflection.*;
+import io.zachbr.debuggery.reflection.MethodMapProvider;
 import io.zachbr.debuggery.reflection.chain.ReflectionChainFactory;
 import io.zachbr.debuggery.reflection.chain.ReflectionResult;
 import io.zachbr.debuggery.reflection.types.TypeHandler;
+import io.zachbr.debuggery.reflection.types.handlers.base.platform.PlatformSender;
+import io.zachbr.debuggery.util.PlatformType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -31,9 +33,11 @@ abstract class DebuggeryBase {
     private final ReflectionChainFactory chainFactory;
     private final TypeHandler typeHandler;
     private final Logger logger;
+    private final PlatformType platformType;
 
-    DebuggeryBase(Logger logger) {
+    DebuggeryBase(Logger logger, PlatformType type) {
         this.logger = logger;
+        this.platformType = type;
         this.methodMapProvider = new MethodMapProvider();
         this.typeHandler = new TypeHandler(getLogger());
         this.chainFactory = new ReflectionChainFactory(typeHandler, methodMapProvider);
@@ -41,6 +45,10 @@ abstract class DebuggeryBase {
 
     public final Logger getLogger() {
         return this.logger;
+    }
+
+    public final PlatformType getPlatformType() {
+        return this.platformType;
     }
 
     abstract String getPluginVersion();
@@ -87,10 +95,10 @@ abstract class DebuggeryBase {
     }
 
     // todo - better solutions elsewhere?
-    public ReflectionResult runReflectionChain(String[] inputArgs, Object initialInstance) {
+    public ReflectionResult runReflectionChain(String[] inputArgs, Object initialInstance, PlatformSender sender) {
         Objects.requireNonNull(inputArgs);
         Objects.requireNonNull(initialInstance);
 
-        return chainFactory.runChain(inputArgs, initialInstance);
+        return chainFactory.runChain(inputArgs, initialInstance, sender);
     }
 }

@@ -21,20 +21,19 @@ import io.zachbr.debuggery.Logger;
 import io.zachbr.debuggery.TestLoggerImpl;
 import io.zachbr.debuggery.reflection.types.InputException;
 import io.zachbr.debuggery.reflection.types.TypeHandler;
-import io.zachbr.debuggery.reflection.types.handlers.bukkit.BootstrapBukkitHandlers;
+import io.zachbr.debuggery.reflection.types.handlers.bukkit.BukkitBootstrap;
 import org.bukkit.*;
 import org.bukkit.entity.*;
-import org.bukkit.inventory.*;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
-import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.EulerAngle;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
-import java.util.function.BiFunction;
+import java.util.Arrays;
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -43,7 +42,7 @@ public class BukkitInputHandlerTest {
     private final TypeHandler typeHandler = new TypeHandler(logger);
 
     public BukkitInputHandlerTest() {
-        BootstrapBukkitHandlers.init(typeHandler, logger);
+        new BukkitBootstrap(typeHandler, logger);
     }
 
     @Test

@@ -17,12 +17,12 @@
 
 package io.zachbr.debuggery.commands.base;
 
-import com.google.common.collect.Lists;
 import org.bukkit.ChatColor;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Class to handle all the stupid minutia involved with commands

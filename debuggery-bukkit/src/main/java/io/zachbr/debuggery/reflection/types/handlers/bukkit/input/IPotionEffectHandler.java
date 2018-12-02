@@ -18,14 +18,16 @@
 package io.zachbr.debuggery.reflection.types.handlers.bukkit.input;
 
 import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
+import io.zachbr.debuggery.reflection.types.handlers.base.platform.PlatformSender;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class IPotionEffectHandler implements IHandler {
 
     @Override
-    public @NotNull PotionEffect instantiateInstance(String input, Class<?> clazz) throws Exception {
+    public @NotNull PotionEffect instantiateInstance(String input, Class<?> clazz, @Nullable PlatformSender<?> sender) throws Exception {
         String[] values = input.split(",");
 
         PotionEffectType type = IPotionEffectTypeHandler.getPotionEffectType(values[0]);

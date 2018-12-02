@@ -18,14 +18,16 @@
 package io.zachbr.debuggery.reflection.types.handlers.bukkit.input;
 
 import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
+import io.zachbr.debuggery.reflection.types.handlers.base.platform.PlatformSender;
 import io.zachbr.debuggery.util.StringUtil;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class IVectorHandler implements IHandler {
 
     @Override
-    public @NotNull Object instantiateInstance(String input, Class<?> clazz) {
+    public @NotNull Object instantiateInstance(String input, Class<?> clazz, @Nullable PlatformSender<?> sender) {
         double[] parsed = StringUtil.parseDoublesFromString(input, 3);
 
         return new Vector(parsed[0], parsed[1], parsed[2]);

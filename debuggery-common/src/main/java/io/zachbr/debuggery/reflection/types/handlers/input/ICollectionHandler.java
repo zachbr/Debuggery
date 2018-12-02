@@ -17,50 +17,58 @@
 
 package io.zachbr.debuggery.reflection.types.handlers.input;
 
+import io.zachbr.debuggery.reflection.types.HandlerNotImplementedException;
+import io.zachbr.debuggery.reflection.types.TypeHandler;
 import io.zachbr.debuggery.reflection.types.handlers.base.IPolymorphicHandler;
+import io.zachbr.debuggery.reflection.types.handlers.base.platform.PlatformSender;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
 public class ICollectionHandler implements IPolymorphicHandler {
+    private final TypeHandler typeHandler;
+
+    public ICollectionHandler(TypeHandler handler) {
+        this.typeHandler = handler;
+    }
 
     @Override
-    public @NotNull Collection<?> instantiateInstance(String input, Class<?> clazz) throws Exception {
-//        // type erasure really screws us here, so you have to specify the type of data you want to input
-//        // CLASSTYPE:ELEMENT,ELEMENT,ELEMENT
-//        // Material:stone,grass,dirt
-//        String[] requestedAndElements = input.split(":", 2);
-//        Class<?> collectionType = IBukkitClassHandler.getClass(requestedAndElements[0]); // TODO - write
-//
-//        // split up input and prep for sending to type handler
-//        List<String> elements = Arrays.asList(requestedAndElements[1].split(","));
-//        Class[] classSetup = new Class[elements.size()];
-//        Arrays.fill(classSetup, collectionType);
-//
-//        Object[] instantiatedTypes;
-//
-//        instantiatedTypes = TypeHandler.getInstance().instantiateTypes(classSetup, elements);
-//
-//        // Now figure out output and get that all setup
-//        Collection<Object> instanceOut;
-//        if (clazz == Set.class) {
-//            instanceOut = new HashSet<>();
-//        } else if (clazz == List.class) {
-//            instanceOut = new ArrayList<>();
-//        } else if (clazz == Queue.class) {
-//            instanceOut = new PriorityQueue<>();
-//        } else if (clazz == Vector.class) {
-//            instanceOut = new Vector<>();
-//        } else if (clazz == Collection.class) {
-//            instanceOut = new HashSet<>();
-//        } else {
-//            throw new NotImplementedException("Collection support for " + clazz.getCanonicalName() + " not implemented");
-//        }
-//
-//        Collections.addAll(instanceOut, instantiatedTypes);
-//
-//        return instanceOut;
-        throw new RuntimeException("Needs rewritten for modularization");
+    public @NotNull Collection<?> instantiateInstance(String input, Class<?> clazz, @Nullable PlatformSender<?> sender) throws Exception {
+        // type erasure really screws us here, so you have to specify the type of data you want to input
+        // CLASSTYPE:ELEMENT,ELEMENT,ELEMENT
+        // Material:stone,grass,dirt
+        String[] requestedAndElements = input.split(":", 2);
+        Class<?> collectionType = ClassLoader.getSystemClassLoader().loadClass(requestedAndElements[0]);
+
+        // split up input and prep for sending to type handler
+        List<String> elements = Arrays.asList(requestedAndElements[1].split(","));
+        Class[] classSetup = new Class[elements.size()];
+        Arrays.fill(classSetup, collectionType);
+
+        Object[] instantiatedTypes;
+
+        instantiatedTypes = typeHandler.instantiateTypes(classSetup, elements, sender);
+
+        // Now figure out output and get that all setup
+        Collection<Object> instanceOut;
+        if (clazz == Set.class) {
+            instanceOut = new HashSet<>();
+        } else if (clazz == List.class) {
+            instanceOut = new ArrayList<>();
+        } else if (clazz == Queue.class) {
+            instanceOut = new PriorityQueue<>();
+        } else if (clazz == Vector.class) {
+            instanceOut = new Vector<>();
+        } else if (clazz == Collection.class) {
+            instanceOut = new HashSet<>();
+        } else {
+           throw new HandlerNotImplementedException(clazz);
+        }
+
+        Collections.addAll(instanceOut, instantiatedTypes);
+
+        return instanceOut;
     }
 
     @Override

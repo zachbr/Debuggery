@@ -21,7 +21,7 @@ import io.zachbr.debuggery.Logger;
 import io.zachbr.debuggery.TestLoggerImpl;
 import io.zachbr.debuggery.reflection.bukkit.implementations.*;
 import io.zachbr.debuggery.reflection.types.TypeHandler;
-import io.zachbr.debuggery.reflection.types.handlers.bukkit.BootstrapBukkitHandlers;
+import io.zachbr.debuggery.reflection.types.handlers.bukkit.BukkitBootstrap;
 import org.bukkit.*;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.data.BlockData;
@@ -35,14 +35,15 @@ import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BukkitOutputHandlerTest {
     private final Logger logger = new TestLoggerImpl();
     private final TypeHandler typeHandler = new TypeHandler(logger);
 
     public BukkitOutputHandlerTest() {
-        BootstrapBukkitHandlers.init(typeHandler, logger);
+        new BukkitBootstrap(typeHandler, logger);
     }
 
     @Test

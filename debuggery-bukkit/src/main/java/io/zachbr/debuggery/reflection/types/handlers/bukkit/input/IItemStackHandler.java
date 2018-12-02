@@ -18,26 +18,33 @@
 package io.zachbr.debuggery.reflection.types.handlers.bukkit.input;
 
 import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
+import io.zachbr.debuggery.reflection.types.handlers.base.platform.PlatformSender;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class IItemStackHandler implements IHandler {
 
-    // TODO - needs platform extensions feature that I haven't designed yet
-    static @NotNull ItemStack getItemStack(String input) {
-//        if (sender instanceof Player) {
-//            if (input.equalsIgnoreCase("this")) {
-//                return ((Player) sender).getInventory().getItemInMainHand();
-//            }
-//        }
+    static @NotNull ItemStack getItemStack(String input, @Nullable PlatformSender<?> sender) {
+        if (sender != null && sender.getRawSender() instanceof Player) {
+            if (input.equalsIgnoreCase("this")) {
+                ItemStack item = ((Player) sender).getInventory().getItemInMainHand();
+                if (item == null) {
+                    throw new NullPointerException("Null itemstack in main hand!");
+                } else {
+                    return item;
+                }
+            }
+        }
 
         // try creating a new itemstack from material
         return new ItemStack(IMaterialHandler.getMaterial(input));
     }
 
     @Override
-    public @NotNull ItemStack instantiateInstance(String input, Class<?> clazz) {
-        return getItemStack(input);
+    public @NotNull ItemStack instantiateInstance(String input, Class<?> clazz, @Nullable PlatformSender<?> sender) {
+        return getItemStack(input, sender);
     }
 
     @Override
