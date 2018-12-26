@@ -40,6 +40,11 @@ public class TestBlockData implements BlockData {
     }
 
     @Override
+    public String getAsString(boolean hideUnspecified) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public BlockData merge(BlockData blockData) {
         throw new UnsupportedOperationException();
     }
