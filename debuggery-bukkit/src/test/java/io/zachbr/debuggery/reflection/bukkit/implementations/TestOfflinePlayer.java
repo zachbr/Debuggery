@@ -89,6 +89,16 @@ public class TestOfflinePlayer implements OfflinePlayer {
     }
 
     @Override
+    public long getLastLogin() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public long getLastSeen() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Map<String, Object> serialize() {
         throw new UnsupportedOperationException();
     }
