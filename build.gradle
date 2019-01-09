@@ -8,7 +8,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.2'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.2'
         classpath 'gradle.plugin.net.minecrell:licenser:0.4.1'
     }
 }
@@ -58,16 +58,9 @@ subprojects {
             include(dependency(':debuggery-common'))
         }
 
-        classifier = null
+        setArchiveClassifier(null)
         preserveFileTimestamps = false
         from rootProject.file("LICENSE.md")
-    }
-
-    compileTestJava {
-        // Gradle/JUnit/Somebody's ASM lib isn't updated for JEP-181 and it breaks things
-        // hopefully less things than this will inevitably break in the future
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
     }
 
     test {
