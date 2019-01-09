@@ -1,2 +1,2 @@
 rootProject.name = 'debuggery'
-include 'debuggery-common', 'debuggery-bukkit'
+include 'debuggery-common', 'debuggery-bukkit', 'debuggery-velocity'

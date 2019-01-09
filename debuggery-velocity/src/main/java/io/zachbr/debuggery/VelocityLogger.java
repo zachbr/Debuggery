@@ -15,9 +15,32 @@
  * along with Debuggery.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package io.zachbr.debuggery.util;
+package io.zachbr.debuggery;
 
-public enum PlatformType {
-    BUKKIT,
-    VELOCITY
+public class VelocityLogger implements Logger {
+    private final org.slf4j.Logger platformLogger;
+
+    VelocityLogger(org.slf4j.Logger platformLogger) {
+        this.platformLogger = platformLogger;
+    }
+
+    @Override
+    public void info(String str) {
+        platformLogger.info(str);
+    }
+
+    @Override
+    public void warn(String str) {
+        platformLogger.warn(str);
+    }
+
+    @Override
+    public void err(String str) {
+        platformLogger.error(str);
+    }
+
+    @Override
+    public void debug(String str) {
+        platformLogger.debug(str);
+    }
 }
