@@ -30,7 +30,7 @@ import java.util.Map;
 
 @Plugin(id = "debuggery",
         name = "Debuggery",
-        version = "1.3.0-SNAPSHOT", // todo - make gradle deal with this
+        version = "@version@",
         description = "A small plugin designed to expose API values at runtime.",
         authors = {"Z750"},
         url = "https://github.com/zachbr/Debuggery")
