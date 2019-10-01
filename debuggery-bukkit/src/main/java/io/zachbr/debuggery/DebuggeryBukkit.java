@@ -20,7 +20,6 @@ package io.zachbr.debuggery;
 import io.zachbr.debuggery.commands.*;
 import io.zachbr.debuggery.commands.base.CommandBase;
 import io.zachbr.debuggery.reflection.types.handlers.bukkit.BukkitBootstrap;
-import io.zachbr.debuggery.util.PlatformType;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -31,7 +30,7 @@ public class DebuggeryBukkit extends DebuggeryBase {
     private final Map<String, CommandBase> commands = new HashMap<>();
 
     DebuggeryBukkit(DebuggeryJavaPlugin plugin, Logger logger) {
-        super(logger, PlatformType.BUKKIT);
+        super(logger);
         this.javaPlugin = plugin;
     }
 

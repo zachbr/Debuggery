@@ -81,7 +81,7 @@ public abstract class CommandReflection extends CommandBase {
             return true;
         }
 
-        PlatformSender<?> platformSender = new PlatformSender<>(PlatformType.BUKKIT, sender);
+        PlatformSender<?> platformSender = new PlatformSender<>(sender);
         ReflectionResult chainResult = debuggery.runReflectionChain(args, instance, platformSender);
         switch (chainResult.getType()) {
             case SUCCESS:

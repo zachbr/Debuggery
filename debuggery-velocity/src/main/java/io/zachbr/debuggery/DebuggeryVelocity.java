@@ -23,7 +23,6 @@ import com.velocitypowered.api.plugin.PluginContainer;
 import com.velocitypowered.api.proxy.ProxyServer;
 import io.zachbr.debuggery.commands.*;
 import io.zachbr.debuggery.commands.base.CommandBase;
-import io.zachbr.debuggery.util.PlatformType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,7 +40,7 @@ public class DebuggeryVelocity extends DebuggeryBase {
 
     @Inject
     DebuggeryVelocity(ProxyServer server, org.slf4j.Logger logger) {
-        super(new VelocityLogger(logger), PlatformType.VELOCITY);
+        super(new VelocityLogger(logger));
         this.server = server;
 
         registerCommand(new ProxyPlayerCommand(this));

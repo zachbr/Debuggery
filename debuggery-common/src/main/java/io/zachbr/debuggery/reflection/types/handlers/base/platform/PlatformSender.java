@@ -17,7 +17,6 @@
 
 package io.zachbr.debuggery.reflection.types.handlers.base.platform;
 
-import io.zachbr.debuggery.util.PlatformType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -33,14 +32,9 @@ import java.util.Objects;
  */
 public class PlatformSender<T> {
     private final T rawSender;
-    private final PlatformType type;
 
-    public PlatformSender(@NotNull PlatformType type, @NotNull T rawSender) {
-        Objects.requireNonNull(type);
-        Objects.requireNonNull(rawSender);
-
-        this.type = type;
-        this.rawSender = rawSender;
+    public PlatformSender(@NotNull T rawSender) {
+        this.rawSender = Objects.requireNonNull(rawSender);
     }
 
     /**
@@ -53,31 +47,21 @@ public class PlatformSender<T> {
         return rawSender;
     }
 
-    /**
-     * Gets the {@link PlatformType} the sender came from
-     *
-     * @return platform
-     */
-    public @NotNull PlatformType getType() {
-        return type;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PlatformSender that = (PlatformSender) o;
-        return rawSender.equals(that.rawSender) &&
-                type == that.type;
+        return rawSender.equals(that.rawSender);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(rawSender, type);
+        return Objects.hash(rawSender);
     }
 
     @Override
     public String toString() {
-        return "{" + type.toString() + ", " + rawSender.toString() +"}";
+        return "{" + rawSender.toString() + "}";
     }
 }

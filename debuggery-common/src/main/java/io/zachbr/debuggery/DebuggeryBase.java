@@ -22,7 +22,6 @@ import io.zachbr.debuggery.reflection.chain.ReflectionChainFactory;
 import io.zachbr.debuggery.reflection.chain.ReflectionResult;
 import io.zachbr.debuggery.reflection.types.TypeHandler;
 import io.zachbr.debuggery.reflection.types.handlers.base.platform.PlatformSender;
-import io.zachbr.debuggery.util.PlatformType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -33,11 +32,9 @@ public abstract class DebuggeryBase {
     private final ReflectionChainFactory chainFactory;
     private final TypeHandler typeHandler;
     private final Logger logger;
-    private final PlatformType platformType;
 
-    DebuggeryBase(Logger logger, PlatformType type) {
+    DebuggeryBase(Logger logger) {
         this.logger = logger;
-        this.platformType = type;
         this.methodMapProvider = new MethodMapProvider();
         this.typeHandler = new TypeHandler(getLogger());
         this.chainFactory = new ReflectionChainFactory(typeHandler, methodMapProvider, getLogger());
@@ -45,10 +42,6 @@ public abstract class DebuggeryBase {
 
     public final Logger getLogger() {
         return this.logger;
-    }
-
-    public final PlatformType getPlatformType() {
-        return this.platformType;
     }
 
     abstract String getPluginVersion();
