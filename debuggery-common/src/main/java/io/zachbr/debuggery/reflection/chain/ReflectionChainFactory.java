@@ -36,7 +36,7 @@ public class ReflectionChainFactory {
         this.logger = logger;
     }
 
-    public ReflectionResult runChain(String[] args, Object initialInstance, PlatformSender sender) {
+    public ReflectionResult runChain(String[] args, Object initialInstance, PlatformSender<?> sender) {
         Objects.requireNonNull(args);
         Objects.requireNonNull(initialInstance);
 

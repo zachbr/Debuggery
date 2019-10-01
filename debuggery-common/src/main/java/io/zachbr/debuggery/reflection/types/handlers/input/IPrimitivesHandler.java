@@ -29,8 +29,8 @@ public class IPrimitivesHandler {
 
     public IPrimitivesHandler(List<Handler> registration) {
         // loop through all supported classes and register them to the handler
-        Class[] supportedClasses = {byte.class, short.class, int.class, long.class, float.class, double.class, boolean.class, char.class};
-        for (Class clazz : supportedClasses) {
+        Class<?>[] supportedClasses = {byte.class, short.class, int.class, long.class, float.class, double.class, boolean.class, char.class};
+        for (Class<?> clazz : supportedClasses) {
             IHandler handler = new IHandler() {
                 @Override
                 public @NotNull Object instantiateInstance(String input, Class<?> clazz, @Nullable PlatformSender<?> sender) {
@@ -47,7 +47,7 @@ public class IPrimitivesHandler {
         }
     }
 
-    public static @NotNull Object getPrimitive(String input, Class clazz) {
+    public static @NotNull Object getPrimitive(String input, Class<?> clazz) {
         if (input == null) {
             throw new NullPointerException("Cannot get any value from null input!");
         }

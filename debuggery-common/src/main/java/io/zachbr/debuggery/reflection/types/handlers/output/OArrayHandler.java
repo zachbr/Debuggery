@@ -32,8 +32,8 @@ public class OArrayHandler {
     public OArrayHandler(List<Handler> registration, TypeHandler handler) {
         this.typeHandler = handler;
         // loop through all supported classes and register them to the handler
-        Class[] supportedClasses = {Object[].class, byte[].class, short[].class, int[].class, long[].class, float[].class, double[].class, boolean[].class, char[].class};
-        for (Class clazz : supportedClasses) {
+        Class<?>[] supportedClasses = {Object[].class, byte[].class, short[].class, int[].class, long[].class, float[].class, double[].class, boolean[].class, char[].class};
+        for (Class<?> clazz : supportedClasses) {
             OHandler oHandler = new OHandler() {
                 @Override
                 public @Nullable String getFormattedOutput(Object object) {

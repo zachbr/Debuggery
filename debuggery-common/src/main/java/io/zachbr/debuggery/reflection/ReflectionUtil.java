@@ -79,7 +79,7 @@ public class ReflectionUtil {
 
         builder.append("(");
         boolean first = true;
-        for (Class type : method.getParameterTypes()) {
+        for (Class<?> type : method.getParameterTypes()) {
             if (first) {
                 builder.append(type.getSimpleName());
                 first = false;
@@ -104,7 +104,7 @@ public class ReflectionUtil {
      */
     public static @NotNull String getArgMismatchString(Method method) {
         final String methodName = method.getName();
-        final Class returnType = method.getReturnType();
+        final Class<?> returnType = method.getReturnType();
         final String returnTypeName = returnType.getSimpleName();
         String returnInfo;
 

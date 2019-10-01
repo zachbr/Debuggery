@@ -17,11 +17,35 @@
 
 package io.zachbr.debuggery.reflection.types;
 
-public class HandlerNotImplementedException extends RuntimeException {
-    private final Class<?> requested;
+import org.jetbrains.annotations.NotNull;
 
-    public HandlerNotImplementedException(Class<?> attempted) {
-        super("Handler for type: " + attempted.getCanonicalName() + " has not been implemented yet!");
+import java.util.Objects;
+
+/**
+ * Thrown when the handler does not have an implementation for the requested class type
+ */
+public class HandlerNotImplementedException extends RuntimeException {
+    private final @NotNull Class<?> requested;
+
+    public HandlerNotImplementedException(@NotNull Class<?> attempted) {
+        super("Handler for type: " + Objects.requireNonNull(attempted).getCanonicalName() + " has not been implemented yet!");
         this.requested = attempted;
+    }
+
+    public @NotNull Class<?> getRequestedClass() {
+        return this.requested;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        HandlerNotImplementedException that = (HandlerNotImplementedException) o;
+        return requested.equals(that.requested);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(requested);
     }
 }

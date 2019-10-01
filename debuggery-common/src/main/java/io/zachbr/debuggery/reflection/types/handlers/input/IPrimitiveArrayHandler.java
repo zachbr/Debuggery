@@ -31,8 +31,8 @@ public class IPrimitiveArrayHandler {
     public IPrimitiveArrayHandler(List<Handler> registration) {
 
         // loop through all supported classes and register them to the handler
-        Class[] supportedClasses = {byte[].class, short[].class, int[].class, long[].class, float[].class, double[].class, boolean[].class, char[].class};
-        for (Class clazz : supportedClasses) {
+        Class<?>[] supportedClasses = {byte[].class, short[].class, int[].class, long[].class, float[].class, double[].class, boolean[].class, char[].class};
+        for (Class<?> clazz : supportedClasses) {
             IHandler handler = new IHandler() {
                 @Override
                 public @NotNull Object instantiateInstance(String input, Class<?> clazz, @Nullable PlatformSender<?> sender) {
@@ -58,7 +58,7 @@ public class IPrimitiveArrayHandler {
         }
     }
 
-    private static void setPrimitiveArrayValue(Object typedRawArray, int index, Object value, Class type) {
+    private static void setPrimitiveArrayValue(Object typedRawArray, int index, Object value, Class<?> type) {
         if (type == int.class) {
             Array.setInt(typedRawArray, index, (int) value);
         } else if (type == double.class) {

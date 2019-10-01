@@ -42,7 +42,7 @@ public abstract class PlatformSpecific<T> {
      *
      * @return collection of platform extensions
      */
-    public final Collection<PlatformExtension> query() {
+    public final Collection<PlatformExtension<?>> query() {
         return new ArrayList<>(this.extensions);
     }
 
@@ -54,7 +54,7 @@ public abstract class PlatformSpecific<T> {
      * @return instance of T or null if one cannot be instantiated from the given params
      */
     @Contract("_, _, null -> null")
-    protected final @Nullable T fromExtensions(String input, Class<?> clazz, PlatformSender sender) {
+    protected final @Nullable T fromExtensions(String input, Class<?> clazz, PlatformSender<?> sender) {
         if (sender == null || this.extensions.isEmpty()) {
             return null;
         }

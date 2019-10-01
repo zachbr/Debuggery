@@ -45,7 +45,7 @@ public abstract class CommandReflection extends CommandBase {
     private final MethodMapProvider mapCache;
     private MethodMap availableMethods = MethodMap.EMPTY;
 
-    protected CommandReflection(String name, String permission, boolean requiresPlayer, Class clazz, DebuggeryVelocity plugin) {
+    protected CommandReflection(String name, String permission, boolean requiresPlayer, Class<?> clazz, DebuggeryVelocity plugin) {
         super(name, permission, requiresPlayer);
         this.debuggery = plugin;
         this.mapCache = plugin.getMethodMapProvider();
@@ -85,7 +85,7 @@ public abstract class CommandReflection extends CommandBase {
         }
 
         // more than 0 args, start chains
-        Class activeClass = availableMethods.getMappedClass();
+        Class<?> activeClass = availableMethods.getMappedClass();
         if (!activeClass.isInstance(instance)) {
             throw new IllegalArgumentException("Instance is of type: " + instance.getClass().getSimpleName() + "but was expecting: " + activeClass.getSimpleName());
         }
@@ -151,7 +151,7 @@ public abstract class CommandReflection extends CommandBase {
      *
      * @param typeIn class type to cache a reflection map for
      */
-    protected void updateReflectionClass(Class typeIn) {
+    protected void updateReflectionClass(Class<?> typeIn) {
         if (availableMethods.getMappedClass() != typeIn) {
             availableMethods = mapCache.getMethodMapFor(typeIn);
         }

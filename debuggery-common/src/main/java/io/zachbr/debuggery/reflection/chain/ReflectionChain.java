@@ -40,11 +40,11 @@ class ReflectionChain {
 
     private final List<String> input;
     private final Object initialInstance;
-    private final @Nullable PlatformSender sender;
+    private final @Nullable PlatformSender<?> sender;
     private ReflectionResult result;
 
     ReflectionChain(ReflectionChainFactory factory, @NotNull String[] args,
-                    @NotNull Object initialInstance, @Nullable PlatformSender sender) {
+                    @NotNull Object initialInstance, @Nullable PlatformSender<?> sender) {
         this.methodMapProvider = factory.methodMapProvider;
         this.typeHandler = factory.typeHandler;
         this.logger = factory.logger;

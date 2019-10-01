@@ -51,7 +51,7 @@ public class PlatformSender<T> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PlatformSender that = (PlatformSender) o;
+        PlatformSender<?> that = (PlatformSender<?>) o;
         return rawSender.equals(that.rawSender);
     }
 

@@ -43,7 +43,7 @@ public class ICollectionHandler implements IPolymorphicHandler {
 
         // split up input and prep for sending to type handler
         List<String> elements = Arrays.asList(requestedAndElements[1].split(","));
-        Class[] classSetup = new Class[elements.size()];
+        Class<?>[] classSetup = new Class[elements.size()];
         Arrays.fill(classSetup, collectionType);
 
         Object[] instantiatedTypes;

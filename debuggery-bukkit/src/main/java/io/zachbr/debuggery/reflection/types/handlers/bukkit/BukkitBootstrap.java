@@ -31,11 +31,9 @@ import java.util.*;
 
 public class BukkitBootstrap {
     private final TypeHandler typeHandler;
-    private final Logger logger;
 
     public BukkitBootstrap(TypeHandler typeHandler, Logger logger) {
         this.typeHandler = typeHandler;
-        this.logger = logger;
 
         logger.debug("Begin Bukkit TypeHandler bootstrap");
         List<Handler> bukkitHandlers = new ArrayList<>();

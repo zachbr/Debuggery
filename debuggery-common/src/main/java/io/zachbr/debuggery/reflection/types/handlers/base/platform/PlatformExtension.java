@@ -37,5 +37,5 @@ public interface PlatformExtension<T> {
      * @param sender platform command sender instance
      * @return instantiated object or null if it could not be instantiated
      */
-    @Nullable T getInstance(String args, Class<?> clazz, @NotNull PlatformSender sender);
+    @Nullable T getInstance(String args, Class<?> clazz, @NotNull PlatformSender<?> sender);
 }

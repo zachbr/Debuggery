@@ -33,7 +33,7 @@ public class OCollectionHandler implements OHandler {
 
     @Override
     public @Nullable String getFormattedOutput(Object object) {
-        return typeHandler.getOutputFor(((Collection) object).toArray()); // use array handler
+        return typeHandler.getOutputFor(((Collection<?>) object).toArray()); // use array handler
     }
 
     @Override

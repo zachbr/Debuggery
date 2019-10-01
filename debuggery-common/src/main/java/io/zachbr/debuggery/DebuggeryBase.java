@@ -88,7 +88,7 @@ public abstract class DebuggeryBase {
     }
 
     // todo - better solutions elsewhere?
-    public ReflectionResult runReflectionChain(String[] inputArgs, Object initialInstance, PlatformSender sender) {
+    public ReflectionResult runReflectionChain(String[] inputArgs, Object initialInstance, PlatformSender<?> sender) {
         Objects.requireNonNull(inputArgs);
         Objects.requireNonNull(initialInstance);
 

@@ -38,7 +38,7 @@ public class IObjectArrayHandler implements IPolymorphicHandler {
         String[] elementsIn = input.split(",");
         Class<?> arrayType = clazz.getComponentType();
 
-        Class[] neededTypes = new Class[elementsIn.length];
+        Class<?>[] neededTypes = new Class[elementsIn.length];
         Arrays.fill(neededTypes, arrayType);
 
         Object[] untyped = typeHander.instantiateTypes(neededTypes, Arrays.asList(elementsIn));

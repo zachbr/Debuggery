@@ -71,7 +71,7 @@ public class CommandUtil {
     public static List<String> getReflectiveCompletions(List<String> args, MethodMap initialMethods, MethodMapProvider provider) {
         MethodMap reflectionMap = initialMethods;
         Method lastMethod = null;
-        Class returnType = initialMethods.getMappedClass();
+        Class<?> returnType = initialMethods.getMappedClass();
 
         int argsToSkip = 0;
 
