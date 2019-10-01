@@ -29,7 +29,7 @@ import java.util.UUID;
 public class IPlayerHandler implements IHandler {
 
     @Override
-    public @NotNull Object instantiateInstance(String input, Class<?> clazz, @Nullable PlatformSender<?> sender) throws Exception {
+    public @NotNull Object instantiateInstance(String input, Class<?> clazz, @Nullable PlatformSender<?> sender) {
         Player target = null;
 
         // try to get a player matching by name

@@ -29,12 +29,7 @@ public class IItemStackHandler implements IHandler {
     static @NotNull ItemStack getItemStack(String input, @Nullable PlatformSender<?> sender) {
         if (sender != null && sender.getRawSender() instanceof Player) {
             if (input.equalsIgnoreCase("this")) {
-                ItemStack item = ((Player) sender).getInventory().getItemInMainHand();
-                if (item == null) {
-                    throw new NullPointerException("Null itemstack in main hand!");
-                } else {
-                    return item;
-                }
+                return ((Player) sender).getInventory().getItemInMainHand();
             }
         }
 

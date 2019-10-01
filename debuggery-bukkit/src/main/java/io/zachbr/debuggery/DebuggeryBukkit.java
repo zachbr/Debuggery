@@ -56,7 +56,14 @@ public class DebuggeryBukkit extends DebuggeryBase {
         this.registerCommand(new ServerCommand(this));
         this.registerCommand(new WorldCommand(this));
 
-        commands.values().forEach(c -> this.getJavaPlugin().getCommand(c.getName()).setExecutor(c));
+        for (CommandBase c : commands.values()) {
+            var bukkitCmd = this.getJavaPlugin().getCommand(c.getName());
+            if (bukkitCmd == null) {
+                throw new IllegalStateException("Unable to register " + c.getName() + ". Command not registered in plugin.yml?");
+            }
+
+            bukkitCmd.setExecutor(c);
+        }
     }
 
     private void registerCommand(final CommandBase command) {

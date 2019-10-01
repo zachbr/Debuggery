@@ -18,6 +18,9 @@
 package io.zachbr.debuggery.util;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Function;
 
 public class StringUtil {
     /**
@@ -39,5 +42,28 @@ public class StringUtil {
         }
 
         return parsed;
+    }
+
+    /**
+     * Generic function to attempt to parse a magic value from an integer, returning immediately if the value is
+     * not null, otherwise falling back to a non-nullable fall back function.
+     *
+     * @param input         Input string to parse
+     * @param integerParser Nullable function that returns a value based on a magic value
+     * @param fallback      Non-nullable function that returns a value (or throws) based on the given input string
+     * @param <T>           Expected return type
+     * @return Parsed object based on the input from either the parser function or the fallback function
+     */
+    public static @NotNull <T> T fromIntegerOrFallback(@NotNull String input, Function<Integer, @Nullable T> integerParser, Function<String, @NotNull T> fallback) {
+        try {
+            int parsed = Integer.parseInt(input);
+            T fromInt = integerParser.apply(parsed);
+            if (fromInt != null) {
+                return fromInt;
+            }
+        } catch (NumberFormatException ignored) {
+        }
+
+        return fallback.apply(input);
     }
 }

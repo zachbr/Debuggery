@@ -20,21 +20,17 @@ package io.zachbr.debuggery.reflection.types.handlers.bukkit.input;
 import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
 import io.zachbr.debuggery.reflection.types.handlers.base.platform.PlatformSender;
 import io.zachbr.debuggery.reflection.types.handlers.input.IEnumHandler;
+import io.zachbr.debuggery.util.StringUtil;
 import org.bukkit.Difficulty;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.function.Function;
 
 public class IDifficultyHandler implements IHandler {
 
     @Override
     public @NotNull Difficulty instantiateInstance(String input, Class<?> clazz, PlatformSender<?> sender) {
-        try {
-            int val = Integer.parseInt(input);
-            //noinspection deprecation
-            return Difficulty.getByValue(val);
-        } catch (NumberFormatException ignored) {
-        }
-
-        return IEnumHandler.getEnumValue(input, Difficulty.class);
+        return StringUtil.fromIntegerOrFallback(input, Difficulty::getByValue, s -> IEnumHandler.getEnumValue(s, Difficulty.class));
     }
 
     @Override

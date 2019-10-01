@@ -20,6 +20,7 @@ package io.zachbr.debuggery.commands.base;
 import org.bukkit.ChatColor;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
@@ -52,7 +53,7 @@ public abstract class CommandBase implements CommandExecutor, TabCompleter {
      * repetitive garbage over and over.
      */
     @Override
-    public final boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public final boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!sender.hasPermission(this.permission)) {
             sender.sendMessage(NO_PERMS_MSG);
             return true;
@@ -84,7 +85,7 @@ public abstract class CommandBase implements CommandExecutor, TabCompleter {
     }
 
     @Override
-    public final List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+    public final List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         if (!sender.hasPermission(this.permission)) {
             sender.sendMessage(NO_PERMS_MSG);
             return Collections.emptyList();

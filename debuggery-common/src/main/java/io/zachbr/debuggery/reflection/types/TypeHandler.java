@@ -166,7 +166,7 @@ public final class TypeHandler {
         final Class<?> handlerRelevantClass = handler.getRelevantClass();
 
         // first, make sure there isn't an existing handler already registered to this type
-        // do NOT factor polymorphic handlers into this lookup, allow them to be overriden with specific implementations
+        // do NOT factor polymorphic handlers into this lookup, allow them to be overridden with specific implementations
         final IHandler existingHandler = getIHandlerForClass(handlerRelevantClass, false);
         if (existingHandler != null) {
             logger.debug("!! Cannot register " + handler + ", conflicts with " + existingHandler);
@@ -232,7 +232,6 @@ public final class TypeHandler {
      */
     boolean removeInputHandlerFor(@NotNull Class<?> clazz) {
         Objects.requireNonNull(clazz);
-
         logger.debug("Attempting to remove handler for class: " + clazz + " from Input Handlers.");
 
         IHandler handler = getIHandlerForClass(clazz);
@@ -252,7 +251,6 @@ public final class TypeHandler {
      */
     boolean removeOutputHandlerFor(@NotNull Class<?> clazz) {
         Objects.requireNonNull(clazz);
-
         logger.debug("Attempting to remove handler for class: " + clazz + " from Output Handlers.");
 
         OHandler handler = getOHandlerForClass(clazz);
@@ -271,12 +269,12 @@ public final class TypeHandler {
      * @return true if successfully removed
      */
     private boolean removeInputHandler(IHandler handler) {
-        // make sure the given handler is even registered in the first place
-        if (!inputHandlers.containsValue(handler)) {
-            logger.debug("Input Handler doesn't appear to be registered, can't remove");
+        final boolean removed = inputHandlers.remove(handler.getRelevantClass(), handler);
+
+        if (!removed) {
+            logger.debug("Input Handler doesn't appear to be registered, was not removed");
             return false;
         } else {
-            inputHandlers.remove(handler.getRelevantClass(), handler);
             logger.debug("Removed handler " + handler + " from Input Handlers");
 
             // if we removed earlier and this is polymorphic, remove it from that collection
@@ -297,14 +295,13 @@ public final class TypeHandler {
      * @return true if successfully removed
      */
     private boolean removeOutputHandler(OHandler handler) {
-        // make sure the given handler is even registered in the first place
-        if (!outputHandlers.contains(handler)) {
-            logger.debug("Handler doesn't appear to be registered, can't remove");
+        final boolean removed = outputHandlers.remove(handler);
+
+        if (!removed) {
+            logger.debug("Handler doesn't appear to be registered, was not removed");
             return false;
         } else {
-            outputHandlers.remove(handler);
             logger.debug("Removed handler " + handler + " from Output Handlers");
-
             return true;
         }
     }

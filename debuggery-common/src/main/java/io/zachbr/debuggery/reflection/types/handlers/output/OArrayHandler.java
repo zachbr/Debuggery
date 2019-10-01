@@ -50,7 +50,7 @@ public class OArrayHandler {
         }
     }
 
-    private @Nullable String getFormattedArray(Object object) {
+    private @NotNull String getFormattedArray(Object object) {
         // Rather than handle every primitive type, just have java autobox the contents
         if (object.getClass().getComponentType().isPrimitive()) {
             int length = Array.getLength(object);

@@ -30,7 +30,7 @@ public class IEnumHandler implements IPolymorphicHandler {
 
     @Override
     public @NotNull Enum<?> instantiateInstance(String input, Class<?> clazz, @Nullable PlatformSender<?> sender) {
-        return getEnumValue(input, (Class) clazz); // suppress until such a time it can be handled better
+        return getEnumValue(input, (Class<? extends Enum>) clazz); // suppress until such a time it can be handled better
     }
 
     @Override

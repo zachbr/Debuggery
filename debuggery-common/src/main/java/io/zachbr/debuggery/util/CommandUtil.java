@@ -88,6 +88,7 @@ public class CommandUtil {
 
             if (reflectionMap.getById(currentArg) != null) {
                 lastMethod = reflectionMap.getById(currentArg);
+                Objects.requireNonNull(lastMethod); // throw asap
                 List<String> stringMethodArgs = ReflectionUtil.getArgsForMethod(args.subList(i + 1, args.size()), lastMethod);
                 argsToSkip = stringMethodArgs.size();
 

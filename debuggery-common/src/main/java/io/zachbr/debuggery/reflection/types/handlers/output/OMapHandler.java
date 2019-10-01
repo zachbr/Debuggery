@@ -22,7 +22,6 @@ import io.zachbr.debuggery.reflection.types.handlers.base.OHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Iterator;
 import java.util.Map;
 
 public class OMapHandler implements OHandler {
