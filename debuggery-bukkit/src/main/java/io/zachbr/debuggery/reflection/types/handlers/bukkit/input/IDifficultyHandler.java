@@ -24,13 +24,11 @@ import io.zachbr.debuggery.util.StringUtil;
 import org.bukkit.Difficulty;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.function.Function;
-
 public class IDifficultyHandler implements IHandler {
 
     @Override
     public @NotNull Difficulty instantiateInstance(String input, Class<?> clazz, PlatformSender<?> sender) {
-        return StringUtil.fromIntegerOrFallback(input, Difficulty::getByValue, s -> IEnumHandler.getEnumValue(s, Difficulty.class));
+        return StringUtil.attemptParseOrFallback(input, Difficulty::getByValue, s -> IEnumHandler.getEnumValue(s, Difficulty.class));
     }
 
     @Override

@@ -41,7 +41,7 @@ public class IObjectArrayHandler implements IPolymorphicHandler {
         Class<?>[] neededTypes = new Class[elementsIn.length];
         Arrays.fill(neededTypes, arrayType);
 
-        Object[] untyped = typeHander.instantiateTypes(neededTypes, Arrays.asList(elementsIn));
+        Object[] untyped = typeHander.instantiateTypes(neededTypes, Arrays.asList(elementsIn), sender);
         Object[] typedArray = (Object[]) Array.newInstance(arrayType, elementsIn.length);
         System.arraycopy(untyped, 0, typedArray, 0, untyped.length);
 

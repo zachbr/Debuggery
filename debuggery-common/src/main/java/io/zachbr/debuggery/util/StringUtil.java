@@ -45,25 +45,29 @@ public class StringUtil {
     }
 
     /**
-     * Generic function to attempt to parse a magic value from an integer, returning immediately if the value is
-     * not null, otherwise falling back to a non-nullable fall back function.
-     *
-     * @param input         Input string to parse
-     * @param integerParser Nullable function that returns a value based on a magic value
-     * @param fallback      Non-nullable function that returns a value (or throws) based on the given input string
-     * @param <T>           Expected return type
-     * @return Parsed object based on the input from either the parser function or the fallback function
+     * Generic function to attempt to parse a magic value from an integer.
+     * <p>
+     * It will first attempt to return a value from the primary parsing function. If the primary parsing function
+     * returns a null value or the given value cannot be interpreted as an integer, this function will use the fallback
+     * function which is required to return a non-nullable value.
+     *d
+     * @param input          Input string to parse.
+     * @param primaryParser  Function that returns a nullable value.
+     * @param fallbackParser Function that returns a non-nullable value (or throws).
+     * @param <T>            Expected return type.
+     * @return Parsed object based on the input from either the primary parser or the fallback parser.
      */
-    public static @NotNull <T> T fromIntegerOrFallback(@NotNull String input, Function<Integer, @Nullable T> integerParser, Function<String, @NotNull T> fallback) {
+    public static @NotNull <T> T attemptParseOrFallback(@NotNull String input, Function<Integer, @Nullable T> primaryParser,
+                                                        Function<String, @NotNull T> fallbackParser) {
         try {
-            int parsed = Integer.parseInt(input);
-            T fromInt = integerParser.apply(parsed);
-            if (fromInt != null) {
-                return fromInt;
+            int value = Integer.parseInt(input);
+            T primaryAttempt = primaryParser.apply(value);
+            if (primaryAttempt != null) {
+                return primaryAttempt;
             }
         } catch (NumberFormatException ignored) {
         }
 
-        return fallback.apply(input);
+        return fallbackParser.apply(input);
     }
 }

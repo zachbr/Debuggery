@@ -21,10 +21,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.*;
 
-/**∂
+/**
  * Class to allow querying a java class for methods based on their names
  */
 public class MethodMap {
@@ -37,15 +36,9 @@ public class MethodMap {
     }
 
     MethodMap(@NotNull Class<?> clazz) {
-        Objects.requireNonNull(clazz);
-
-        this.mappedClass = clazz;
+        this.mappedClass = Objects.requireNonNull(clazz);
         for (Method method : clazz.getMethods()) {
-            if (!Modifier.isPublic(method.getModifiers())) {
-                continue;
-            }
-
-            String identifier = ReflectionUtil.getMethodId(method);
+            final String identifier = ReflectionUtil.getMethodId(method);
             backingMap.put(identifier, method);
         }
     }

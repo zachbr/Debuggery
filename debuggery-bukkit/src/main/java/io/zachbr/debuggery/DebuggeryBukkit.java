@@ -21,6 +21,7 @@ import io.zachbr.debuggery.commands.*;
 import io.zachbr.debuggery.commands.base.CommandBase;
 import io.zachbr.debuggery.reflection.types.handlers.bukkit.BukkitBootstrap;
 import org.bukkit.Bukkit;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
@@ -57,7 +58,7 @@ public class DebuggeryBukkit extends DebuggeryBase {
         this.registerCommand(new WorldCommand(this));
 
         for (CommandBase c : commands.values()) {
-            var bukkitCmd = this.getJavaPlugin().getCommand(c.getName());
+            PluginCommand bukkitCmd = this.getJavaPlugin().getCommand(c.getName());
             if (bukkitCmd == null) {
                 throw new IllegalStateException("Unable to register " + c.getName() + ". Command not registered in plugin.yml?");
             }

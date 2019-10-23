@@ -21,7 +21,6 @@ import io.zachbr.debuggery.reflection.types.handlers.base.IHandler;
 import io.zachbr.debuggery.reflection.types.handlers.base.platform.PlatformSender;
 import io.zachbr.debuggery.reflection.types.handlers.input.IEnumHandler;
 import io.zachbr.debuggery.util.StringUtil;
-import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -30,7 +29,7 @@ public class IGameModeHandler implements IHandler {
 
     @Override
     public @NotNull GameMode instantiateInstance(String input, Class<?> clazz, @Nullable PlatformSender<?> sender) {
-        return StringUtil.fromIntegerOrFallback(input, GameMode::getByValue, s -> IEnumHandler.getEnumValue(s, GameMode.class));
+        return StringUtil.attemptParseOrFallback(input, GameMode::getByValue, s -> IEnumHandler.getEnumValue(s, GameMode.class));
     }
 
     @Override
