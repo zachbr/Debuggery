@@ -173,7 +173,7 @@ public abstract class CommandReflection extends CommandBase {
 
         TextComponent component = TextComponent.of(msg)
                 .color(TextColor.RED)
-                .hoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                .hoverEvent(HoverEvent.of(HoverEvent.Action.SHOW_TEXT,
                         TextComponent.of(writer.toString().replaceAll("\t", "    ")
                                 .replaceAll("\r", ""))));
 
