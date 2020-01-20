@@ -29,7 +29,7 @@ public class IItemStackHandler implements IHandler {
     static @NotNull ItemStack getItemStack(String input, @Nullable PlatformSender<?> sender) {
         if (sender != null && sender.getRawSender() instanceof Player) {
             if (input.equalsIgnoreCase("this")) {
-                return ((Player) sender).getInventory().getItemInMainHand();
+                return ((Player) sender.getRawSender()).getInventory().getItemInMainHand();
             }
         }
 
