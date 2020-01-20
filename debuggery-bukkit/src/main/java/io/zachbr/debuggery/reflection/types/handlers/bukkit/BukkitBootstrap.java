@@ -92,7 +92,7 @@ public class BukkitBootstrap {
         //
 
         addExtensionFor(UUID.class, (args, clazz, sender) -> {
-            if (sender.getRawSender() instanceof Player) {
+            if (sender.getRawSender() instanceof Player && args.equalsIgnoreCase("me")) {
                 return ((Player) sender.getRawSender()).getUniqueId();
             } else {
                 return null;
