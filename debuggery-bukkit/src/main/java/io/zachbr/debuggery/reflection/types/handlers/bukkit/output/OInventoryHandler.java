@@ -33,9 +33,7 @@ public class OInventoryHandler implements OHandler {
     @Override
     public @Nullable String getFormattedOutput(Object object) {
         final Inventory inventory = (Inventory) object;
-
-        final String basicInfo = "name=" + inventory.getName() + ", title=" + inventory.getTitle()
-                + ", size=" + inventory.getSize() + "\n";
+        final String basicInfo = "viewers=" + inventory.getViewers() + ", size=" + inventory.getSize() + "\n";
 
         // combine with array handling for inventory contents
         return basicInfo + typeHandler.getOutputFor(inventory.getContents());
