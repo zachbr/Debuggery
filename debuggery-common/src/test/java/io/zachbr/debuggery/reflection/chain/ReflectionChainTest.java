@@ -46,8 +46,8 @@ public class ReflectionChainTest {
 
         ReflectionResult chainResult = chainFactory.runChain(input, instance, null);
 
-        assertNotNull(chainResult.getEndingInstance());
-        String result = typeHandler.getOutputFor(chainResult.getEndingInstance());
+        assertNotNull(chainResult.endingInstance());
+        String result = typeHandler.getOutputFor(chainResult.endingInstance());
 
         if (!CONTAINS_1234.test(result)) {
             System.out.println("Expected result to include 1, 2, 3, and 4. Actual result below");
@@ -75,8 +75,8 @@ public class ReflectionChainTest {
 
         ReflectionResult chainResult = chainFactory.runChain(input, instance, null);
 
-        assertNotNull(chainResult.getEndingInstance());
-        String result = typeHandler.getOutputFor(chainResult.getEndingInstance());
+        assertNotNull(chainResult.endingInstance());
+        String result = typeHandler.getOutputFor(chainResult.endingInstance());
 
         assertNotNull(result);
 
@@ -108,10 +108,10 @@ public class ReflectionChainTest {
         ReflectionResult chainResult = chainFactory.runChain(input, instance, null);
 
         assertNotNull(chainResult);
-        String reason = chainResult.getReason();
+        String reason = chainResult.reason();
 
         assertNotNull(reason);
-        assertSame(ReflectionResult.Type.UNKNOWN_REFERENCE, chainResult.getType());
+        assertSame(ReflectionResult.Type.UNKNOWN_REFERENCE, chainResult.type());
         assertTrue(reason.toLowerCase().contains("unknown"));
     }
 
@@ -126,10 +126,10 @@ public class ReflectionChainTest {
         ReflectionResult chainResult = chainFactory.runChain(input, instance, null);
 
         assertNotNull(chainResult);
-        String reason = chainResult.getReason();
+        String reason = chainResult.reason();
 
         assertNotNull(reason);
-        assertSame(ReflectionResult.Type.NULL_REFERENCE, chainResult.getType());
+        assertSame(ReflectionResult.Type.NULL_REFERENCE, chainResult.type());
 
         String out = (String) reason;
         // make sure it always includes something about null and the responsible method

@@ -25,12 +25,12 @@ import java.util.Objects;
 /**
  * Represents the results of a reflective operation
  */
-public class ReflectionResult {
-    private final Type type;
-    private final String reason;
-    private final Object endingInstance;
-    private final Throwable exception;
-
+public record ReflectionResult(
+        @NotNull Type type,
+        @Nullable Object endingInstance,
+        @Nullable String reason,
+        @Nullable Throwable exception
+) {
     ReflectionResult(@NotNull Type type, @Nullable Object endingInstance) {
         this(type, endingInstance, null);
     }
@@ -39,7 +39,7 @@ public class ReflectionResult {
         this(type, endingInstance, reason, null);
     }
 
-    ReflectionResult(@NotNull Type type, @Nullable Object endingInstance, @Nullable String reason, @Nullable Throwable exception) {
+    public ReflectionResult(@NotNull Type type, @Nullable Object endingInstance, @Nullable String reason, @Nullable Throwable exception) {
         Objects.requireNonNull(type);
 
         if (type != Type.SUCCESS && reason == null) {
@@ -54,67 +54,6 @@ public class ReflectionResult {
         this.endingInstance = endingInstance;
         this.reason = reason;
         this.exception = exception;
-    }
-
-    /**
-     * Gets the general outcome type of this Result
-     *
-     * @return general outcome
-     */
-    public @NotNull Type getType() {
-        return this.type;
-    }
-
-    /**
-     * Gets a String detailing what may have caused the outcome
-     * <p>
-     * This will typically be null if the outcome completed without issues
-     *
-     * @return rationale or null
-     */
-    public @Nullable String getReason() {
-        return this.reason;
-    }
-
-    /**
-     * Gets the final object that was produced as a result of the operation. Null is
-     * a perfectly acceptable return type even if the outcome was a success
-     *
-     * @return resulting object, including null
-     */
-    public @Nullable Object getEndingInstance() {
-        return this.endingInstance;
-    }
-
-    /**
-     * Gets the exception (throwable) that was encountered during execution. This is
-     * expected to be null if no exception was thrown
-     *
-     * @return exception or null
-     */
-    public @Nullable Throwable getException() {
-        return this.exception;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ReflectionResult result = (ReflectionResult) o;
-        return type == result.type &&
-                Objects.equals(reason, result.reason) &&
-                Objects.equals(endingInstance, result.endingInstance) &&
-                Objects.equals(exception, result.exception);
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 43;
-        hash = 79 * hash + type.hashCode();
-        hash = 79 * hash + Objects.hashCode(reason);
-        hash = 79 * hash + Objects.hashCode(endingInstance);
-        hash = 79 * hash + Objects.hashCode(exception);
-        return hash;
     }
 
     /**

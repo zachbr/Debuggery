@@ -27,9 +27,9 @@ import org.jetbrains.annotations.Nullable;
 public class IItemStackHandler implements IHandler {
 
     static @NotNull ItemStack getItemStack(String input, @Nullable PlatformSender<?> sender) {
-        if (sender != null && sender.getRawSender() instanceof Player) {
+        if (sender != null && sender.rawSender() instanceof Player player) {
             if (input.equalsIgnoreCase("this")) {
-                return ((Player) sender.getRawSender()).getInventory().getItemInMainHand();
+                return player.getInventory().getItemInMainHand();
             }
         }
 

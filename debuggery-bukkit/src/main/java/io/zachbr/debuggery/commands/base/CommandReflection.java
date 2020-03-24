@@ -87,28 +87,18 @@ public abstract class CommandReflection extends CommandBase {
 
         PlatformSender<?> platformSender = new PlatformSender<>(sender);
         ReflectionResult chainResult = debuggery.runReflectionChain(args, instance, platformSender);
-        switch (chainResult.getType()) {
-            case SUCCESS:
-                notifySenderOfSuccess(sender, chainResult);
-                break;
-            case INPUT_ERROR:
-            case UNHANDLED_EXCEPTION:
-                notifySenderOfException(sender, chainResult);
-                break;
-            case NULL_REFERENCE:
-            case UNKNOWN_REFERENCE:
-            case ARG_MISMATCH:
-                notifySenderOfResultReason(sender, chainResult);
-                break;
-            default:
-                throw new IllegalArgumentException("Unhandled switch case for result of type: " + chainResult.getType());
+        switch (chainResult.type()) {
+            case SUCCESS -> notifySenderOfSuccess(sender, chainResult);
+            case INPUT_ERROR, UNHANDLED_EXCEPTION -> notifySenderOfException(sender, chainResult);
+            case NULL_REFERENCE, UNKNOWN_REFERENCE, ARG_MISMATCH -> notifySenderOfResultReason(sender, chainResult);
+            default -> throw new IllegalArgumentException("Unhandled switch case for result of type: " + chainResult.type());
         }
 
         return true;
     }
 
     private void notifySenderOfException(CommandSender sender, ReflectionResult chainResult) {
-        Throwable ex = chainResult.getException();
+        Throwable ex = chainResult.exception();
         Objects.requireNonNull(ex);
 
         String errorMessage = ex instanceof InputException ? "Exception deducing proper types from your input!" : "Exception invoking method - See console for more details!";
@@ -124,12 +114,12 @@ public abstract class CommandReflection extends CommandBase {
     }
 
     private void notifySenderOfResultReason(CommandSender sender, ReflectionResult chainResult) {
-        Objects.requireNonNull(chainResult.getReason());
-        sender.sendMessage(ChatColor.RED + chainResult.getReason());
+        Objects.requireNonNull(chainResult.reason());
+        sender.sendMessage(ChatColor.RED + chainResult.reason());
     }
 
     private void notifySenderOfSuccess(CommandSender sender, ReflectionResult chainResult) {
-        String output = getOutputStringFor(chainResult.getEndingInstance());
+        String output = getOutputStringFor(chainResult.endingInstance());
         if (output != null) {
             sender.sendMessage(output);
         }

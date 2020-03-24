@@ -27,8 +27,7 @@ import org.jetbrains.annotations.Nullable;
 public class ILocationHandler implements IHandler {
 
     static @NotNull Location getLocation(String input, @Nullable PlatformSender<?> sender) {
-        if (sender != null && sender.getRawSender() instanceof Player) {
-            final Player player = (Player) sender.getRawSender();
+        if (sender != null && sender.rawSender() instanceof Player player) {
             if (input.equalsIgnoreCase("here")) {
                 return player.getLocation();
             } else if (input.equalsIgnoreCase("there")) {

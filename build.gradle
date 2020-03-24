@@ -15,7 +15,6 @@ buildscript {
 
 subprojects {
     apply plugin: 'java'
-    apply plugin: 'jacoco'
     apply plugin: 'com.github.johnrengelman.shadow'
     apply plugin: 'net.minecrell.licenser'
 
@@ -42,13 +41,21 @@ subprojects {
     group = project.pluginGroup
     version = project.pluginVersion
 
-    sourceCompatibility = 11
-    targetCompatibility = 11
+    sourceCompatibility = JavaVersion.VERSION_14
+    targetCompatibility = JavaVersion.VERSION_14
 
     processResources {
         from(sourceSets.main.resources.srcDirs) {
             filter ReplaceTokens, tokens: [version: version]
         }
+    }
+
+    tasks.withType(JavaCompile) {
+        options.compilerArgs += "--enable-preview"
+    }
+
+    tasks.withType(Test) {
+        jvmArgs += "--enable-preview"
     }
 
     tasks.withType(AbstractArchiveTask) {
@@ -77,17 +84,4 @@ subprojects {
         ext.name = 'Debuggery'
         header = rootProject.file('HEADER.txt')
     }
-
-    jacoco {
-        toolVersion = "0.8.2"
-    }
-
-    jacocoTestReport {
-        reports {
-            xml.enabled = true
-            html.enabled = false
-        }
-    }
-
-    check.dependsOn jacocoTestReport
 }

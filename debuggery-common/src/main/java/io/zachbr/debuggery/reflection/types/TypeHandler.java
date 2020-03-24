@@ -177,8 +177,8 @@ public final class TypeHandler {
 
             // if this handler is polymorphic, add it to that collection as well
             // we MUST keep these in sync with one another
-            if (handler instanceof IPolymorphicHandler) {
-                polymorphicHandlers.add((IPolymorphicHandler) handler);
+            if (handler instanceof IPolymorphicHandler poly) {
+                polymorphicHandlers.add(poly);
                 logger.debug("-- -- Handler " + handler + " registered as polymorphic");
             }
 

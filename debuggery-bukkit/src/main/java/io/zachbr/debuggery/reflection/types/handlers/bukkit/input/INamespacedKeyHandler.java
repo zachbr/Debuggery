@@ -32,15 +32,12 @@ public class INamespacedKeyHandler implements IHandler {
 
         String[] args = input.split(":", 2);
         switch (args.length) {
-            case 2:
+            case 2 -> {
                 namespace = args[0];
                 key = args[1];
-                break;
-            case 1:
-                key = args[0];
-                break;
-            default:
-                throw new IllegalArgumentException("Please provide 1 value or 2 values separated by a colon!");
+            }
+            case 1 -> key = args[0];
+            default -> throw new IllegalArgumentException("Please provide 1 value or 2 values separated by a colon!");
         }
 
         return new NamespacedKey(namespace, key);

@@ -39,9 +39,9 @@ public class IPlayerHandler implements IHandler {
         }
 
         // shortcut getting themselves if possible
-        if (target == null && sender != null && sender.getRawSender() instanceof Player) {
+        if (target == null && sender != null && sender.rawSender() instanceof Player player) {
             if (input.equals("me")) {
-                target = (Player) sender;
+                target = player;
             }
         }
 

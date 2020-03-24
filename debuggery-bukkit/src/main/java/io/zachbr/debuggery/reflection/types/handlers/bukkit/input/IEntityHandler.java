@@ -32,8 +32,7 @@ public class IEntityHandler implements IHandler {
         Entity target;
 
         // player specific commands to make things easier for them
-        if (sender != null && sender.getRawSender() instanceof Player) {
-            Player player = (Player) sender.getRawSender();
+        if (sender != null && sender.rawSender() instanceof Player player) {
             if (input.equalsIgnoreCase("that")) {
                 target = PlatformUtil.getEntityPlayerLookingAt(player, 25, 1.5D);
 
