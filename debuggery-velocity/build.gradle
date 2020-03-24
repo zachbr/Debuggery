@@ -10,11 +10,11 @@ repositories {
 }
 
 dependencies {
-    compile project(':debuggery-common')
-    compile 'com.velocitypowered:velocity-api:1.0.4'
+    implementation project(':debuggery-common')
+    implementation 'com.velocitypowered:velocity-api:1.0.4'
     annotationProcessor 'com.velocitypowered:velocity-api:1.0.4'
 
-    testCompile project (path: ":debuggery-common", configuration: 'testArtifacts')
+    testImplementation project (path: ":debuggery-common", configuration: 'testArtifacts')
 }
 
 blossom {

@@ -8,7 +8,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:5.1.0'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:5.2.0'
         classpath 'gradle.plugin.net.minecrell:licenser:0.4.1'
     }
 }
@@ -33,10 +33,10 @@ subprojects {
     }
 
     dependencies {
-        compile 'org.jetbrains:annotations:16.0.3'
+        implementation 'org.jetbrains:annotations:16.0.3'
 
-        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
-        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.1'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.1'
     }
 
     group = project.pluginGroup
@@ -51,6 +51,11 @@ subprojects {
         }
     }
 
+    tasks.withType(AbstractArchiveTask) {
+        preserveFileTimestamps = false
+        reproducibleFileOrder = true
+    }
+
     build.dependsOn(shadowJar)
 
     shadowJar {
@@ -59,7 +64,6 @@ subprojects {
         }
 
         setArchiveClassifier(null)
-        preserveFileTimestamps = false
         from rootProject.file("LICENSE.md")
     }
 
