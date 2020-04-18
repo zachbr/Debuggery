@@ -17,9 +17,10 @@
 
 package io.zachbr.debuggery.reflection.bukkit.implementations;
 
-import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.*;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.UUID;
@@ -95,6 +96,96 @@ public class TestOfflinePlayer implements OfflinePlayer {
 
     @Override
     public long getLastSeen() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void incrementStatistic(@NotNull Statistic statistic) throws IllegalArgumentException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void decrementStatistic(@NotNull Statistic statistic) throws IllegalArgumentException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void incrementStatistic(@NotNull Statistic statistic, int amount) throws IllegalArgumentException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void decrementStatistic(@NotNull Statistic statistic, int amount) throws IllegalArgumentException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setStatistic(@NotNull Statistic statistic, int newValue) throws IllegalArgumentException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public int getStatistic(@NotNull Statistic statistic) throws IllegalArgumentException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void incrementStatistic(@NotNull Statistic statistic, @NotNull Material material) throws IllegalArgumentException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void decrementStatistic(@NotNull Statistic statistic, @NotNull Material material) throws IllegalArgumentException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public int getStatistic(@NotNull Statistic statistic, @NotNull Material material) throws IllegalArgumentException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void incrementStatistic(@NotNull Statistic statistic, @NotNull Material material, int amount) throws IllegalArgumentException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void decrementStatistic(@NotNull Statistic statistic, @NotNull Material material, int amount) throws IllegalArgumentException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setStatistic(@NotNull Statistic statistic, @NotNull Material material, int newValue) throws IllegalArgumentException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void incrementStatistic(@NotNull Statistic statistic, @NotNull EntityType entityType) throws IllegalArgumentException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void decrementStatistic(@NotNull Statistic statistic, @NotNull EntityType entityType) throws IllegalArgumentException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public int getStatistic(@NotNull Statistic statistic, @NotNull EntityType entityType) throws IllegalArgumentException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void incrementStatistic(@NotNull Statistic statistic, @NotNull EntityType entityType, int amount) throws IllegalArgumentException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void decrementStatistic(@NotNull Statistic statistic, @NotNull EntityType entityType, int amount) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setStatistic(@NotNull Statistic statistic, @NotNull EntityType entityType, int newValue) {
         throw new UnsupportedOperationException();
     }
 
