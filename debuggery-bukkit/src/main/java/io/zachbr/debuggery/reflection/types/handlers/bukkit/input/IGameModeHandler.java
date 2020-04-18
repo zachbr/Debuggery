@@ -29,7 +29,7 @@ public class IGameModeHandler implements IHandler {
 
     @Override
     public @NotNull GameMode instantiateInstance(String input, Class<?> clazz, @Nullable PlatformSender<?> sender) {
-        return StringUtil.attemptParseOrFallback(input, GameMode::getByValue, s -> IEnumHandler.getEnumValue(s, GameMode.class));
+        return StringUtil.parseAsIntOrFallback(input, GameMode::getByValue, s -> IEnumHandler.getEnumValue(s, GameMode.class));
     }
 
     @Override

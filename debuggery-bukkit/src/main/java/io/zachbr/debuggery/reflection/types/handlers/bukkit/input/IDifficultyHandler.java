@@ -28,7 +28,7 @@ public class IDifficultyHandler implements IHandler {
 
     @Override
     public @NotNull Difficulty instantiateInstance(String input, Class<?> clazz, PlatformSender<?> sender) {
-        return StringUtil.attemptParseOrFallback(input, Difficulty::getByValue, s -> IEnumHandler.getEnumValue(s, Difficulty.class));
+        return StringUtil.parseAsIntOrFallback(input, Difficulty::getByValue, s -> IEnumHandler.getEnumValue(s, Difficulty.class));
     }
 
     @Override

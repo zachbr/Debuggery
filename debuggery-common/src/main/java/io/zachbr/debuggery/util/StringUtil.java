@@ -57,8 +57,8 @@ public class StringUtil {
      * @param <T>            Expected return type.
      * @return Parsed object based on the input from either the primary parser or the fallback parser.
      */
-    public static @NotNull <T> T attemptParseOrFallback(@NotNull String input, Function<Integer, @Nullable T> primaryParser,
-                                                        Function<String, @NotNull T> fallbackParser) {
+    public static @NotNull <T> T parseAsIntOrFallback(@NotNull String input, Function<Integer, @Nullable T> primaryParser,
+                                                      Function<String, @NotNull T> fallbackParser) {
         try {
             int value = Integer.parseInt(input);
             T primaryAttempt = primaryParser.apply(value);
