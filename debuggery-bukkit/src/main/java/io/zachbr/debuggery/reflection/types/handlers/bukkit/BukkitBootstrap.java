@@ -48,6 +48,7 @@ public class BukkitBootstrap {
         bukkitHandlers.add(new IEntityHandler());
         bukkitHandlers.add(new IEulerAngleHandler());
         bukkitHandlers.add(new IGameModeHandler());
+        bukkitHandlers.add(new IInventoryHandler());
         bukkitHandlers.add(new IItemStackHandler());
         bukkitHandlers.add(new ILocationHandler());
         bukkitHandlers.add(new IMaterialDataHandler());
