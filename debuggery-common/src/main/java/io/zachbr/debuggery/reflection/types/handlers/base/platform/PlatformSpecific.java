@@ -42,7 +42,7 @@ public abstract class PlatformSpecific<T> {
      *
      * @return collection of platform extensions
      */
-    public final Collection<PlatformExtension<?>> query() {
+    public final Collection<PlatformExtension<T>> query() {
         return new ArrayList<>(this.extensions);
     }
 
