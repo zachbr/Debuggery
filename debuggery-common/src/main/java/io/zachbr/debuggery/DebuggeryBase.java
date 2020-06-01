@@ -65,7 +65,7 @@ public abstract class DebuggeryBase {
         out.add("Debuggery Ver: " + getPluginVersion());
         out.add("Server Impl: " + getPlatformName());
         out.add("Server Ver: " + getPlatformVersion());
-        out.add("Java Runtime: " + System.getProperty("java.runtime.version"));
+        out.add("Java Runtime: " + System.getProperty("java.vendor") + " " + System.getProperty("java.runtime.version"));
         out.add("Operating System: " + System.getProperty("os.name") + " "
                 + System.getProperty("os.version") + " "
                 + "(" + System.getProperty("os.arch") + ")");

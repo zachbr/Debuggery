@@ -90,6 +90,6 @@ public class DebuggeryBukkit extends DebuggeryBase {
     }
 
     String getPlatformVersion() {
-        return Bukkit.getBukkitVersion();
+        return Bukkit.getVersion();
     }
 }
